@@ -1,77 +1,20 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { DIVISIONS } from "@/lib/divisions";
 
-const DIVISIONS = [
-  {
-    status: "active",
-    name: "SaaS & Tech",
-    tagline: "For bootstrapped and early-stage SaaS companies",
-    capabilities: ["Support triage and resolution", "User activation sequences", "API docs, content & health scoring"],
-  },
-  {
-    status: "Q3 2026",
-    name: "Ecommerce",
-    tagline: "For D2C brands and marketplace sellers",
-    capabilities: ["Order and returns automation", "Post-purchase sequences", "Product catalogue content"],
-  },
-  {
-    status: "Q4 2026",
-    name: "Real Estate",
-    tagline: "For agencies, brokers, and proptech platforms",
-    capabilities: ["Lead qualification flows", "Property listing content", "Tenant onboarding"],
-  },
-  {
-    status: "Q4 2026",
-    name: "Legal",
-    tagline: "For law firms and legaltech platforms",
-    capabilities: ["Client intake workflows", "Matter update communications", "Document drafting"],
-  },
-  {
-    status: "Q1 2027",
-    name: "Healthcare",
-    tagline: "For healthtech platforms and clinics",
-    capabilities: ["Patient onboarding", "Non-clinical query triage", "Health platform documentation"],
-  },
-  {
-    status: "Q1 2027",
-    name: "Finance",
-    tagline: "For fintech platforms and advisors",
-    capabilities: ["KYC onboarding", "Transaction query resolution", "Compliance documentation"],
-  },
-  {
-    status: "Q2 2027",
-    name: "HR & Recruiting",
-    tagline: "For HR platforms and talent agencies",
-    capabilities: ["Candidate outreach sequences", "Offer and onboarding flows", "Job description content"],
-  },
-  {
-    status: "Q2 2027",
-    name: "Education",
-    tagline: "For edtech platforms and institutions",
-    capabilities: ["Student onboarding", "Learning progress monitoring", "Curriculum documentation"],
-  },
-  {
-    status: "Q3 2027",
-    name: "Logistics",
-    tagline: "For logistics platforms and fleet operators",
-    capabilities: ["Shipment query automation", "Driver onboarding", "Delay communication flows"],
-  },
-  {
-    status: "Q3 2027",
-    name: "Hospitality",
-    tagline: "For hotels, restaurants, and travel platforms",
-    capabilities: ["Guest pre-arrival sequences", "Booking support", "Review response management"],
-  },
-  {
-    status: "Q4 2027",
-    name: "Insurance",
-    tagline: "For insurtech platforms and brokers",
-    capabilities: ["Policy onboarding", "Claims query triage", "Renewal sequences"],
-  },
-];
+function isLightColor(hex: string): boolean {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.55;
+}
 
 export default function Divisions() {
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+
   return (
     <section id="divisions" className="relative py-28 px-6">
       <div className="w-full max-w-6xl mx-auto accent-divider mb-28" />
@@ -109,71 +52,164 @@ export default function Divisions() {
         </motion.p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
-          {DIVISIONS.map((div, i) => (
-            <motion.div
-              key={div.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: (i % 4) * 0.07 }}
-              className={`card p-5 flex flex-col gap-3.5 cursor-default ${
-                div.status === "active" ? "card-active" : ""
-              }`}
-              style={
-                div.status === "active"
-                  ? {
-                      borderColor: "rgba(16,185,129,0.2)",
-                      background: "linear-gradient(135deg, #0d141a 0%, #0d0d14 100%)",
-                    }
-                  : {}
-              }
-            >
-              {/* Status */}
-              {div.status === "active" ? (
-                <div className="flex items-center gap-2">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
-                  </span>
-                  <span className="font-mono text-xs" style={{ color: "#34d399" }}>Active · SaaS & Tech</span>
-                </div>
-              ) : (
-                <span
-                  className="font-mono text-xs w-fit px-2 py-0.5 rounded"
+          {DIVISIONS.map((div, i) => {
+            const isHovered = hoveredSlug === div.slug;
+            const light = isLightColor(div.color);
+            const fg = isHovered ? (light ? "#0f172a" : "#ffffff") : "#ffffff";
+            const fgMuted = isHovered
+              ? light ? "rgba(15,23,42,0.68)" : "rgba(255,255,255,0.78)"
+              : "#475569";
+            const fgDim = isHovered
+              ? light ? "rgba(15,23,42,0.5)" : "rgba(255,255,255,0.55)"
+              : "#334155";
+            const dividerColor = isHovered
+              ? light ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.18)"
+              : "rgba(255,255,255,0.06)";
+            const checkColor = isHovered
+              ? light ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.65)"
+              : div.color;
+
+            return (
+              <motion.div
+                key={div.slug}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: (i % 4) * 0.07 }}
+              >
+                <Link
+                  href={`/divisions/${div.slug}`}
+                  className="p-5 flex flex-col gap-3 h-full cursor-pointer"
                   style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                    color: "#475569",
+                    textDecoration: "none",
+                    display: "flex",
+                    borderRadius: "12px",
+                    border: isHovered
+                      ? `1px solid ${div.color}`
+                      : "1px solid rgba(255,255,255,0.07)",
+                    background: isHovered ? div.color : "#0d0d14",
+                    transform: isHovered ? "translateY(-5px)" : "translateY(0)",
+                    boxShadow: isHovered
+                      ? `0 24px 60px ${div.color}55, 0 8px 24px ${div.color}30`
+                      : "none",
+                    transition: "all 0.28s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
+                  onMouseEnter={() => setHoveredSlug(div.slug)}
+                  onMouseLeave={() => setHoveredSlug(null)}
                 >
-                  {div.status}
-                </span>
-              )}
+                  {/* Header row: dot + name + arrow */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="relative flex h-1.5 w-1.5 shrink-0"
+                        style={{ transition: "all 0.28s ease" }}
+                      >
+                        {!isHovered && (
+                          <span
+                            className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-40"
+                            style={{ background: div.color }}
+                          />
+                        )}
+                        <span
+                          className="relative inline-flex rounded-full h-1.5 w-1.5"
+                          style={{
+                            background: isHovered ? (light ? "rgba(0,0,0,0.35)" : "rgba(255,255,255,0.6)") : div.color,
+                            transition: "background 0.28s ease",
+                          }}
+                        />
+                      </span>
+                      <span
+                        className="font-mono text-xs font-medium"
+                        style={{
+                          color: isHovered ? fg : div.color,
+                          transition: "color 0.28s ease",
+                        }}
+                      >
+                        {div.name}
+                      </span>
+                    </div>
 
-              {/* Name & tagline */}
-              <div>
-                <h3 className="text-sm font-semibold text-white mb-1" style={{ letterSpacing: "-0.01em" }}>
-                  {div.name}
-                </h3>
-                <p className="text-xs text-slate-600" style={{ lineHeight: "1.6" }}>{div.tagline}</p>
-              </div>
+                    {/* Arrow — animated on hover */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "24px",
+                        height: "24px",
+                        borderRadius: "50%",
+                        background: isHovered
+                          ? light ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.2)"
+                          : "transparent",
+                        opacity: isHovered ? 1 : 0,
+                        transform: isHovered ? "translateX(0) scale(1)" : "translateX(-8px) scale(0.7)",
+                        transition: "all 0.28s cubic-bezier(0.4, 0, 0.2, 1)",
+                      }}
+                    >
+                      <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                        <path
+                          d="M2 5.5h7M6 2.5L9 5.5 6 8.5"
+                          stroke={isHovered ? (light ? "#0f172a" : "white") : div.color}
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
 
-              {/* Capabilities */}
-              <ul className="flex flex-col gap-2 mt-auto pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                {div.capabilities.map((cap) => (
-                  <li key={cap} className="flex items-start gap-2">
-                    <svg width="11" height="11" viewBox="0 0 11 11" fill="none" className="mt-0.5 shrink-0">
-                      <path d="M1.5 5.5l2.5 2.5 5.5-5" stroke={div.status === "active" ? "#34d399" : "#6366f1"} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span className="text-xs" style={{ color: "#475569", lineHeight: "1.5" }}>{cap}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
+                  {/* Tagline */}
+                  <p
+                    className="text-xs"
+                    style={{
+                      color: fgMuted,
+                      lineHeight: "1.6",
+                      transition: "color 0.28s ease",
+                    }}
+                  >
+                    {div.tagline}
+                  </p>
+
+                  {/* Capabilities */}
+                  <ul
+                    className="flex flex-col gap-2 mt-auto pt-3"
+                    style={{
+                      borderTop: `1px solid ${dividerColor}`,
+                      transition: "border-color 0.28s ease",
+                    }}
+                  >
+                    {div.services.items.slice(0, 3).map((svc) => (
+                      <li key={svc.title} className="flex items-start gap-2">
+                        <svg width="11" height="11" viewBox="0 0 11 11" fill="none" className="mt-0.5 shrink-0">
+                          <path
+                            d="M1.5 5.5l2.5 2.5 5.5-5"
+                            stroke={checkColor}
+                            strokeWidth="1.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            style={{ transition: "stroke 0.28s ease" }}
+                          />
+                        </svg>
+                        <span
+                          className="text-xs"
+                          style={{
+                            color: fgDim,
+                            lineHeight: "1.5",
+                            transition: "color 0.28s ease",
+                          }}
+                        >
+                          {svc.title}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Phase 1 callout */}
+        {/* Bottom callout */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -194,7 +230,7 @@ export default function Divisions() {
             </div>
             <div>
               <p className="text-sm font-semibold text-white mb-1">
-                SaaS & Tech Division is now accepting clients.
+                All 11 divisions are now accepting clients.
               </p>
               <p className="text-sm text-slate-500">Two-week free trial. No credit card required to start.</p>
             </div>

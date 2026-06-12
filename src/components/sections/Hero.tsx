@@ -2,10 +2,18 @@
 
 import { motion } from "framer-motion";
 
+// Premium blur-slide-up for headline lines
+const headlineAnim = (delay: number) => ({
+  initial: { opacity: 0, y: 64, filter: "blur(16px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  transition: { delay, duration: 0.9, ease: [0.16, 1, 0.3, 1] as const },
+});
+
+// Clean fade-up for supporting elements
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { delay, duration: 0.55, ease: "easeOut" as const },
+  transition: { delay, duration: 0.6, ease: [0.25, 0.4, 0.25, 1] as const },
 });
 
 export default function Hero() {
@@ -49,17 +57,25 @@ export default function Hero() {
         </motion.div>
 
         {/* Headline */}
-        <div className="flex flex-col items-center">
-          <motion.h1 {...fadeUp(0.13)} className="hero-headline text-white">"Everything,"</motion.h1>
-          <motion.h1 {...fadeUp(0.2)} className="hero-headline text-white">handled.</motion.h1>
-          <motion.h1 {...fadeUp(0.27)} className="hero-headline hero-headline-gradient mt-1">
+        <div className="flex flex-col items-center" style={{ gap: 0 }}>
+          <motion.h1 {...headlineAnim(0.1)} className="hero-headline text-white">
+            Everything,
+          </motion.h1>
+          <motion.h1 {...headlineAnim(0.22)} className="hero-headline text-white">
+            handled.
+          </motion.h1>
+          <motion.h1
+            {...headlineAnim(0.34)}
+            className="hero-headline hero-headline-gradient"
+            style={{ marginTop: "4px" }}
+          >
             for your industry.
           </motion.h1>
         </div>
 
         {/* Subhead */}
         <motion.p
-          {...fadeUp(0.35)}
+          {...fadeUp(0.55)}
           className="text-lg text-slate-400 max-w-xl"
           style={{ lineHeight: "1.75" }}
         >
@@ -69,7 +85,7 @@ export default function Hero() {
         </motion.p>
 
         {/* CTAs */}
-        <motion.div {...fadeUp(0.42)} className="flex flex-col sm:flex-row items-center gap-3">
+        <motion.div {...fadeUp(0.65)} className="flex flex-col sm:flex-row items-center gap-3">
           <button onClick={() => scrollTo("#how-it-works")} className="btn-primary">
             See how it works
           </button>
@@ -86,7 +102,7 @@ export default function Hero() {
 
         {/* Stats */}
         <motion.div
-          {...fadeUp(0.5)}
+          {...fadeUp(0.75)}
           className="flex flex-col sm:flex-row items-center gap-8 sm:gap-12 pt-6"
         >
           {[
