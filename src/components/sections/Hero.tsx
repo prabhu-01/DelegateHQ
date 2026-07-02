@@ -36,26 +36,6 @@ export default function Hero() {
 
       <div className="relative w-full max-w-5xl mx-auto flex flex-col items-center text-center gap-7">
 
-        {/* Status badge */}
-        <motion.div {...fadeUp(0.05)}>
-          <div
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-sm"
-            style={{
-              background: "rgba(99,102,241,0.08)",
-              border: "1px solid rgba(99,102,241,0.22)",
-              color: "#94a3b8",
-            }}
-          >
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-            </span>
-            <span>AI Operations Agency</span>
-            <span style={{ color: "rgba(255,255,255,0.15)" }}>·</span>
-            <span style={{ color: "#818cf8" }}>Now accepting SaaS clients</span>
-          </div>
-        </motion.div>
-
         {/* Headline */}
         <div className="flex flex-col items-center" style={{ gap: 0 }}>
           <motion.h1 {...headlineAnim(0.1)} className="hero-headline text-white">
