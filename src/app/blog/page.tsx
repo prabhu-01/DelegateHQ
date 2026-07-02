@@ -23,9 +23,18 @@ export default async function BlogIndexPage({
   searchParams: { page?: string };
 }) {
   const page = Math.max(1, parseInt(searchParams.page ?? "1", 10) || 1);
-  const { posts, limit } = await getBlogPosts(page);
-  const hasNext = posts.length === limit;
-  const hasPrev = page > 1;
+
+  let posts: Awaited<ReturnType<typeof getBlogPosts>>["posts"] = [];
+  let limit = 20;
+  let unavailable = false;
+  try {
+    ({ posts, limit } = await getBlogPosts(page));
+  } catch {
+    unavailable = true;
+  }
+
+  const hasNext = !unavailable && posts.length === limit;
+  const hasPrev = !unavailable && page > 1;
 
   return (
     <>
@@ -49,7 +58,9 @@ export default async function BlogIndexPage({
                 Insights on AI operations.
               </h1>
 
-              {posts.length === 0 ? (
+              {unavailable ? (
+                <p className="text-center text-slate-500">The blog is temporarily unavailable — check back soon.</p>
+              ) : posts.length === 0 ? (
                 <p className="text-center text-slate-500">No posts published yet — check back soon.</p>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

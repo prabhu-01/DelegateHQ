@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 const ThreeBackground = dynamic(() => import("@/components/ThreeBackground"), { ssr: false });
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = await getBlogPostBySlug(params.slug);
+  const post = await getBlogPostBySlug(params.slug).catch(() => null);
   if (!post) return {};
   const title = titleFromMarkdown(post.content, post.slug);
   const description = excerptFromMarkdown(post.content);
@@ -28,7 +28,25 @@ function formatDate(iso: string) {
 }
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await getBlogPostBySlug(params.slug);
+  let post;
+  try {
+    post = await getBlogPostBySlug(params.slug);
+  } catch {
+    return (
+      <>
+        <ThreeBackground />
+        <LenisWrapper>
+          <Navigation />
+          <main>
+            <section className="relative pt-40 pb-28 px-6 text-center">
+              <p className="text-slate-500">The blog is temporarily unavailable — check back soon.</p>
+            </section>
+          </main>
+          <Footer />
+        </LenisWrapper>
+      </>
+    );
+  }
   if (!post) notFound();
 
   return (
