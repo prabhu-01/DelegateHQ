@@ -81,6 +81,17 @@ export default function Footer() {
                   </button>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-sm transition-colors duration-150"
+                  style={{ color: "#475569" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#f1f5f9")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#475569")}
+                >
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
