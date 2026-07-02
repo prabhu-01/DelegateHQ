@@ -12,7 +12,7 @@ const BASE_URL = "https://socials.delegatehq.co/api/public/blogs";
 export async function getBlogPosts(page = 1): Promise<{ posts: BlogPost[]; page: number; limit: number }> {
   const res = await fetch(`${BASE_URL}${page > 1 ? `?page=${page}` : ""}`, {
     headers: { "x-api-key": process.env.BLOG_API_KEY! },
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
   if (!res.ok) throw new Error(`Failed to fetch blog posts: ${res.status}`);
   return res.json();
@@ -21,7 +21,7 @@ export async function getBlogPosts(page = 1): Promise<{ posts: BlogPost[]; page:
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   const res = await fetch(`${BASE_URL}/${slug}`, {
     headers: { "x-api-key": process.env.BLOG_API_KEY! },
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Failed to fetch blog post: ${res.status}`);
