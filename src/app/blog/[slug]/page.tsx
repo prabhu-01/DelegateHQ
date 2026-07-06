@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getBlogPostBySlug, excerptFromMarkdown, titleFromMarkdown, stripLeadingHeading } from "@/lib/blog";
-import LenisWrapper from "@/components/LenisWrapper";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-
-const ThreeBackground = dynamic(() => import("@/components/ThreeBackground"), { ssr: false });
+import SocialsShell from "@/components/socials/SocialsShell";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug).catch(() => null);
@@ -17,7 +12,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const title = titleFromMarkdown(post.content, post.slug);
   const description = excerptFromMarkdown(post.content);
   return {
-    title: `${title} — DelegateHQ Blog`,
+    title: `${title} — Socials by DelegateHQ`,
     description,
     openGraph: { title, description, type: "article" },
   };
@@ -33,28 +28,20 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     post = await getBlogPostBySlug(params.slug);
   } catch {
     return (
-      <>
-        <ThreeBackground />
-        <LenisWrapper>
-          <Navigation />
-          <main>
-            <section className="relative pt-40 pb-28 px-6 text-center">
-              <p className="text-slate-500">The blog is temporarily unavailable — check back soon.</p>
-            </section>
-          </main>
-          <Footer />
-        </LenisWrapper>
-      </>
+      <SocialsShell>
+        <main>
+          <section className="relative pt-40 pb-28 px-6 text-center">
+            <p className="text-slate-500">The blog is temporarily unavailable — check back soon.</p>
+          </section>
+        </main>
+      </SocialsShell>
     );
   }
   if (!post) notFound();
 
   return (
-    <>
-      <ThreeBackground />
-      <LenisWrapper>
-        <Navigation />
-        <main>
+    <SocialsShell>
+      <main>
           <article className="relative pt-40 pb-28 px-6">
             <div
               className="absolute inset-0 pointer-events-none"
@@ -90,9 +77,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               </div>
             </div>
           </article>
-        </main>
-        <Footer />
-      </LenisWrapper>
-    </>
+      </main>
+    </SocialsShell>
   );
 }

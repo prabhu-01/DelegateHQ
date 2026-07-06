@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -9,6 +10,8 @@ import { motion } from "framer-motion";
 export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -18,7 +21,12 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
 
   const scrollTo = (id: string) => {
     setMenuOpen(false);
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+    // On sub-pages (e.g. /blog) the section anchors don't exist — go home, then scroll.
+    if (isHome) {
+      document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = `/${id}`;
+    }
   };
 
   const links = [

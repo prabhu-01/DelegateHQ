@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { getBlogPosts, excerptFromMarkdown, titleFromMarkdown } from "@/lib/blog";
-import LenisWrapper from "@/components/LenisWrapper";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-
-const ThreeBackground = dynamic(() => import("@/components/ThreeBackground"), { ssr: false });
+import SocialsShell from "@/components/socials/SocialsShell";
 
 export const metadata: Metadata = {
-  title: "Blog — DelegateHQ",
-  description: "Insights on AI operations, automation, and running lean teams — from the DelegateHQ team.",
+  title: "Blog — Socials by DelegateHQ",
+  description: "Ideas, hooks, and playbooks for creators turning Reel ideas into scripts worth filming.",
 };
 
 function formatDate(iso: string) {
@@ -37,11 +32,8 @@ export default async function BlogIndexPage({
   const hasPrev = !unavailable && page > 1;
 
   return (
-    <>
-      <ThreeBackground />
-      <LenisWrapper>
-        <Navigation />
-        <main>
+    <SocialsShell>
+      <main>
           <section className="relative pt-40 pb-28 px-6">
             <div
               className="absolute inset-0 pointer-events-none"
@@ -55,7 +47,7 @@ export default async function BlogIndexPage({
                 className="text-center text-4xl md:text-5xl font-bold text-white mb-16"
                 style={{ letterSpacing: "-0.03em" }}
               >
-                Insights on AI operations.
+                Ideas worth filming.
               </h1>
 
               {unavailable ? (
@@ -115,8 +107,6 @@ export default async function BlogIndexPage({
             </div>
           </section>
         </main>
-        <Footer />
-      </LenisWrapper>
-    </>
+    </SocialsShell>
   );
 }
