@@ -30,7 +30,9 @@ const FAQ_ITEMS = [
   },
   {
     q: "Do you work with companies outside India?",
-    a: "Our pricing is denominated in INR because our primary audience is bootstrapped Indian SaaS founders, but we work with any SaaS company that operates in English. We currently have pilot clients in India, Singapore, and UAE. If you're based outside India, the onboarding process is identical — we operate asynchronously and all calls are via Google Meet or Zoom. Pricing for international clients is converted at the prevailing rate with no markup. If you're on a USD-denominated bank account, we can invoice in USD at an equivalent price.",
+    // SOCIALS-LAUNCH: pricing language removed from this answer — original:
+    // "Our pricing is denominated in INR because our primary audience is bootstrapped Indian SaaS founders, but we work with any SaaS company that operates in English. We currently have pilot clients in India, Singapore, and UAE. If you're based outside India, the onboarding process is identical — we operate asynchronously and all calls are via Google Meet or Zoom. Pricing for international clients is converted at the prevailing rate with no markup. If you're on a USD-denominated bank account, we can invoice in USD at an equivalent price."
+    a: "Our primary audience is bootstrapped Indian SaaS founders, but we work with any SaaS company that operates in English. We currently have pilot clients in India, Singapore, and UAE. If you're based outside India, the onboarding process is identical — we operate asynchronously and all calls are via Google Meet or Zoom.",
   },
 ];
 

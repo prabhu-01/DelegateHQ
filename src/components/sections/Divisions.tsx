@@ -232,14 +232,16 @@ export default function Divisions() {
               <p className="text-sm font-semibold text-white mb-1">
                 All 11 divisions are now accepting clients.
               </p>
-              <p className="text-sm text-slate-500">Two-week free trial. No credit card required to start.</p>
+              {/* SOCIALS-LAUNCH: trial/pricing copy hidden — restore to revert */}
+              <p className="text-sm text-slate-500">Book a call to see how each division works.</p>
             </div>
           </div>
+          {/* SOCIALS-LAUNCH: "See plans" (→ #pricing) replaced with "Book a call" (→ #cta) — restore to revert */}
           <button
-            onClick={() => document.querySelector("#pricing")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => document.querySelector("#cta")?.scrollIntoView({ behavior: "smooth" })}
             className="btn-primary btn-sm shrink-0"
           >
-            See plans
+            Book a call
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
