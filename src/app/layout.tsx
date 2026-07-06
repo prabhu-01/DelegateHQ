@@ -20,11 +20,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Socials by DelegateHQ — Scripts worth filming.",
   description:
-    "A private studio that turns AI-scraped Instagram Reel ideas into filmable scripts. Score ideas, generate and refine scripts with Aria, audit your takes, and publish. Invite-gated.",
+    "A private studio that turns AI-curated Instagram Reel ideas into filmable scripts. Score ideas, generate and refine scripts with Aria, audit your takes, and publish. Invite-gated.",
   keywords: "Instagram Reels, AI script generation, content studio, reel ideas, creator tools, short-form video",
   openGraph: {
     title: "Socials by DelegateHQ — Scripts worth filming.",
-    description: "Turn scraped Reel ideas into scripts worth filming. Score, script, refine, publish.",
+    description: "Turn curated Reel ideas into scripts worth filming. Score, script, refine, publish.",
     type: "website",
   },
 };

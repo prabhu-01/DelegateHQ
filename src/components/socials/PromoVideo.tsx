@@ -33,7 +33,7 @@ export default function PromoVideo() {
             See the whole studio in action.
           </h2>
           <p className="text-slate-500 mx-auto" style={{ fontSize: "16px", lineHeight: 1.7, maxWidth: "520px", marginTop: "14px" }}>
-            One walkthrough, from a scraped idea to a scripted, refined, ready-to-film Reel.
+            One walkthrough, from a curated idea to a scripted, refined, ready-to-film Reel.
           </p>
         </motion.div>
 

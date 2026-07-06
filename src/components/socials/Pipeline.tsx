@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 // Socials launch: "How an idea becomes a Reel" — the 5-step pipeline from the product spec.
 const STEPS = [
-  { k: "01", title: "Scraped", body: "Your scraper profile drops fresh, pre-scored ideas into your bucket." },
+  { k: "01", title: "Curated", body: "Your curation feed drops fresh, pre-scored ideas into your bucket." },
   { k: "02", title: "Judged", body: "Keep the strong ones, delete the weak ones on sight. Nothing is erased." },
   { k: "03", title: "Scripted", body: "One click drafts a full script, then Aria refines the hook and beats." },
   { k: "04", title: "Filmed", body: "You shoot it. Reel Audit scores your take back against the script." },

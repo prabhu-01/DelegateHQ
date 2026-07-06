@@ -66,7 +66,7 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
           <br className="hidden sm:block" /> and script the strong ones.
         </motion.h2>
         <motion.p {...inView(0.1)} className="text-center text-slate-500 max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7 }}>
-          Every tool a creator-operator needs between a scraped idea and a published post.
+          Every tool a creator-operator needs between a curated idea and a published post.
         </motion.p>
 
         {/* Featured card: Idea Bucket + scoring, with a live clip */}

@@ -39,7 +39,7 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
               className="text-white"
               style={{ fontSize: "clamp(40px, 6vw, 68px)", fontWeight: 800, lineHeight: 1.04, letterSpacing: "-0.03em" }}
             >
-              Scraped ideas in.
+              Curated ideas in.
             </motion.h1>
             <motion.h1
               {...headlineAnim(0.24)}
@@ -55,7 +55,7 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
             className="text-slate-400"
             style={{ fontSize: "18px", lineHeight: 1.7, maxWidth: "440px", marginTop: "22px" }}
           >
-            A private studio that scores every scraped Reel idea, scripts the winners, and refines them until they are ready to shoot.
+            A private studio that scores every curated Reel idea, scripts the winners, and refines them until they are ready to shoot.
           </motion.p>
 
           <motion.div {...fadeUp(0.62)} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3" style={{ marginTop: "30px" }}>
