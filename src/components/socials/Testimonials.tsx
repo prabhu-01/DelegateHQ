@@ -71,7 +71,6 @@ export default function Testimonials() {
           style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
         >
           Built with creators who ship weekly.
-          <sup style={{ fontSize: "0.4em", color: "#64748b", fontWeight: 600, marginLeft: "2px", top: "-1em" }}>*</sup>
         </motion.h2>
         <motion.p {...inView(0.1)} className="text-center text-slate-500 max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7 }}>
           A few notes from the creators who have been running their ideas through Socials.
@@ -83,7 +82,7 @@ export default function Testimonials() {
             <motion.div
               key={t.handle}
               {...inView((i % 3) * 0.06)}
-              className="card"
+              className="card card-lift"
               style={{ padding: "22px 22px 20px", marginBottom: "16px", breakInside: "avoid" }}
             >
               {/* Quote mark */}
@@ -129,6 +128,15 @@ export default function Testimonials() {
             </motion.div>
           ))}
         </div>
+
+        <motion.p
+          {...inView(0.1)}
+          className="text-center font-mono mx-auto"
+          style={{ fontSize: "11px", lineHeight: 1.7, color: "#475569", marginTop: "26px", maxWidth: "560px" }}
+        >
+          <span style={{ color: "#64748b" }}>*</span> Individual experiences.{" "}
+          <span style={{ color: "#64748b" }}>#</span> Illustrative results, not guaranteed. Full disclaimer below.
+        </motion.p>
       </div>
     </section>
   );
