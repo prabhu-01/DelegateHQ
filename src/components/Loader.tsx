@@ -10,18 +10,25 @@ const STATUS_MESSAGES = [
   "Almost ready...",
 ];
 
+// Stable default so the preload effect's dependency identity does not change per render.
+const NO_ASSETS: string[] = [];
+
 interface LoaderProps {
   onComplete: () => void;
+  // Media URLs to warm before the page reveals (e.g. the Socials hero + carousel clips).
+  // Preloaded here so nothing pops in when the loader lifts.
+  preloadAssets?: string[];
 }
 
-export default function Loader({ onComplete }: LoaderProps) {
+export default function Loader({ onComplete, preloadAssets = NO_ASSETS }: LoaderProps) {
   const [statusIndex, setStatusIndex] = useState(0);
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const startTime = Date.now();
-    const MIN_DURATION = 2400;
+    const MIN_DURATION = 1800;
+    const MAX_DURATION = 7000; // hard cap so a slow/broken asset never hangs the loader
 
     const interval = setInterval(() => {
       setStatusIndex((prev) => {
@@ -31,35 +38,65 @@ export default function Loader({ onComplete }: LoaderProps) {
       });
     }, 550);
 
+    // ── Preload media in the background and track real progress ──
+    const total = preloadAssets.length;
+    let loadedCount = 0;
+    const videoEls: HTMLVideoElement[] = [];
+    let resolveAssets: () => void = () => {};
+    const assetsReady =
+      total === 0
+        ? Promise.resolve()
+        : new Promise<void>((res) => {
+            resolveAssets = res;
+          });
+
+    const bump = () => {
+      loadedCount += 1;
+      setProgress((prev) => Math.max(prev, Math.min(92, Math.round((loadedCount / total) * 92))));
+      if (loadedCount >= total) resolveAssets();
+    };
+
+    preloadAssets.forEach((src) => {
+      const v = document.createElement("video");
+      v.muted = true;
+      v.preload = "auto";
+      // First decoded frame (or an error) is enough to consider the clip warm.
+      v.addEventListener("loadeddata", bump, { once: true });
+      v.addEventListener("error", bump, { once: true });
+      v.src = src;
+      v.load();
+      videoEls.push(v);
+    });
+
+    // Gentle trickle so the bar still moves while we wait on fonts / assets.
     const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 95) return prev;
-        return prev + Math.random() * 8 + 2;
-      });
-    }, 120);
+      setProgress((prev) => (prev >= 92 ? prev : prev + Math.random() * 4 + 1));
+    }, 160);
 
     const finish = async () => {
-      await document.fonts.ready;
+      await Promise.race([
+        Promise.all([document.fonts.ready, assetsReady]),
+        new Promise((r) => setTimeout(r, MAX_DURATION)),
+      ]);
       const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, MIN_DURATION - elapsed);
-      await new Promise((r) => setTimeout(r, remaining));
+      await new Promise((r) => setTimeout(r, Math.max(0, MIN_DURATION - elapsed)));
       setProgress(100);
       await new Promise((r) => setTimeout(r, 200));
       setVisible(false);
       setTimeout(onComplete, 700);
     };
-
-    if (document.readyState === "complete") {
-      finish();
-    } else {
-      window.addEventListener("load", finish, { once: true });
-    }
+    finish();
 
     return () => {
       clearInterval(interval);
       clearInterval(progressInterval);
+      // Detach preloaders so they don't keep buffering after unmount.
+      videoEls.forEach((v) => {
+        v.removeAttribute("src");
+        v.load();
+      });
     };
-  }, [onComplete]);
+  }, [onComplete, preloadAssets]);
 
   return (
     <AnimatePresence>

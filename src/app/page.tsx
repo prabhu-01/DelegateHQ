@@ -6,28 +6,33 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import Loader from "@/components/Loader";
 import LenisWrapper from "@/components/LenisWrapper";
-import Navigation from "@/components/Navigation";
-import Hero from "@/components/sections/Hero";
-import Problem from "@/components/sections/Problem";
-import WhatWeDo from "@/components/sections/WhatWeDo";
-import Divisions from "@/components/sections/Divisions";
-import HowItWorks from "@/components/sections/HowItWorks";
-import Pricing from "@/components/sections/Pricing";
-import Proof from "@/components/sections/Proof";
-import FAQ from "@/components/sections/FAQ";
-import CTASection from "@/components/sections/CTASection";
-import Footer from "@/components/Footer";
+import SocialsNav from "@/components/socials/SocialsNav";
+import SocialsHero from "@/components/socials/SocialsHero";
+import VideoCarousel from "@/components/socials/VideoCarousel";
+import PromoVideo from "@/components/socials/PromoVideo";
+import Pipeline from "@/components/socials/Pipeline";
+import Features from "@/components/socials/Features";
+import Trust from "@/components/socials/Trust";
+import SocialsCTA from "@/components/socials/SocialsCTA";
+import SocialsFooter from "@/components/socials/SocialsFooter";
+import SocialsBookCallModal from "@/components/socials/SocialsBookCallModal";
+import { SOCIALS_VIDEOS } from "@/components/socials/videos";
 
 const ThreeBackground = dynamic(() => import("@/components/ThreeBackground"), {
   ssr: false,
 });
 
+// Socials launch: "/" is now the marketing landing for the Socials product.
+// The DelegateHQ agency landing moved to /agency (see src/app/agency/page.tsx).
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
 
   return (
     <>
-      <Loader onComplete={() => setLoaded(true)} />
+      {/* Preload the hero + carousel clips during the loading screen so nothing pops in */}
+      <Loader onComplete={() => setLoaded(true)} preloadAssets={SOCIALS_VIDEOS} />
 
       <AnimatePresence>
         {loaded && (
@@ -39,20 +44,20 @@ export default function Home() {
           >
             <ThreeBackground />
             <LenisWrapper>
-              <Navigation />
+              <SocialsNav onBookCall={openModal} />
               <main>
-                <Hero />
-                <Problem />
-                <WhatWeDo />
-                <Divisions />
-                <HowItWorks />
-                <Pricing />
-                <Proof />
-                <FAQ />
-                <CTASection />
+                <SocialsHero onBookCall={openModal} />
+                <VideoCarousel />
+                <PromoVideo />
+                <Pipeline />
+                <Features onBookCall={openModal} />
+                <Trust />
+                <SocialsCTA onBookCall={openModal} />
               </main>
-              <Footer />
+              <SocialsFooter onBookCall={openModal} />
             </LenisWrapper>
+
+            <SocialsBookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
           </motion.div>
         )}
       </AnimatePresence>

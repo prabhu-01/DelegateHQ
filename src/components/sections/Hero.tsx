@@ -85,10 +85,11 @@ export default function Hero() {
           {...fadeUp(0.75)}
           className="flex flex-col sm:flex-row items-center gap-8 sm:gap-12 pt-6"
         >
+          {/* SOCIALS-LAUNCH: "₹20k Starting Monthly" price stat replaced — restore to revert */}
           {[
             { value: "11", label: "Industry Divisions" },
             { value: "5", label: "Ops per Division" },
-            { value: "₹20k", label: "Starting Monthly" },
+            { value: "7 days", label: "To Go Live" },
           ].map((stat, i) => (
             <div key={stat.label} className="flex items-center gap-4">
               {i > 0 && (

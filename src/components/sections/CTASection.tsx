@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 
+// SOCIALS-LAUNCH: "No credit card required" chip removed — restore to revert
 const CHIPS = [
-  "No credit card required",
+  "Vertically specialized",
   "Running in one week",
   "Cancel anytime",
 ];
@@ -48,8 +49,8 @@ export default function CTASection() {
           className="text-lg text-slate-400 max-w-md"
           style={{ lineHeight: "1.7" }}
         >
-          Start your two-week free trial. Your agent team goes live in one week.
-          If it doesn't work, you owe nothing.
+          {/* SOCIALS-LAUNCH: trial copy softened — restore "Start your two-week free trial. Your agent team goes live in one week. If it doesn't work, you owe nothing." to revert */}
+          Book a call and your agent team goes live in one week.
         </motion.p>
 
         <motion.div
@@ -59,13 +60,16 @@ export default function CTASection() {
           transition={{ delay: 0.17, duration: 0.5 }}
           className="flex flex-col sm:flex-row items-center gap-3"
         >
-          <button
-            onClick={() => scrollTo("#pricing")}
+          {/* SOCIALS-LAUNCH: "Start free trial" (→ #pricing, now removed) → "Book a call". Restore to revert */}
+          <a
+            href={process.env.NEXT_PUBLIC_BOOKING_URL || "https://cal.com"}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-primary"
             style={{ padding: "13px 28px", fontSize: "15px" }}
           >
-            Start free trial
-          </button>
+            Book a call
+          </a>
           <button
             onClick={() => scrollTo("#how-it-works")}
             className="btn-secondary"

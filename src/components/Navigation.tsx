@@ -14,7 +14,8 @@ export default function Navigation() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  // SOCIALS-LAUNCH: agency home moved to /agency (was "/") so in-page scroll anchors resolve there
+  const isHome = pathname === "/agency";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -133,8 +134,8 @@ export default function Navigation() {
               transition: "background 0.3s ease",
             }}
           >
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 shrink-0" style={{ textDecoration: "none" }}>
+            {/* Logo — SOCIALS-LAUNCH: points to /agency (was "/") */}
+            <Link href="/agency" className="flex items-center gap-2.5 shrink-0" style={{ textDecoration: "none" }}>
               <div
                 style={{
                   width: "26px",
@@ -196,7 +197,7 @@ export default function Navigation() {
                 How it works
               </button>
 
-              {/* Pricing */}
+              {/* SOCIALS-LAUNCH: pricing hidden — restore this button to revert
               <button
                 onClick={() => scrollTo("#pricing")}
                 style={navLinkStyle}
@@ -205,6 +206,7 @@ export default function Navigation() {
               >
                 Pricing
               </button>
+              */}
 
               {/* Blog */}
               <Link
@@ -442,6 +444,7 @@ export default function Navigation() {
                         </svg>
                       </Link>
 
+                      {/* SOCIALS-LAUNCH: pricing + trial badge hidden — restore to revert
                       <span style={{ fontSize: "12px", color: "#475569" }}>
                         from{" "}
                         <span style={{ color: "#64748b", fontWeight: 600, fontFamily: "monospace" }}>
@@ -463,6 +466,7 @@ export default function Navigation() {
                       >
                         2-wk free trial
                       </div>
+                      */}
                     </div>
                   </motion.div>
                 </AnimatePresence>
@@ -499,7 +503,7 @@ export default function Navigation() {
               >
                 {[
                   { label: "How it works", id: "#how-it-works" },
-                  { label: "Pricing", id: "#pricing" },
+                  // SOCIALS-LAUNCH: pricing hidden — restore { label: "Pricing", id: "#pricing" } to revert
                 ].map((item) => (
                   <button
                     key={item.label}

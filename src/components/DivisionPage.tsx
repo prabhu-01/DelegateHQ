@@ -45,7 +45,7 @@ export default function DivisionPage({ division }: { division: DivisionData }) {
           <ServicesSection division={division} />
           <ProcessSection />
           <ProofSection division={division} />
-          <PricingSection division={division} />
+          {/* SOCIALS-LAUNCH: DelegateHQ pricing hidden — restore <PricingSection division={division} /> to revert */}
           <FAQSection division={division} />
           <CTASection division={division} />
         </main>
@@ -83,7 +83,7 @@ function HeroSection({ division }: { division: DivisionData }) {
         {/* Back link + eyebrow */}
         <motion.div {...fadeUp(0.05)} className="flex flex-col items-center gap-3">
           <Link
-            href="/"
+            href="/agency"
             className="flex items-center gap-1.5 font-mono text-xs transition-colors duration-150"
             style={{ color: "#475569" }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#94a3b8")}
@@ -146,11 +146,12 @@ function HeroSection({ division }: { division: DivisionData }) {
 
         {/* CTAs */}
         <motion.div {...fadeUp(0.65)} className="flex flex-col sm:flex-row items-center gap-3">
+          {/* SOCIALS-LAUNCH: "Start free trial" → "Book a call"; "See pricing" (→ #pricing) → "View sample output" (→ #proof). Restore to revert */}
           <button onClick={() => scrollTo("#cta")} className="btn-primary">
-            Start free trial
+            Book a call
           </button>
-          <button onClick={() => scrollTo("#pricing")} className="btn-secondary">
-            See pricing
+          <button onClick={() => scrollTo("#proof")} className="btn-secondary">
+            View sample output
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -505,12 +506,16 @@ function ProofSection({ division }: { division: DivisionData }) {
 }
 
 // ── Pricing ───────────────────────────────────────────────────────────────────
+// SOCIALS-LAUNCH: PricingSection kept but not rendered (see <main> above). eslint-disable
+// keeps the unused declarations from failing the build; remove disables when restoring.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const priceVariants = {
   enter: (dir: number) => ({ y: dir > 0 ? 18 : -18, opacity: 0 }),
   center: { y: 0, opacity: 1 },
   exit: (dir: number) => ({ y: dir > 0 ? -18 : 18, opacity: 0 }),
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function PricingSection({ division }: { division: DivisionData }) {
   const [annual, setAnnual] = useState(false);
   const direction = useRef(1);
@@ -757,16 +762,17 @@ function CTASection({ division }: { division: DivisionData }) {
           >
             Your {division.name.toLowerCase()} ops<br />are waiting.
           </motion.h2>
+          {/* SOCIALS-LAUNCH: trial copy softened — restore "Two-week free trial. Agent team live in one week. No credit card required." to revert */}
           <motion.p
             {...inView(0.1)}
             className="text-base text-slate-500 max-w-md"
             style={{ lineHeight: "1.75" }}
           >
-            Two-week free trial. Agent team live in one week. No credit card required.
+            Agent team live in one week. Book a call to get started.
           </motion.p>
           <motion.div {...inView(0.16)} className="flex flex-col sm:flex-row items-center gap-3">
             <a
-              href="https://cal.com"
+              href={process.env.NEXT_PUBLIC_BOOKING_URL || "https://cal.com"}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
@@ -776,18 +782,21 @@ function CTASection({ division }: { division: DivisionData }) {
                 <path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
+            {/* SOCIALS-LAUNCH: pricing hidden — restore "See pricing" button to revert
             <button
               onClick={() => document.querySelector("#pricing")?.scrollIntoView({ behavior: "smooth" })}
               className="btn-secondary"
             >
               See pricing
             </button>
+            */}
           </motion.div>
           <motion.div
             {...inView(0.22)}
             className="flex flex-wrap items-center justify-center gap-4 pt-2"
           >
-            {["14-day free trial", "Live in 7 days", "Cancel anytime"].map((chip) => (
+            {/* SOCIALS-LAUNCH: "14-day free trial" chip removed — restore to revert */}
+            {["Vertical-specialized", "Live in 7 days", "Cancel anytime"].map((chip) => (
               <div key={chip} className="flex items-center gap-2 font-mono text-xs" style={{ color: "#334155" }}>
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M2 6l2.5 3L10 3" stroke="#6366f1" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>

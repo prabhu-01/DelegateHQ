@@ -14,14 +14,17 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+// SOCIALS-LAUNCH: root metadata now describes Socials (the "/" landing). The original
+// DelegateHQ agency metadata moved to src/app/agency/layout.tsx. Restore this block
+// (and delete agency/layout.tsx) to revert.
 export const metadata: Metadata = {
-  title: "DelegateHQ — Everything, handled.",
+  title: "Socials by DelegateHQ — Scripts worth filming.",
   description:
-    "AI operations agency deploying vertically specialized agent teams that run the full operations of bootstrapped SaaS businesses. Support, onboarding, documentation, content, and customer success across 11 industry divisions.",
-  keywords: "AI operations, SaaS operations, AI agents, customer support automation, onboarding automation, India SaaS",
+    "A private studio that turns AI-scraped Instagram Reel ideas into filmable scripts. Score ideas, generate and refine scripts with Aria, audit your takes, and publish. Invite-gated.",
+  keywords: "Instagram Reels, AI script generation, content studio, reel ideas, creator tools, short-form video",
   openGraph: {
-    title: "DelegateHQ — Everything, handled.",
-    description: "AI agent teams that run your entire ops stack so you can focus on building.",
+    title: "Socials by DelegateHQ — Scripts worth filming.",
+    description: "Turn scraped Reel ideas into scripts worth filming. Score, script, refine, publish.",
     type: "website",
   },
 };
