@@ -155,7 +155,9 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
             >
               <div className="flex items-center justify-between mb-2.5">
                 <span className="font-mono" style={{ fontSize: "9.5px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em" }}>Hook score</span>
-                <span className="text-white" style={{ fontSize: "20px", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1 }}>92</span>
+                <span className="text-white" style={{ fontSize: "20px", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1 }}>
+                  92<sup style={{ fontSize: "0.5em", color: "#818cf8", fontWeight: 600, marginLeft: "1px", top: "-0.7em" }}>#</sup>
+                </span>
               </div>
               <div style={{ height: "4px", borderRadius: "999px", background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
                 <motion.div

@@ -86,7 +86,24 @@ export default function SocialsFooter({ onBookCall }: { onBookCall: () => void }
           </div>
         </div>
 
-        <div className="mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+        {/* Legal disclaimer — defines the * and # markers used across the page */}
+        <div className="mt-12 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+          <p style={{ fontSize: "11px", lineHeight: 1.7, color: "#334155", maxWidth: "760px" }}>
+            <span style={{ color: "#475569", fontWeight: 600 }}>Disclaimer.</span>{" "}
+            Socials is a creative tool that helps you generate, score, and refine content. It does not
+            guarantee reach, follower growth, engagement, views, or revenue.
+            {" "}
+            <span style={{ color: "#475569" }}>*</span> Testimonials reflect the individual experiences of
+            specific creators and are not a promise that you will achieve similar results.
+            {" "}
+            <span style={{ color: "#475569" }}>#</span> Scores, figures, and any results shown on this page
+            are illustrative examples, not predictions or guarantees. Your outcomes depend on your niche,
+            content, consistency, and execution. Instagram and Reels are trademarks of their respective
+            owners and are not affiliated with or endorsing Socials or DelegateHQ.
+          </p>
+        </div>
+
+        <div className="mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
           <p className="font-mono text-xs" style={{ color: "#1e293b" }}>Scripts worth filming.</p>
           <div className="flex items-center gap-2.5">
             <span className="font-mono text-xs" style={{ color: "#1e293b" }}>Invite-gated access</span>

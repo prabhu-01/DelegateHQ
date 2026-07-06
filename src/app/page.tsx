@@ -12,6 +12,7 @@ import VideoCarousel from "@/components/socials/VideoCarousel";
 import PromoVideo from "@/components/socials/PromoVideo";
 import Pipeline from "@/components/socials/Pipeline";
 import Features from "@/components/socials/Features";
+import Testimonials from "@/components/socials/Testimonials";
 import Trust from "@/components/socials/Trust";
 import SocialsCTA from "@/components/socials/SocialsCTA";
 import SocialsFooter from "@/components/socials/SocialsFooter";
@@ -51,6 +52,7 @@ export default function Home() {
                 <PromoVideo />
                 <Pipeline />
                 <Features onBookCall={openModal} />
+                <Testimonials />
                 <Trust />
                 <SocialsCTA onBookCall={openModal} />
               </main>
