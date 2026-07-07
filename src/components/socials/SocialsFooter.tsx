@@ -96,10 +96,13 @@ export default function SocialsFooter({ onBookCall }: { onBookCall: () => void }
             <span style={{ color: "#475569" }}>*</span> Testimonials reflect the individual experiences of
             specific creators and are not a promise that you will achieve similar results.
             {" "}
-            <span style={{ color: "#475569" }}>#</span> Scores, figures, and any results shown on this page
-            are illustrative examples, not predictions or guarantees. Your outcomes depend on your niche,
-            content, consistency, and execution. Instagram and Reels are trademarks of their respective
-            owners and are not affiliated with or endorsing Socials or DelegateHQ.
+            <span style={{ color: "#475569" }}>#</span> Scores, figures, earnings estimates, and any results
+            shown on this page are illustrative examples based on public benchmarks, not predictions,
+            projections, or guarantees of income. Any earnings estimator is for illustration only: Socials
+            does not pay creators, no level of income is promised, and most creators&apos; results vary widely,
+            with many earning little or nothing. Your outcomes depend entirely on your niche, offer, effort,
+            audience, consistency, and market conditions. Instagram and Reels are trademarks of their
+            respective owners and are not affiliated with or endorsing Socials or DelegateHQ.
           </p>
         </div>
 
