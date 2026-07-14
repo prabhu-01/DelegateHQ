@@ -4,18 +4,12 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import OfferBar from "./OfferBar";
-
-const OFFER_DISMISS_KEY = "socials-offer-dismissed";
 
 // Socials launch: product-focused floating nav for the "/" landing page.
-// The launch-offer bar sits above it and carries the "Explore the agency" link. If the
-// visitor dismisses the offer, we fall back to the original slim agency pill so that
-// cross-link is never lost.
+// Slim top bar links across to the DelegateHQ agency (now at /agency).
 export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [offerDismissed, setOfferDismissed] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -24,24 +18,6 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Read the dismissal after mount (localStorage isn't available during SSR).
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(OFFER_DISMISS_KEY) === "1") setOfferDismissed(true);
-    } catch {
-      /* storage blocked — just keep showing the offer */
-    }
-  }, []);
-
-  const dismissOffer = () => {
-    setOfferDismissed(true);
-    try {
-      localStorage.setItem(OFFER_DISMISS_KEY, "1");
-    } catch {
-      /* ignore */
-    }
-  };
 
   const scrollTo = (id: string) => {
     setMenuOpen(false);
@@ -73,23 +49,14 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
   };
 
   return (
-    <>
-      {!offerDismissed && <OfferBar onBookCall={onBookCall} onDismiss={dismissOffer} />}
-
-      <motion.div
-        initial={{ y: -18, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed left-0 right-0 z-50 flex flex-col items-center gap-2 px-4"
-        style={{
-          pointerEvents: "none",
-          // Sit below the offer bar (44px) when it's showing.
-          top: offerDismissed ? "12px" : "52px",
-          transition: "top 0.25s ease",
-        }}
-      >
-      {/* Slim cross-link to the agency — only when the offer bar (which carries it) is dismissed */}
-      {offerDismissed && (
+    <motion.div
+      initial={{ y: -18, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.1, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-3 left-0 right-0 z-50 flex flex-col items-center gap-2 px-4"
+      style={{ pointerEvents: "none" }}
+    >
+      {/* Slim cross-link to the agency */}
       <Link
         href="/agency"
         className="hidden sm:flex items-center gap-2 group"
@@ -121,7 +88,6 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
           <path d="M2 5.5h7M6 2.5L9 5.5 6 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </Link>
-      )}
 
       {/* Nav pill */}
       <div
@@ -265,7 +231,6 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
           </button>
         </motion.div>
       )}
-      </motion.div>
-    </>
+    </motion.div>
   );
 }

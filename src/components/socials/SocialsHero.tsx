@@ -29,29 +29,21 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
       <div className="relative w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] items-center gap-12 lg:gap-8">
         {/* Left: copy */}
         <div className="flex flex-col items-start text-left">
-          {/* Launch-offer pill (replaces the plain category eyebrow while the offer runs) */}
-          <motion.span
-            {...fadeUp(0.05)}
-            className="inline-flex items-center gap-2.5"
-            style={{
-              marginBottom: "22px",
-              padding: "6px 14px",
-              borderRadius: "999px",
-              background: "rgba(99,102,241,0.14)",
-              border: "1px solid rgba(99,102,241,0.42)",
-              boxShadow: "0 0 24px rgba(99,102,241,0.18)",
-              fontSize: "12px",
-              fontFamily: "var(--font-mono), monospace",
-              color: "#c7d2fe",
-              letterSpacing: "0.06em",
-            }}
-          >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-70" style={{ background: "#a5b4fc" }} />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: "#a5b4fc" }} />
+          {/* Launch-offer pill — the headline promo. Clickable: opens the book-a-call modal. */}
+          <motion.button {...fadeUp(0.05)} onClick={onBookCall} className="socials-offer-pill" aria-label="First month free — book a call">
+            <span className="socials-offer-shine" aria-hidden="true" />
+            <span className="socials-offer-inner">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="socials-offer-spark" aria-hidden="true">
+                <path d="M8 1l1.6 4.4L14 7l-4.4 1.6L8 13l-1.6-4.4L2 7l4.4-1.6L8 1z" fill="#fff" />
+              </svg>
+              <strong className="socials-offer-lead">First month free</strong>
+              <span className="socials-offer-sep" aria-hidden="true" />
+              <span className="socials-offer-sub">Limited intake</span>
+              <svg width="12" height="12" viewBox="0 0 11 11" fill="none" className="socials-offer-arrow" aria-hidden="true">
+                <path d="M2 5.5h7M6 2.5L9 5.5 6 8.5" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </span>
-            First month free · Limited intake
-          </motion.span>
+          </motion.button>
 
           <div className="flex flex-col" style={{ gap: 0 }}>
             <motion.h1
@@ -191,6 +183,115 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
           </div>
         </motion.div>
       </div>
+
+      {/* Launch-offer pill styling: animated gradient, shine sweep, breathing glow. */}
+      <style jsx global>{`
+        .socials-offer-pill {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          margin-bottom: 24px;
+          padding: 9px 8px 9px 16px;
+          border-radius: 999px;
+          border: 1px solid rgba(255, 255, 255, 0.28);
+          background: linear-gradient(100deg, #4338ca, #6366f1, #a78bfa, #6366f1, #4338ca);
+          background-size: 220% 100%;
+          overflow: hidden;
+          isolation: isolate;
+          cursor: pointer;
+          animation: socials-offer-gradient 6s linear infinite,
+            socials-offer-breathe 3.4s ease-in-out infinite;
+          transition: transform 0.2s ease;
+        }
+        .socials-offer-pill:hover {
+          transform: translateY(-1px) scale(1.025);
+        }
+        .socials-offer-pill:active {
+          transform: translateY(0) scale(0.99);
+        }
+
+        .socials-offer-inner {
+          position: relative;
+          z-index: 1;
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+        }
+        .socials-offer-lead {
+          font-size: 13.5px;
+          font-weight: 700;
+          color: #fff;
+          letter-spacing: -0.005em;
+          white-space: nowrap;
+        }
+        .socials-offer-sep {
+          width: 1px;
+          height: 12px;
+          background: rgba(255, 255, 255, 0.35);
+        }
+        .socials-offer-sub {
+          font-family: var(--font-mono), monospace;
+          font-size: 11px;
+          color: rgba(255, 255, 255, 0.9);
+          letter-spacing: 0.06em;
+          white-space: nowrap;
+        }
+        .socials-offer-spark {
+          animation: socials-offer-twinkle 2.2s ease-in-out infinite;
+        }
+        .socials-offer-arrow {
+          margin-left: 2px;
+          margin-right: 6px;
+          transition: transform 0.2s ease;
+        }
+        .socials-offer-pill:hover .socials-offer-arrow {
+          transform: translateX(3px);
+        }
+
+        /* Light sweeping across the pill */
+        .socials-offer-shine {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          background: linear-gradient(
+            100deg,
+            transparent 20%,
+            rgba(255, 255, 255, 0.42) 50%,
+            transparent 80%
+          );
+          transform: translateX(-120%);
+          animation: socials-offer-shine 3.4s ease-in-out infinite;
+          pointer-events: none;
+        }
+
+        @keyframes socials-offer-gradient {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 220% 50%; }
+        }
+        @keyframes socials-offer-breathe {
+          0%, 100% { box-shadow: 0 6px 24px rgba(99, 102, 241, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.28); }
+          50% { box-shadow: 0 10px 38px rgba(129, 140, 248, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+        }
+        @keyframes socials-offer-shine {
+          0% { transform: translateX(-120%); }
+          55%, 100% { transform: translateX(120%); }
+        }
+        @keyframes socials-offer-twinkle {
+          0%, 100% { opacity: 0.75; transform: scale(0.9) rotate(0deg); }
+          50% { opacity: 1; transform: scale(1.15) rotate(15deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .socials-offer-pill,
+          .socials-offer-shine,
+          .socials-offer-spark {
+            animation: none;
+          }
+          .socials-offer-pill {
+            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.45);
+          }
+        }
+      `}</style>
     </section>
   );
 }
