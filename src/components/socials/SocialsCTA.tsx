@@ -36,7 +36,8 @@ export default function SocialsCTA({ onBookCall }: { onBookCall: () => void }) {
           a filming schedule.
         </motion.h2>
         <motion.p {...inView(0.08)} className="text-slate-400 max-w-md" style={{ fontSize: "17px", lineHeight: 1.7 }}>
-          Access is invite-gated. Book a call and we will walk you through the studio and approve your workspace.
+          Access is invite-gated. Book a call, and if your idea is a fit, your first month is free.
+          <sup style={{ fontSize: "0.6em", color: "#818cf8", fontWeight: 600, marginLeft: "1px" }}>#</sup>
         </motion.p>
         <motion.div {...inView(0.14)}>
           <button onClick={onBookCall} className="btn-primary" style={{ padding: "13px 28px", fontSize: "15px" }}>

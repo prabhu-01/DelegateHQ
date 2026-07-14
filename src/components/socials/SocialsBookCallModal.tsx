@@ -200,6 +200,29 @@ export default function SocialsBookCallModal({
                 </svg>
               </button>
 
+              {/* Launch-offer banner — reinforces the offer at the point of conversion */}
+              {!sent && (
+                <div
+                  className="flex items-center gap-2.5 mb-4"
+                  style={{
+                    padding: "9px 12px",
+                    borderRadius: "10px",
+                    background: "rgba(99,102,241,0.12)",
+                    border: "1px solid rgba(99,102,241,0.32)",
+                    marginRight: "40px",
+                  }}
+                >
+                  <span className="relative flex h-1.5 w-1.5 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-70" style={{ background: "#a5b4fc" }} />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: "#a5b4fc" }} />
+                  </span>
+                  <p style={{ fontSize: "12.5px", color: "#c7d2fe", lineHeight: 1.5 }}>
+                    <span style={{ fontWeight: 600 }}>Launch offer.</span> Tell us about your idea. If it is a
+                    fit, your first month is free.
+                  </p>
+                </div>
+              )}
+
               {/* Tabs (hidden on the success screen) */}
               {!sent && (
                 <div

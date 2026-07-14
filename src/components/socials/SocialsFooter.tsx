@@ -101,8 +101,15 @@ export default function SocialsFooter({ onBookCall }: { onBookCall: () => void }
             projections, or guarantees of income. Any earnings estimator is for illustration only: Socials
             does not pay creators, no level of income is promised, and most creators&apos; results vary widely,
             with many earning little or nothing. Your outcomes depend entirely on your niche, offer, effort,
-            audience, consistency, and market conditions. Instagram and Reels are trademarks of their
-            respective owners and are not affiliated with or endorsing Socials or DelegateHQ.
+            audience, consistency, and market conditions.
+            {" "}
+            <span style={{ color: "#475569", fontWeight: 600 }}>Launch offer.</span> The free first month is a
+            limited-intake promotion granted at our sole discretion based on fit, including the idea or
+            product you bring. Booking a call or requesting access does not guarantee selection or access.
+            Where granted, it covers one month of full platform access from workspace approval, with no
+            credit card required; standard pricing applies afterwards. We may modify or end this offer at
+            any time. Instagram and Reels are trademarks of their respective owners and are not affiliated
+            with or endorsing Socials or DelegateHQ.
           </p>
         </div>
 

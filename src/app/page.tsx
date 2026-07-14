@@ -15,6 +15,7 @@ import Features from "@/components/socials/Features";
 import EarningsEstimator from "@/components/socials/EarningsEstimator";
 import Testimonials from "@/components/socials/Testimonials";
 import Trust from "@/components/socials/Trust";
+import FreeMonthOffer from "@/components/socials/FreeMonthOffer";
 import SocialsCTA from "@/components/socials/SocialsCTA";
 import SocialsFooter from "@/components/socials/SocialsFooter";
 import SocialsBookCallModal from "@/components/socials/SocialsBookCallModal";
@@ -56,6 +57,7 @@ export default function Home() {
                 <EarningsEstimator onBookCall={openModal} />
                 <Testimonials />
                 <Trust />
+                <FreeMonthOffer onBookCall={openModal} />
                 <SocialsCTA onBookCall={openModal} />
               </main>
               <SocialsFooter onBookCall={openModal} />

@@ -29,8 +29,28 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
       <div className="relative w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] items-center gap-12 lg:gap-8">
         {/* Left: copy */}
         <div className="flex flex-col items-start text-left">
-          <motion.span {...fadeUp(0.05)} className="section-label" style={{ marginBottom: "22px" }}>
-            Instagram Reels studio
+          {/* Launch-offer pill (replaces the plain category eyebrow while the offer runs) */}
+          <motion.span
+            {...fadeUp(0.05)}
+            className="inline-flex items-center gap-2.5"
+            style={{
+              marginBottom: "22px",
+              padding: "6px 14px",
+              borderRadius: "999px",
+              background: "rgba(99,102,241,0.14)",
+              border: "1px solid rgba(99,102,241,0.42)",
+              boxShadow: "0 0 24px rgba(99,102,241,0.18)",
+              fontSize: "12px",
+              fontFamily: "var(--font-mono), monospace",
+              color: "#c7d2fe",
+              letterSpacing: "0.06em",
+            }}
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-70" style={{ background: "#a5b4fc" }} />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: "#a5b4fc" }} />
+            </span>
+            First month free · Limited intake
           </motion.span>
 
           <div className="flex flex-col" style={{ gap: 0 }}>
