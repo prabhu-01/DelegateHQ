@@ -24,7 +24,7 @@ export default function SocialsFooter({ onBookCall }: { onBookCall: () => void }
             <p className="text-sm text-slate-600 max-w-xs" style={{ lineHeight: 1.75 }}>
               A private studio that turns AI-curated Instagram Reel ideas into scripts worth filming.
             </p>
-            <p className="font-mono text-xs" style={{ color: "#1e293b" }}>© 2026 DelegateHQ. All rights reserved.</p>
+            <p className="font-mono text-xs" style={{ color: "#94a3b8" }}>© 2026 DelegateHQ. All rights reserved.</p>
           </div>
 
           {/* Product */}
@@ -114,9 +114,9 @@ export default function SocialsFooter({ onBookCall }: { onBookCall: () => void }
         </div>
 
         <div className="mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-          <p className="font-mono text-xs" style={{ color: "#1e293b" }}>Scripts worth filming.</p>
+          <p className="font-mono text-xs" style={{ color: "#94a3b8" }}>Scripts worth filming.</p>
           <div className="flex items-center gap-2.5">
-            <span className="font-mono text-xs" style={{ color: "#1e293b" }}>Invite-gated access</span>
+            <span className="font-mono text-xs" style={{ color: "#94a3b8" }}>Invite-gated access</span>
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />

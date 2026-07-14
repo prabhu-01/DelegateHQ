@@ -10,42 +10,36 @@ const TESTIMONIALS = [
     quote: "The scoring alone saved me hours. I stopped filming ideas that were never going to land and put that time into the ones that scored high.#",
     name: "Aditi Rao",
     role: "Food creator",
-    handle: "@aditi.cooks",
     initials: "AR",
   },
   {
     quote: "Aria is like having a scriptwriter on call. I paste a rough idea and get back a hook and beats I would actually say out loud.",
     name: "Rohan Mehta",
     role: "Fitness coach",
-    handle: "@rohan.trains",
     initials: "RM",
   },
   {
     quote: "I used to sit on forty tabs of inspo every week. Now the bucket scores everything and I just script the top few. My posting finally got consistent.#",
     name: "Sara Lin",
     role: "Skincare creator",
-    handle: "@saras.journal",
     initials: "SL",
   },
   {
     quote: "The Reel Audit caught pacing problems I could not see myself. Fixing the middle third is what changed things for me.#",
     name: "Karan Shah",
     role: "Finance explainer",
-    handle: "@paise.with.karan",
     initials: "KS",
   },
   {
     quote: "Turning a finished script into a blog post in one click means the same idea works twice. Same effort, two formats.",
     name: "Meera Nair",
     role: "Travel creator",
-    handle: "@meera.wanders",
     initials: "MN",
   },
   {
     quote: "Having scored ideas waiting for me every morning removed the what-do-I-post paralysis. That alone was worth it.",
     name: "Devon Brooks",
     role: "Small-business creator",
-    handle: "@dev.builds",
     initials: "DB",
   },
 ];
@@ -80,7 +74,7 @@ export default function Testimonials() {
         <div style={{ columnGap: "16px" }} className="columns-1 md:columns-2 lg:columns-3">
           {TESTIMONIALS.map((t, i) => (
             <motion.div
-              key={t.handle}
+              key={t.name}
               {...inView((i % 3) * 0.06)}
               className="card card-lift"
               style={{ padding: "22px 22px 20px", marginBottom: "16px", breakInside: "avoid" }}
@@ -120,8 +114,8 @@ export default function Testimonials() {
                 </div>
                 <div>
                   <div className="text-white" style={{ fontSize: "13.5px", fontWeight: 600, letterSpacing: "-0.01em" }}>{t.name}</div>
-                  <div className="font-mono" style={{ fontSize: "11px", color: "#64748b", marginTop: "1px" }}>
-                    {t.role} · {t.handle}
+                  <div className="font-mono" style={{ fontSize: "11px", color: "#94a3b8", marginTop: "1px" }}>
+                    {t.role}
                   </div>
                 </div>
               </div>
