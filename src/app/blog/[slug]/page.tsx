@@ -5,16 +5,32 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getBlogPostBySlug, excerptFromMarkdown, titleFromMarkdown, stripLeadingHeading } from "@/lib/blog";
 import SocialsShell from "@/components/socials/SocialsShell";
+import { SITE_NAME } from "@/lib/site";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug).catch(() => null);
   if (!post) return {};
   const title = titleFromMarkdown(post.content, post.slug);
   const description = excerptFromMarkdown(post.content);
+  const fullTitle = `${title}. Socials by DelegateHQ`;
   return {
-    title: `${title} — Socials by DelegateHQ`,
+    title: fullTitle,
     description,
-    openGraph: { title, description, type: "article" },
+    alternates: { canonical: `/blog/${params.slug}` },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `/blog/${params.slug}`,
+      siteName: SITE_NAME,
+      locale: "en_US",
+      publishedTime: post.publishedAt,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
@@ -31,7 +47,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <SocialsShell>
         <main>
           <section className="relative pt-40 pb-28 px-6 text-center">
-            <p className="text-slate-500">The blog is temporarily unavailable — check back soon.</p>
+            <p className="text-slate-500">The blog is temporarily unavailable, check back soon.</p>
           </section>
         </main>
       </SocialsShell>

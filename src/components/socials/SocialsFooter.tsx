@@ -23,7 +23,7 @@ export default function SocialsFooter({ onBookCall }: { onBookCall: () => void }
               <span className="font-mono" style={{ fontSize: "9.5px", color: "#475569", textTransform: "uppercase", letterSpacing: "0.1em" }}>by DelegateHQ</span>
             </Link>
             <p className="text-sm text-slate-600 max-w-xs" style={{ lineHeight: 1.75 }}>
-              A private studio that turns AI-curated Instagram Reel ideas into scripts worth filming.
+              A research-backed studio for scoring and scripting Reel ideas. Live on Instagram today, with more platforms on the way.
             </p>
             <p className="font-mono text-xs" style={{ color: "#64748b" }}>© 2026 DelegateHQ. All rights reserved.</p>
           </div>

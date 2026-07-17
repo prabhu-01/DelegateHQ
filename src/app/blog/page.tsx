@@ -2,10 +2,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getBlogPosts, excerptFromMarkdown, titleFromMarkdown } from "@/lib/blog";
 import SocialsShell from "@/components/socials/SocialsShell";
+import { SITE_NAME } from "@/lib/site";
+
+const TITLE = "Blog. Socials by DelegateHQ";
+const DESCRIPTION = "Research notes, hooks, and playbooks for creators turning Reel ideas into scripts worth filming.";
 
 export const metadata: Metadata = {
-  title: "Blog — Socials by DelegateHQ",
-  description: "Ideas, hooks, and playbooks for creators turning Reel ideas into scripts worth filming.",
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: ["Reel ideas", "content research", "creator playbooks", "Instagram Reels", "DelegateHQ"],
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    type: "website",
+    url: "/blog",
+    siteName: SITE_NAME,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 function formatDate(iso: string) {
@@ -51,9 +70,9 @@ export default async function BlogIndexPage({
               </h1>
 
               {unavailable ? (
-                <p className="text-center text-slate-500">The blog is temporarily unavailable — check back soon.</p>
+                <p className="text-center text-slate-500">The blog is temporarily unavailable, check back soon.</p>
               ) : posts.length === 0 ? (
-                <p className="text-center text-slate-500">No posts published yet — check back soon.</p>
+                <p className="text-center text-slate-500">No posts published yet, check back soon.</p>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {posts.map((post) => (

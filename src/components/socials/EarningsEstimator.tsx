@@ -134,12 +134,12 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
             className="text-center text-white mb-4"
             style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
           >
-            Turn consistency into income.
+            Estimate what consistent output could support.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-center text-slate-500 max-w-lg mx-auto mb-9" style={{ fontSize: "16px", lineHeight: 1.7 }}>
-            Scored ideas and ready-to-film scripts make it realistic to post like a pro, every week.
+            Every idea is scored against real benchmarks, so what a consistent output schedule could support stops being a guess.
           </p>
         </Reveal>
 
@@ -156,7 +156,7 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
           </Reveal>
           <Reveal as="span" index={2} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "#94a3b8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
             <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#6366f1" }} />
-            Compound your growth
+            Backed by real benchmark data
           </Reveal>
         </div>
 
