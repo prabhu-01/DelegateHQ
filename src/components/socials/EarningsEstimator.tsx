@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import Reveal from "./anim/Reveal";
+import { ensureGsap, MQ } from "./anim/gsapSetup";
 
-// Socials launch: illustrative earnings estimator. ALL figures are illustrative examples
-// drawn from public creator-economy benchmarks — never a projection or guarantee. Every
-// number carries a "#" marker defined in the footer disclaimer, and an inline disclaimer
-// sits directly under the result. No "you will earn" language anywhere.
+// Illustrative earnings estimator. ALL figures are illustrative examples drawn from public
+// creator-economy benchmarks, never a projection or guarantee. Every number carries a "#"
+// marker defined in the footer disclaimer, and an inline disclaimer sits directly under the
+// result. No "you will earn" language anywhere.
 
 type Path = "brand" | "ugc" | "offer";
 
@@ -19,6 +21,7 @@ const TIERS = [
 ];
 const UGC_PER_VIDEO: [number, number] = [100, 500];
 const OFFER_PRICE = 99;
+const HOURS_SAVED = 8;
 
 const PATHS: { key: Path; label: string }[] = [
   { key: "brand", label: "Brand deals" },
@@ -34,23 +37,56 @@ const VOLUME = {
 
 const usd = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 18 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, delay },
-});
-
 export default function EarningsEstimator({ onBookCall }: { onBookCall: () => void }) {
   const reduce = useReducedMotion();
   const [path, setPath] = useState<Path>("brand");
   const [tierIdx, setTierIdx] = useState(1);
   const [volume, setVolume] = useState(VOLUME.brand.def);
+  const hoursRef = useRef<HTMLSpanElement>(null);
+  const chipsRef = useRef<HTMLDivElement>(null);
 
   const changePath = (p: Path) => {
     setPath(p);
     setVolume(VOLUME[p].def);
   };
+
+  // Count the "hours saved" stat up as the chip row scrolls into view. A single, motivated,
+  // self-contained counter, distinct from the interactive estimator figure below it.
+  useLayoutEffect(() => {
+    const gsap = ensureGsap();
+    const el = chipsRef.current;
+    const target = hoursRef.current;
+    if (!el || !target) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      mm.add(MQ.reduced, () => {
+        target.textContent = String(HOURS_SAVED);
+      });
+      mm.add(`not ${MQ.reduced}`, () => {
+        const proxy = { val: 0 };
+        const tween = gsap.to(proxy, {
+          val: HOURS_SAVED,
+          duration: 1.1,
+          ease: "power2.out",
+          onUpdate: () => {
+            target.textContent = String(Math.round(proxy.val));
+          },
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
+        });
+        return () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+        };
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
 
   // Compute the illustrative monthly figure(s).
   let low = 0;
@@ -93,44 +129,39 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
       <div className="w-full max-w-6xl mx-auto accent-divider mb-24" />
       <div className="w-full max-w-6xl mx-auto">
         {/* Lead-in: the lifestyle shift */}
-        <motion.div {...inView()} className="flex justify-center mb-5">
-          <span className="section-label">The upside</span>
-        </motion.div>
-        <motion.h2
-          {...inView(0.06)}
-          className="text-center text-white mb-4"
-          style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
-        >
-          Turn consistency into income.
-        </motion.h2>
-        <motion.p {...inView(0.1)} className="text-center text-slate-500 max-w-lg mx-auto mb-9" style={{ fontSize: "16px", lineHeight: 1.7 }}>
-          Scored ideas and ready-to-film scripts make it realistic to post like a pro, every week. Here is the kind of upside that consistency can open up.
-        </motion.p>
+        <Reveal delay={0.06}>
+          <h2
+            className="text-center text-white mb-4"
+            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
+          >
+            Turn consistency into income.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="text-center text-slate-500 max-w-lg mx-auto mb-9" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+            Scored ideas and ready-to-film scripts make it realistic to post like a pro, every week.
+          </p>
+        </Reveal>
 
         {/* What changes */}
-        <motion.div {...inView(0.14)} className="flex flex-wrap items-center justify-center gap-2.5 mb-14">
-          {[
-            "Post consistently, not in bursts",
-            "Save ~8 hrs a week#",
-            "Compound your growth",
-          ].map((chip) => (
-            <span
-              key={chip}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full"
-              style={{ fontSize: "12.5px", color: "#94a3b8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#6366f1" }} />
-              {chip}
-            </span>
-          ))}
-        </motion.div>
+        <div ref={chipsRef} className="flex flex-wrap items-center justify-center gap-2.5 mb-14">
+          <Reveal as="span" index={0} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "#94a3b8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#6366f1" }} />
+            Post consistently, not in bursts
+          </Reveal>
+          <Reveal as="span" index={1} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "#94a3b8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#6366f1" }} />
+            Save ~<span ref={hoursRef}>0</span> hrs a week
+            <sup style={{ fontSize: "0.75em", color: "#64748b" }}>#</sup>
+          </Reveal>
+          <Reveal as="span" index={2} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "#94a3b8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#6366f1" }} />
+            Compound your growth
+          </Reveal>
+        </div>
 
         {/* Estimator */}
-        <motion.div
-          {...inView(0.16)}
-          className="card-featured overflow-hidden"
-          style={{ borderRadius: "18px" }}
-        >
+        <Reveal delay={0.16} className="card-featured overflow-hidden" style={{ borderRadius: "18px" }}>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.82fr]">
             {/* Controls */}
             <div style={{ padding: "30px 30px 32px" }}>
@@ -231,7 +262,7 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
               </button>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

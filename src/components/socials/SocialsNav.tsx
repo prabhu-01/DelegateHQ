@@ -1,27 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ensureGsap, ScrollTrigger } from "./anim/gsapSetup";
 
-// Socials launch: product-focused floating nav for the "/" landing page.
-// Slim top bar links across to the DelegateHQ agency (now at /agency).
+// Product-focused floating nav for the "/" landing page.
 export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pillRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+  // Scroll-position sensor: toggles a class, not React state, and reads GSAP's
+  // ScrollTrigger scroll position instead of a raw scroll listener.
+  useLayoutEffect(() => {
+    ensureGsap();
+    const st = ScrollTrigger.create({
+      start: 0,
+      onUpdate: (self) => {
+        const scrolled = self.scroll() > 24;
+        pillRef.current?.classList.toggle("socials-nav-scrolled", scrolled);
+        headerRef.current?.classList.toggle("socials-nav-scrolled", scrolled);
+      },
+    });
+    return () => st.kill();
   }, []);
 
   const scrollTo = (id: string) => {
     setMenuOpen(false);
-    // On sub-pages (e.g. /blog) the section anchors don't exist — go home, then scroll.
+    // On sub-pages (e.g. /blog) the section anchors don't exist, go home then scroll.
     if (isHome) {
       document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
     } else {
@@ -56,58 +66,23 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
       className="fixed top-3 left-0 right-0 z-50 flex flex-col items-center gap-2 px-4"
       style={{ pointerEvents: "none" }}
     >
-      {/* Slim cross-link to the agency */}
-      <Link
-        href="/agency"
-        className="hidden sm:flex items-center gap-2 group"
-        style={{
-          pointerEvents: "auto",
-          fontSize: "11.5px",
-          fontFamily: "var(--font-mono), monospace",
-          color: "#64748b",
-          background: "rgba(6,6,12,0.6)",
-          border: "1px solid rgba(255,255,255,0.07)",
-          borderRadius: "999px",
-          padding: "5px 14px",
-          backdropFilter: "blur(20px)",
-          textDecoration: "none",
-          transition: "color 0.15s ease, border-color 0.15s ease",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.color = "#cbd5e1";
-          e.currentTarget.style.borderColor = "rgba(99,102,241,0.35)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.color = "#64748b";
-          e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
-        }}
-      >
-        DelegateHQ also runs done-for-you AI ops across 11 industries
-        <span style={{ color: "#818cf8" }}>Explore the agency</span>
-        <svg width="10" height="10" viewBox="0 0 11 11" fill="none">
-          <path d="M2 5.5h7M6 2.5L9 5.5 6 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </Link>
-
       {/* Nav pill */}
       <div
+        ref={pillRef}
+        className="socials-nav-pill"
         style={{
           maxWidth: "820px",
           width: "100%",
           padding: "1px",
           borderRadius: "14px",
-          background: scrolled
-            ? "linear-gradient(135deg, rgba(99,102,241,0.28) 0%, rgba(255,255,255,0.04) 50%, rgba(99,102,241,0.1) 100%)"
-            : "rgba(255,255,255,0.07)",
-          boxShadow: scrolled ? "0 8px 40px rgba(0,0,0,0.5)" : "0 2px 16px rgba(0,0,0,0.3)",
-          transition: "background 0.45s ease, box-shadow 0.45s ease",
           pointerEvents: "auto",
         }}
       >
         <header
+          ref={headerRef}
+          className="socials-nav-header"
           style={{
             borderRadius: "13px",
-            background: scrolled ? "rgba(6,6,12,0.96)" : "rgba(6,6,12,0.62)",
             backdropFilter: "blur(28px) saturate(160%)",
             WebkitBackdropFilter: "blur(28px) saturate(160%)",
             height: "52px",
@@ -231,6 +206,25 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
           </button>
         </motion.div>
       )}
+
+      <style jsx>{`
+        .socials-nav-pill {
+          background: rgba(255, 255, 255, 0.07);
+          box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+          transition: background 0.45s ease, box-shadow 0.45s ease;
+        }
+        .socials-nav-pill.socials-nav-scrolled {
+          background: linear-gradient(135deg, rgba(99, 102, 241, 0.28) 0%, rgba(255, 255, 255, 0.04) 50%, rgba(99, 102, 241, 0.1) 100%);
+          box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+        }
+        .socials-nav-header {
+          background: rgba(6, 6, 12, 0.62);
+          transition: background 0.3s ease;
+        }
+        .socials-nav-header.socials-nav-scrolled {
+          background: rgba(6, 6, 12, 0.96);
+        }
+      `}</style>
     </motion.div>
   );
 }

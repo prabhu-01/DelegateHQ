@@ -1,13 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 18 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, delay },
-});
+import Reveal from "./anim/Reveal";
 
 export default function SocialsCTA({ onBookCall }: { onBookCall: () => void }) {
   return (
@@ -26,24 +19,20 @@ export default function SocialsCTA({ onBookCall }: { onBookCall: () => void }) {
       />
 
       <div className="relative w-full max-w-2xl mx-auto flex flex-col items-center text-center gap-7">
-        <motion.h2
-          {...inView()}
-          className="text-white"
-          style={{ fontSize: "clamp(36px, 5vw, 60px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
-        >
+        <Reveal as="h2" className="text-white" style={{ fontSize: "clamp(36px, 5vw, 60px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}>
           Turn your bucket into
           <br />
           a filming schedule.
-        </motion.h2>
-        <motion.p {...inView(0.08)} className="text-slate-400 max-w-md" style={{ fontSize: "17px", lineHeight: 1.7 }}>
+        </Reveal>
+        <Reveal as="p" delay={0.08} className="text-slate-400 max-w-md" style={{ fontSize: "17px", lineHeight: 1.7 }}>
           Access is invite-gated. Book a call, and if your idea is a fit, your first month is free.
           <sup style={{ fontSize: "0.6em", color: "#818cf8", fontWeight: 600, marginLeft: "1px" }}>#</sup>
-        </motion.p>
-        <motion.div {...inView(0.14)}>
+        </Reveal>
+        <Reveal delay={0.14}>
           <button onClick={onBookCall} className="btn-primary" style={{ padding: "13px 28px", fontSize: "15px" }}>
             Book a call
           </button>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

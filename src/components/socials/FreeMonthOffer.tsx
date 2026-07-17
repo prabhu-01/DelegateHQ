@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Reveal from "./anim/Reveal";
 
-// Socials launch offer: the centerpiece. The free month is granted on FIT — based on the
-// idea or product the creator brings — so the copy never promises it to everyone. Terms
-// carry the "#" marker, defined in the footer disclaimer.
+// The launch offer, the centerpiece. The free month is granted on FIT, based on the idea
+// or product the creator brings, so the copy never promises it to everyone. Terms carry
+// the "#" marker, defined in the footer disclaimer.
 const INCLUDED = [
   "Idea Bucket with scored, ranked ideas",
   "One-click script generation",
@@ -14,20 +14,12 @@ const INCLUDED = [
   "Posts Analysis on your Reels",
 ];
 
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 18 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, delay },
-});
-
 export default function FreeMonthOffer({ onBookCall }: { onBookCall: () => void }) {
   return (
     <section className="relative py-28 px-6">
       <div className="w-full max-w-6xl mx-auto accent-divider mb-24" />
       <div className="w-full max-w-5xl mx-auto">
-        <motion.div
-          {...inView()}
+        <Reveal
           className="relative overflow-hidden"
           style={{
             borderRadius: "22px",
@@ -52,18 +44,16 @@ export default function FreeMonthOffer({ onBookCall }: { onBookCall: () => void 
                   borderRadius: "999px",
                   background: "rgba(99,102,241,0.18)",
                   border: "1px solid rgba(99,102,241,0.4)",
-                  fontSize: "11px",
-                  fontFamily: "var(--font-mono), monospace",
+                  fontSize: "12.5px",
+                  fontWeight: 600,
                   color: "#c7d2fe",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
                 }}
               >
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-70" style={{ background: "#a5b4fc" }} />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: "#a5b4fc" }} />
                 </span>
-                Launch offer · Limited intake
+                Launch offer, limited intake
               </span>
 
               <h2
@@ -115,8 +105,8 @@ export default function FreeMonthOffer({ onBookCall }: { onBookCall: () => void 
               style={{ padding: "40px 40px 38px", borderLeft: "1px solid rgba(255,255,255,0.08)" }}
             >
               <p
-                className="font-mono mb-5"
-                style={{ fontSize: "10.5px", color: "#a5b4fc", textTransform: "uppercase", letterSpacing: "0.12em" }}
+                className="mb-5"
+                style={{ fontSize: "13px", fontWeight: 600, color: "#a5b4fc" }}
               >
                 Everything unlocked
               </p>
@@ -144,7 +134,7 @@ export default function FreeMonthOffer({ onBookCall }: { onBookCall: () => void 
               </p>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,36 +1,93 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useLayoutEffect, useRef } from "react";
 import { SOCIALS_VIDEOS, SOCIALS_HERO_VIDEO } from "./videos";
+import { ensureGsap, MQ } from "./anim/gsapSetup";
 
-const headlineAnim = (delay: number) => ({
-  initial: { opacity: 0, y: 40, filter: "blur(12px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  transition: { delay, duration: 0.85, ease: [0.16, 1, 0.3, 1] as const },
-});
-
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 18 },
-  animate: { opacity: 1, y: 0 },
-  transition: { delay, duration: 0.6, ease: [0.25, 0.4, 0.25, 1] as const },
-});
-
+// Hero owns its own GSAP timeline (entrance + desktop-only pin/parallax) rather than
+// framer-motion, so scroll-driven and load-in animation share one engine and stay in sync.
 export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const pillRef = useRef<HTMLButtonElement>(null);
+  const line1Ref = useRef<HTMLHeadingElement>(null);
+  const line2Ref = useRef<HTMLHeadingElement>(null);
+  const subRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const textColRef = useRef<HTMLDivElement>(null);
+  const clusterRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const topPillRef = useRef<HTMLDivElement>(null);
+  const scorePanelRef = useRef<HTMLDivElement>(null);
+  const scoreBarRef = useRef<HTMLDivElement>(null);
+
   const scrollTo = (id: string) => document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
 
+  useLayoutEffect(() => {
+    const gsap = ensureGsap();
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add({ reduced: MQ.reduced, desktop: MQ.desktop }, (context) => {
+        const { reduced, desktop } = context.conditions as { reduced: boolean; desktop: boolean };
+
+        if (reduced) {
+          gsap.set(
+            [pillRef.current, line1Ref.current, line2Ref.current, subRef.current, ctaRef.current, clusterRef.current, topPillRef.current, scorePanelRef.current],
+            { opacity: 1, x: 0, y: 0, scale: 1, filter: "blur(0px)" }
+          );
+          gsap.set(scoreBarRef.current, { width: "92%" });
+          return;
+        }
+
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        tl.from(pillRef.current, { opacity: 0, y: 14, duration: 0.6 }, 0.1)
+          .from(line1Ref.current, { opacity: 0, y: 36, filter: "blur(10px)", duration: 0.85 }, 0.2)
+          .from(line2Ref.current, { opacity: 0, y: 36, filter: "blur(10px)", duration: 0.85 }, 0.32)
+          .from(subRef.current, { opacity: 0, y: 18, duration: 0.6 }, 0.55)
+          .from(ctaRef.current, { opacity: 0, y: 18, duration: 0.6 }, 0.64)
+          .from(clusterRef.current, { opacity: 0, y: 24, scale: 0.94, duration: 0.9 }, 0.35)
+          .from(topPillRef.current, { opacity: 0, y: -6, duration: 0.5 }, 0.95)
+          .from(scorePanelRef.current, { opacity: 0, y: 10, duration: 0.55 }, 1.05)
+          .fromTo(scoreBarRef.current, { width: "0%" }, { width: "92%", duration: 0.9, ease: "power2.out" }, 1.2);
+
+        if (desktop) {
+          gsap.timeline({
+            scrollTrigger: {
+              trigger: section,
+              start: "top top",
+              end: "+=65%",
+              pin: true,
+              pinSpacing: true,
+              scrub: 1,
+            },
+          })
+            .to(textColRef.current, { y: -44, opacity: 0.35, scale: 0.97 }, 0)
+            .to(clusterRef.current, { y: -100 }, 0)
+            .to(glowRef.current, { scale: 1.18, opacity: 0.55 }, 0);
+        }
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative min-h-[100dvh] flex items-center pt-28 pb-16 px-6 overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-[100dvh] flex items-center pt-28 pb-16 px-6 overflow-hidden">
       {/* Ambient glow */}
       <div
+        ref={glowRef}
         className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse 60% 50% at 30% 40%, rgba(99,102,241,0.1) 0%, transparent 65%)" }}
       />
 
       <div className="relative w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] items-center gap-12 lg:gap-8">
         {/* Left: copy */}
-        <div className="flex flex-col items-start text-left">
-          {/* Launch-offer pill — the headline promo. Clickable: opens the book-a-call modal. */}
-          <motion.button {...fadeUp(0.05)} onClick={onBookCall} className="socials-offer-pill" aria-label="First month free — book a call">
+        <div ref={textColRef} className="flex flex-col items-start text-left">
+          {/* Launch-offer pill: the headline promo, clickable, opens the book-a-call modal */}
+          <button ref={pillRef} onClick={onBookCall} className="socials-offer-pill" aria-label="First month free, book a call">
             <span className="socials-offer-shine" aria-hidden="true" />
             <span className="socials-offer-inner">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="socials-offer-spark" aria-hidden="true">
@@ -43,34 +100,30 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
                 <path d="M2 5.5h7M6 2.5L9 5.5 6 8.5" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-          </motion.button>
+          </button>
 
           <div className="flex flex-col" style={{ gap: 0 }}>
-            <motion.h1
-              {...headlineAnim(0.12)}
+            <h1
+              ref={line1Ref}
               className="text-white"
               style={{ fontSize: "clamp(40px, 6vw, 68px)", fontWeight: 800, lineHeight: 1.04, letterSpacing: "-0.03em" }}
             >
-              Curated ideas in.
-            </motion.h1>
-            <motion.h1
-              {...headlineAnim(0.24)}
+              Know what to film
+            </h1>
+            <h1
+              ref={line2Ref}
               className="hero-headline-gradient"
               style={{ fontSize: "clamp(40px, 6vw, 68px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.03em", paddingBottom: "0.06em" }}
             >
-              Reels worth filming out.
-            </motion.h1>
+              before you shoot it.
+            </h1>
           </div>
 
-          <motion.p
-            {...fadeUp(0.5)}
-            className="text-slate-400"
-            style={{ fontSize: "18px", lineHeight: 1.7, maxWidth: "440px", marginTop: "22px" }}
-          >
-            A private studio that scores every curated Reel idea, scripts the winners, and refines them until they are ready to shoot.
-          </motion.p>
+          <p ref={subRef} className="text-slate-400" style={{ fontSize: "18px", lineHeight: 1.7, maxWidth: "440px", marginTop: "22px" }}>
+            Every idea gets scored. The strong ones get scripted, refined, and ready to film.
+          </p>
 
-          <motion.div {...fadeUp(0.62)} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3" style={{ marginTop: "30px" }}>
+          <div ref={ctaRef} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3" style={{ marginTop: "30px" }}>
             <button onClick={onBookCall} className="btn-primary">
               Book a call
             </button>
@@ -80,18 +133,12 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
                 <path d="M4 3v7l6-3.5L4 3z" fill="currentColor" />
               </svg>
             </button>
-          </motion.div>
+          </div>
         </div>
 
         {/* Right: scored idea card cluster (product-native hero visual) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mx-auto lg:ml-auto lg:mr-0"
-          style={{ width: "min(260px, 72vw)" }}
-        >
-          {/* Glow behind the phone */}
+        <div ref={clusterRef} className="relative mx-auto lg:ml-auto lg:mr-0" style={{ width: "min(260px, 72vw)" }}>
+          {/* Glow behind the cluster */}
           <div
             className="absolute pointer-events-none"
             style={{ inset: "-14%", borderRadius: "40px", background: "radial-gradient(ellipse at 50% 40%, rgba(99,102,241,0.28) 0%, transparent 70%)", filter: "blur(24px)" }}
@@ -143,10 +190,8 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
             <div className="absolute inset-0" style={{ borderRadius: "inherit", background: "radial-gradient(120% 80% at 24% 14%, rgba(99,102,241,0.42) 0%, transparent 55%)", mixBlendMode: "screen" }} />
 
             {/* Top status pill */}
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
+            <div
+              ref={topPillRef}
               className="absolute flex items-center gap-2"
               style={{ top: "14px", left: "14px", padding: "5px 10px", borderRadius: "999px", background: "rgba(6,6,12,0.7)", border: "1px solid rgba(255,255,255,0.12)", backdropFilter: "blur(10px)" }}
             >
@@ -155,13 +200,11 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: "#818cf8" }} />
               </span>
               <span className="font-mono" style={{ fontSize: "10px", color: "#cbd5e1", letterSpacing: "0.04em" }}>Fresh idea</span>
-            </motion.div>
+            </div>
 
             {/* Bottom score panel */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.05, duration: 0.55 }}
+            <div
+              ref={scorePanelRef}
               className="absolute"
               style={{ left: "14px", right: "14px", bottom: "14px", padding: "13px 14px", borderRadius: "14px", background: "rgba(6,6,12,0.78)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(14px)" }}
             >
@@ -172,16 +215,11 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
                 </span>
               </div>
               <div style={{ height: "4px", borderRadius: "999px", background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: "92%" }}
-                  transition={{ delay: 1.25, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ height: "100%", borderRadius: "999px", background: "linear-gradient(90deg, #6366f1, #a5b4fc)" }}
-                />
+                <div ref={scoreBarRef} style={{ height: "100%", width: "0%", borderRadius: "999px", background: "linear-gradient(90deg, #6366f1, #a5b4fc)" }} />
               </div>
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Launch-offer pill styling: animated gradient, shine sweep, breathing glow. */}

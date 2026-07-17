@@ -1,14 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Reveal from "./anim/Reveal";
 import { SOCIALS_VIDEOS } from "./videos";
-
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 18 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, delay },
-});
 
 // Minimal inline glyphs, matching the existing site's inline-SVG convention.
 const icons: Record<string, React.ReactNode> = {
@@ -49,29 +42,40 @@ const FEATURES = [
   { key: "token", title: "Token budget", body: "Your role, status, and a running meter of tokens used against the budget an admin has set for you." },
 ];
 
+// Trust points folded in from the former standalone section, condensed into a strip.
+const TRUST = [
+  { title: "Owner-scoped, always", body: "Filtered by your creator profile on the server, never by anything a request could spoof." },
+  { title: "Nothing is erased", body: "Delete hides an idea from every screen. The row stays in the database, reversible always." },
+  { title: "Gated by default", body: "New sign-ups sit pending until an admin approves them. No self-service into the bucket." },
+  { title: "Every action logged", body: "Approvals, blocks, and edits write an audit entry in the same transaction as the change." },
+];
+
 export default function Features({ onBookCall }: { onBookCall: () => void }) {
   return (
     <section id="features" className="relative py-28 px-6">
       <div className="w-full max-w-6xl mx-auto accent-divider mb-24" />
       <div className="w-full max-w-6xl mx-auto">
-        <motion.div {...inView()} className="flex justify-center mb-5">
+        <Reveal className="flex justify-center mb-5">
           <span className="section-label">Inside the studio</span>
-        </motion.div>
-        <motion.h2
-          {...inView(0.06)}
-          className="text-center text-white mb-4"
-          style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
-        >
-          One place to kill the weak ideas
-          <br className="hidden sm:block" /> and script the strong ones.
-        </motion.h2>
-        <motion.p {...inView(0.1)} className="text-center text-slate-500 max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7 }}>
-          Every tool a creator-operator needs between a curated idea and a published post.
-        </motion.p>
+        </Reveal>
+        <Reveal delay={0.06}>
+          <h2
+            className="text-center text-white mb-4"
+            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
+          >
+            One place to kill the weak ideas
+            <br className="hidden sm:block" /> and script the strong ones.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="text-center text-slate-500 max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+            Every tool a creator-operator needs between a curated idea and a published post.
+          </p>
+        </Reveal>
 
         {/* Featured card: Idea Bucket + scoring, with a live clip */}
-        <motion.div
-          {...inView(0.12)}
+        <Reveal
+          delay={0.12}
           className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-0 overflow-hidden mb-4"
           style={{ borderRadius: "16px", border: "1px solid rgba(99,102,241,0.22)", background: "linear-gradient(135deg, rgba(99,102,241,0.09) 0%, rgba(99,102,241,0.02) 100%)" }}
         >
@@ -111,16 +115,12 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
             />
             <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(13,13,20,0.9) 0%, rgba(13,13,20,0.35) 40%, transparent 100%)" }} />
           </div>
-        </motion.div>
+        </Reveal>
 
         {/* Supporting feature grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {FEATURES.map((f, i) => (
-            <motion.div
-              key={f.key}
-              {...inView((i % 4) * 0.06)}
-              className="card p-6 flex flex-col gap-3.5"
-            >
+            <Reveal key={f.key} index={i % 4} staggerStep={0.06} className="card p-6 flex flex-col gap-3.5">
               <div
                 className="flex items-center justify-center"
                 style={{ width: "36px", height: "36px", borderRadius: "10px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", color: "#818cf8" }}
@@ -129,18 +129,43 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
               </div>
               <h3 className="text-white" style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em" }}>{f.title}</h3>
               <p className="text-slate-500" style={{ fontSize: "13px", lineHeight: 1.65 }}>{f.body}</p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
 
-        <motion.div {...inView(0.15)} className="flex justify-center mt-12">
+        {/* Trust strip, folded in from the former standalone section */}
+        <Reveal delay={0.1} className="mt-16 pt-12" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <p className="text-center text-slate-500 mb-8" style={{ fontSize: "14px", lineHeight: 1.7 }}>
+            Built so one creator can move fast without ever stepping on another.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {TRUST.map((t) => (
+              <div key={t.title} className="flex items-start gap-3">
+                <div
+                  className="shrink-0 flex items-center justify-center mt-0.5"
+                  style={{ width: "22px", height: "22px", borderRadius: "7px", background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.22)" }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 13 13" fill="none">
+                    <path d="M2.5 6.5l2.5 2.5 5.5-5.5" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-white mb-1" style={{ fontSize: "13.5px", fontWeight: 700, letterSpacing: "-0.01em" }}>{t.title}</h4>
+                  <p className="text-slate-500" style={{ fontSize: "12.5px", lineHeight: 1.6 }}>{t.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1} className="flex justify-center mt-12">
           <button onClick={onBookCall} className="btn-primary">
             Book a call
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

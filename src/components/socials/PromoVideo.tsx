@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import Reveal from "./anim/Reveal";
 import { SOCIALS_PROMO } from "./videos";
 
-// Socials launch: the product demo. A single landscape player with full native controls
-// (play/seek/volume/fullscreen). Click-to-play — does not autoplay. Falls back gracefully
-// while the real promo file is not yet in /public/videos.
+// The product demo. A single landscape player with full native controls (play/seek/
+// volume/fullscreen). Click-to-play, does not autoplay. Falls back gracefully while the
+// real promo file is not yet in /public/videos.
 export default function PromoVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(false);
@@ -23,25 +23,18 @@ export default function PromoVideo() {
     <section id="demo" className="relative py-28 px-6">
       <div className="w-full max-w-6xl mx-auto accent-divider mb-24" />
       <div className="w-full max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
+        <Reveal className="text-center mb-12">
           <h2 className="text-white" style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}>
-            See the whole studio in action.
+            Watch the whole flow, start to finish.
           </h2>
           <p className="text-slate-500 mx-auto" style={{ fontSize: "16px", lineHeight: 1.7, maxWidth: "520px", marginTop: "14px" }}>
-            One walkthrough, from a curated idea to a scripted, refined, ready-to-film Reel.
+            One idea, scored, scripted, and refined, in a single walkthrough.
           </p>
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <Reveal
+          direction="up"
+          delay={0.1}
           className="relative overflow-hidden"
           style={{
             aspectRatio: "16 / 9",
@@ -107,7 +100,7 @@ export default function PromoVideo() {
               )}
             </div>
           )}
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

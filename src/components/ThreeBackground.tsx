@@ -14,7 +14,16 @@ export default function ThreeBackground() {
     const PARTICLE_COUNT = isMobile ? 1500 : 3500;
     const SHOW_LINES = !isMobile;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    // WebGL is unavailable on some devices/environments (no GPU, disabled drivers,
+    // locked-down browsers). This is a purely decorative background, so fail
+    // silently rather than letting an uncaught error take down the whole page.
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      if (!renderer.getContext()) throw new Error("no WebGL context");
+    } catch {
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x050508, 1);

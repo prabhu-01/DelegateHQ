@@ -1,10 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Reveal from "./anim/Reveal";
 
-// Socials launch: creator testimonials. Quotes reflect individual experiences; result
-// claims carry a "#" marker and the whole section carries "*", both defined in the
-// disclaimer in the footer. Keep copy realistic and moderate.
+// Creator testimonials. Quotes reflect individual experiences; result claims carry a "#"
+// marker and the whole section carries "*", both defined in the disclaimer in the footer.
 const TESTIMONIALS = [
   {
     quote: "The scoring alone saved me hours. I stopped filming ideas that were never going to land and put that time into the ones that scored high.#",
@@ -44,38 +43,35 @@ const TESTIMONIALS = [
   },
 ];
 
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 18 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, delay },
-});
-
 export default function Testimonials() {
   return (
     <section className="relative py-28 px-6">
       <div className="w-full max-w-6xl mx-auto accent-divider mb-24" />
       <div className="w-full max-w-6xl mx-auto">
-        <motion.div {...inView()} className="flex justify-center mb-5">
+        <Reveal className="flex justify-center mb-5">
           <span className="section-label">What creators say</span>
-        </motion.div>
-        <motion.h2
-          {...inView(0.06)}
-          className="text-center text-white mb-4"
-          style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
-        >
-          Built with creators who ship weekly.
-        </motion.h2>
-        <motion.p {...inView(0.1)} className="text-center text-slate-500 max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7 }}>
-          A few notes from the creators who have been running their ideas through Socials.
-        </motion.p>
+        </Reveal>
+        <Reveal delay={0.06}>
+          <h2
+            className="text-center text-white mb-4"
+            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
+          >
+            Built with creators who ship weekly.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="text-center text-slate-500 max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+            A few notes from the creators who have been running their ideas through Socials.
+          </p>
+        </Reveal>
 
         {/* Masonry-style wall so cards vary, not a rigid 3-up grid */}
         <div style={{ columnGap: "16px" }} className="columns-1 md:columns-2 lg:columns-3">
           {TESTIMONIALS.map((t, i) => (
-            <motion.div
+            <Reveal
               key={t.name}
-              {...inView((i % 3) * 0.06)}
+              index={i % 3}
+              staggerStep={0.06}
               className="card card-lift"
               style={{ padding: "22px 22px 20px", marginBottom: "16px", breakInside: "avoid" }}
             >
@@ -119,18 +115,19 @@ export default function Testimonials() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
 
-        <motion.p
-          {...inView(0.1)}
+        <Reveal
+          as="p"
+          delay={0.1}
           className="text-center font-mono mx-auto"
           style={{ fontSize: "11px", lineHeight: 1.7, color: "#475569", marginTop: "26px", maxWidth: "560px" }}
         >
           <span style={{ color: "#64748b" }}>*</span> Individual experiences.{" "}
           <span style={{ color: "#64748b" }}>#</span> Illustrative results, not guaranteed. Full disclaimer below.
-        </motion.p>
+        </Reveal>
       </div>
     </section>
   );

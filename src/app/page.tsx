@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -9,12 +9,11 @@ import LenisWrapper from "@/components/LenisWrapper";
 import SocialsNav from "@/components/socials/SocialsNav";
 import SocialsHero from "@/components/socials/SocialsHero";
 import VideoCarousel from "@/components/socials/VideoCarousel";
-import PromoVideo from "@/components/socials/PromoVideo";
 import Pipeline from "@/components/socials/Pipeline";
+import PromoVideo from "@/components/socials/PromoVideo";
 import Features from "@/components/socials/Features";
 import EarningsEstimator from "@/components/socials/EarningsEstimator";
 import Testimonials from "@/components/socials/Testimonials";
-import Trust from "@/components/socials/Trust";
 import FreeMonthOffer from "@/components/socials/FreeMonthOffer";
 import SocialsCTA from "@/components/socials/SocialsCTA";
 import SocialsFooter from "@/components/socials/SocialsFooter";
@@ -25,17 +24,32 @@ const ThreeBackground = dynamic(() => import("@/components/ThreeBackground"), {
   ssr: false,
 });
 
-// Socials launch: "/" is now the marketing landing for the Socials product.
-// The DelegateHQ agency landing moved to /agency (see src/app/agency/page.tsx).
+// Only the hero clip + the first few wall clips are worth blocking the loader on; the
+// rest of the wall lazy-loads as the user scrolls to it (preload="metadata" per card).
+const PRELOAD_VIDEOS = SOCIALS_VIDEOS.slice(0, 4);
+
+// "/" is the marketing landing for the Socials product.
+// The DelegateHQ agency landing lives at /agency (see src/app/agency/page.tsx).
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [showThree, setShowThree] = useState(false);
   const openModal = () => setModalOpen(true);
+
+  // The particle background is a desktop-only flourish: skip the WebGL canvas entirely
+  // on mobile to keep scroll buttery on weaker GPUs.
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    setShowThree(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setShowThree(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   return (
     <>
-      {/* Preload the hero + carousel clips during the loading screen so nothing pops in */}
-      <Loader onComplete={() => setLoaded(true)} preloadAssets={SOCIALS_VIDEOS} />
+      {/* Preload the hero + first wall clips during the loading screen so nothing pops in */}
+      <Loader onComplete={() => setLoaded(true)} preloadAssets={PRELOAD_VIDEOS} />
 
       <AnimatePresence>
         {loaded && (
@@ -45,18 +59,17 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <ThreeBackground />
+            {showThree && <ThreeBackground />}
             <LenisWrapper>
               <SocialsNav onBookCall={openModal} />
               <main>
                 <SocialsHero onBookCall={openModal} />
                 <VideoCarousel />
-                <PromoVideo />
                 <Pipeline />
+                <PromoVideo />
                 <Features onBookCall={openModal} />
                 <EarningsEstimator onBookCall={openModal} />
                 <Testimonials />
-                <Trust />
                 <FreeMonthOffer onBookCall={openModal} />
                 <SocialsCTA onBookCall={openModal} />
               </main>
