@@ -17,7 +17,9 @@ export default function LenisWrapper({ children }: { children: React.ReactNode }
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const lenis = new Lenis({
-      duration: reduceMotion ? 0.1 : 1.2,
+      // Shorter catch-up window than a typical smooth-scroll default: converges to the
+      // real scroll position faster, so input feels snappier and less "laggy" under load.
+      duration: reduceMotion ? 0.1 : 0.9,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: !reduceMotion,
     });

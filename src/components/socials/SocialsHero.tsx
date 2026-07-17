@@ -4,8 +4,10 @@ import { useLayoutEffect, useRef } from "react";
 import { SOCIALS_VIDEOS, SOCIALS_HERO_VIDEO } from "./videos";
 import { ensureGsap, MQ } from "./anim/gsapSetup";
 
-// Hero owns its own GSAP timeline (entrance + desktop-only pin/parallax) rather than
-// framer-motion, so scroll-driven and load-in animation share one engine and stay in sync.
+// Hero plays a one-time entrance sequence on load. No scroll-linked pin/parallax:
+// pinning is the heaviest class of scroll effect (forces a layout-reserving spacer and
+// continuous recalculation on every scroll tick), and this page already asks a lot of
+// the main thread elsewhere, so the hero stays a plain, cheap, GPU-friendly load-in.
 export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) {
   const sectionRef = useRef<HTMLElement>(null);
   const pillRef = useRef<HTMLButtonElement>(null);
@@ -30,8 +32,8 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add({ reduced: MQ.reduced, desktop: MQ.desktop }, (context) => {
-        const { reduced, desktop } = context.conditions as { reduced: boolean; desktop: boolean };
+      mm.add(MQ.reduced, (context) => {
+        const { matches: reduced } = context;
 
         if (reduced) {
           gsap.set(
@@ -52,22 +54,6 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
           .from(topPillRef.current, { opacity: 0, y: -6, duration: 0.5 }, 0.95)
           .from(scorePanelRef.current, { opacity: 0, y: 10, duration: 0.55 }, 1.05)
           .fromTo(scoreBarRef.current, { width: "0%" }, { width: "92%", duration: 0.9, ease: "power2.out" }, 1.2);
-
-        if (desktop) {
-          gsap.timeline({
-            scrollTrigger: {
-              trigger: section,
-              start: "top top",
-              end: "+=65%",
-              pin: true,
-              pinSpacing: true,
-              scrub: 1,
-            },
-          })
-            .to(textColRef.current, { y: -44, opacity: 0.35, scale: 0.97 }, 0)
-            .to(clusterRef.current, { y: -100 }, 0)
-            .to(glowRef.current, { scale: 1.18, opacity: 0.55 }, 0);
-        }
       });
     }, section);
 

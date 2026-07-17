@@ -17,6 +17,10 @@ export default function Pipeline() {
   const gridRef = useRef<HTMLDivElement>(null);
   const fillRef = useRef<HTMLDivElement>(null);
 
+  // Connector line + badge highlight play once when the row enters view, rather than
+  // continuously tracking scroll position: a fixed one-shot tween is far cheaper than a
+  // scrub that recalculates on every scroll tick, with no visible difference here since
+  // the whole row is on screen together anyway.
   useLayoutEffect(() => {
     const gsap = ensureGsap();
     const grid = gridRef.current;
@@ -26,31 +30,25 @@ export default function Pipeline() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add({ desktop: MQ.desktop, reduced: MQ.reduced }, (context) => {
-        const { desktop, reduced } = context.conditions as { desktop: boolean; reduced: boolean };
-        if (!desktop || reduced) return;
-
+      mm.add(MQ.reduced, (context) => {
         const badges = gsap.utils.toArray<HTMLElement>(".pipeline-badge", grid);
+        const lit = { borderColor: "rgba(99,102,241,0.75)", backgroundColor: "rgba(99,102,241,0.14)" };
+
+        if (context.matches) {
+          gsap.set(fill, { scaleX: 1 });
+          badges.forEach((b) => gsap.set(b, lit));
+          return;
+        }
 
         gsap.set(fill, { scaleX: 0, transformOrigin: "left center" });
         badges.forEach((b) => gsap.set(b, { borderColor: "rgba(99,102,241,0.18)", backgroundColor: "rgba(99,102,241,0.03)" }));
 
         const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: grid,
-            start: "top 75%",
-            end: "bottom 60%",
-            scrub: 0.6,
-          },
+          scrollTrigger: { trigger: grid, start: "top 75%", once: true },
         });
-
-        tl.to(fill, { scaleX: 1, ease: "none" }, 0);
+        tl.to(fill, { scaleX: 1, duration: 1, ease: "power2.out" }, 0);
         badges.forEach((b, i) => {
-          tl.to(
-            b,
-            { borderColor: "rgba(99,102,241,0.75)", backgroundColor: "rgba(99,102,241,0.14)", duration: 0.001 },
-            i / Math.max(badges.length - 1, 1)
-          );
+          tl.to(b, { ...lit, duration: 0.3 }, i * 0.12);
         });
 
         return () => {
