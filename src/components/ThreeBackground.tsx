@@ -131,10 +131,16 @@ export default function ThreeBackground() {
     window.addEventListener("resize", onResize);
 
     // ── Animation loop ─────────────────────────────────────────────
+    // Purely ambient/decorative, so render at ~30fps (skip every other frame) instead
+    // of 60fps. Halves this loop's continuous CPU/GPU cost with no visible difference,
+    // freeing up the main thread for Lenis/ScrollTrigger scroll work.
     let raf = 0;
+    let frameCount = 0;
     const clock = new THREE.Clock();
     const animate = () => {
       raf = requestAnimationFrame(animate);
+      frameCount++;
+      if (frameCount % 2 !== 0) return;
       const t = clock.getElapsedTime();
 
       mouse.x += (targetMouse.x - mouse.x) * 0.05;

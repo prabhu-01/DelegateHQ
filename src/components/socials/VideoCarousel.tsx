@@ -11,6 +11,32 @@ import { ensureGsap, MQ } from "./anim/gsapSetup";
 export default function VideoCarousel() {
   const wrapRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Nine simultaneously decoding/looping videos is real, continuous CPU/GPU cost that
+  // makes scroll feel laggy regardless of the pan animation itself. Only play the clips
+  // actually near the viewport; pause the rest.
+  useLayoutEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { root: null, rootMargin: "300px", threshold: 0.01 }
+    );
+
+    videoRefs.current.forEach((v) => v && observer.observe(v));
+    return () => observer.disconnect();
+  }, []);
 
   useLayoutEffect(() => {
     const gsap = ensureGsap();
@@ -81,8 +107,8 @@ export default function VideoCarousel() {
             }}
           >
             <video
+              ref={(el) => { videoRefs.current[i] = el; }}
               src={src}
-              autoPlay
               muted
               loop
               playsInline
