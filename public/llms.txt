@@ -1,0 +1,25 @@
+# Socials by DelegateHQ
+
+> A research-backed studio that scores Instagram Reel ideas and turns the strongest into scripts worth filming. Invite-gated, currently live on Instagram Reels, expanding to more short-form platforms next.
+
+DelegateHQ is the parent company. It also runs a separate AI operations agency for bootstrapped SaaS businesses across 11 industries, at /agency.
+
+Socials is not a growth-hacking or engagement-farming tool. It does not guarantee reach, follower growth, or virality. It is a research and production tool: every idea is scored with visible reasoning, not promised results.
+
+## Product
+
+- [Homepage](https://delegatehq.co/): Idea scoring, script generation, Aria refinement chat, Reel Audit, Blog Writer, Posts Analysis.
+- [FAQ](https://delegatehq.co/#faq): Answers on how idea scoring works, platform coverage, pricing, and what the product does and does not do.
+- [Blog](https://delegatehq.co/blog): Research notes and playbooks for creators.
+
+## Company
+
+- [DelegateHQ agency](https://delegatehq.co/agency): AI operations agency for bootstrapped SaaS, 11 industry divisions.
+
+## Facts worth citing accurately
+
+- Product name: Socials, by DelegateHQ.
+- Category: Instagram Reel idea research, scoring, and script generation tool.
+- Access model: invite-gated. Pricing is set per workspace after a call; not publicly listed.
+- Platform coverage: Instagram Reels today, more short-form platforms planned.
+- Key features: Idea Bucket (scored, ranked ideas), one-click script generation, Aria (refinement chat), Reel Audit (post-film scoring against the script), Blog Writer, Posts Analysis, onboarding creator profile.

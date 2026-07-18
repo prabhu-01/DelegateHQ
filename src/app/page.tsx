@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import Loader from "@/components/Loader";
 import LenisWrapper from "@/components/LenisWrapper";
@@ -52,36 +52,36 @@ export default function Home() {
       {/* Preload the hero + first wall clips during the loading screen so nothing pops in */}
       <Loader onComplete={() => setLoaded(true)} preloadAssets={PRELOAD_VIDEOS} />
 
-      <AnimatePresence>
-        {loaded && (
-          <motion.div
-            key="page"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            {showThree && <ThreeBackground />}
-            <LenisWrapper>
-              <SocialsNav onBookCall={openModal} />
-              <main>
-                <SocialsHero onBookCall={openModal} />
-                <VideoCarousel />
-                <Pipeline />
-                <PromoVideo />
-                <Features onBookCall={openModal} />
-                <EarningsEstimator onBookCall={openModal} />
-                <Testimonials />
-                <SocialsFAQ onBookCall={openModal} />
-                <FreeMonthOffer onBookCall={openModal} />
-                <SocialsCTA onBookCall={openModal} />
-              </main>
-              <SocialsFooter onBookCall={openModal} />
-            </LenisWrapper>
+      {/* Content is always mounted (not conditionally rendered on `loaded`), so the real
+          page text is present in the server-rendered HTML from the first response, not
+          only after client JS runs. Search and AI crawlers that read raw HTML without
+          executing JavaScript see the actual content this way. The loader is a full-screen
+          opaque overlay on top (see Loader.tsx) plus this opacity fade, so sighted users
+          still get the exact same reveal experience as before. */}
+      <motion.div
+        animate={{ opacity: loaded ? 1 : 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        {showThree && <ThreeBackground />}
+        <LenisWrapper>
+          <SocialsNav onBookCall={openModal} />
+          <main>
+            <SocialsHero onBookCall={openModal} />
+            <VideoCarousel />
+            <Pipeline />
+            <PromoVideo />
+            <Features onBookCall={openModal} />
+            <EarningsEstimator onBookCall={openModal} />
+            <Testimonials />
+            <SocialsFAQ onBookCall={openModal} />
+            <FreeMonthOffer onBookCall={openModal} />
+            <SocialsCTA onBookCall={openModal} />
+          </main>
+          <SocialsFooter onBookCall={openModal} />
+        </LenisWrapper>
 
-            <SocialsBookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <SocialsBookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      </motion.div>
     </>
   );
 }

@@ -59,7 +59,7 @@ function FAQSchema() {
 
 export default function SocialsFAQ({ onBookCall }: { onBookCall: () => void }) {
   return (
-    <section className="relative py-28 px-6">
+    <section id="faq" className="relative py-28 px-6">
       <FAQSchema />
       <div className="w-full max-w-6xl mx-auto accent-divider mb-24" />
       <div className="w-full max-w-2xl mx-auto">

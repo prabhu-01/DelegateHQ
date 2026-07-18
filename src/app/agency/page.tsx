@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import Loader from "@/components/Loader";
 import LenisWrapper from "@/components/LenisWrapper";
@@ -32,34 +32,33 @@ export default function AgencyHome() {
     <>
       <Loader onComplete={() => setLoaded(true)} />
 
-      <AnimatePresence>
-        {loaded && (
-          <motion.div
-            key="page"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            <ThreeBackground />
-            <LenisWrapper>
-              <Navigation />
-              <main>
-                <Hero />
-                <Problem />
-                <WhatWeDo />
-                <Divisions />
-                <HowItWorks />
-                {/* SOCIALS-LAUNCH: DelegateHQ pricing hidden — restore <Pricing /> to revert */}
-                {/* <Pricing /> */}
-                <Proof />
-                <FAQ />
-                <CTASection />
-              </main>
-              <Footer />
-            </LenisWrapper>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Content is always mounted (not conditionally rendered on `loaded`), so the real
+          page text is present in the server-rendered HTML immediately, not only after
+          client JS runs. Crawlers that read raw HTML without executing JavaScript see
+          the actual content this way. The loader is a full-screen opaque overlay on top
+          (see Loader.tsx) plus this opacity fade, so the reveal experience is unchanged. */}
+      <motion.div
+        animate={{ opacity: loaded ? 1 : 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <ThreeBackground />
+        <LenisWrapper>
+          <Navigation />
+          <main>
+            <Hero />
+            <Problem />
+            <WhatWeDo />
+            <Divisions />
+            <HowItWorks />
+            {/* SOCIALS-LAUNCH: DelegateHQ pricing hidden — restore <Pricing /> to revert */}
+            {/* <Pricing /> */}
+            <Proof />
+            <FAQ />
+            <CTASection />
+          </main>
+          <Footer />
+        </LenisWrapper>
+      </motion.div>
     </>
   );
 }

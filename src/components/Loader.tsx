@@ -25,6 +25,18 @@ export default function Loader({ onComplete, preloadAssets = NO_ASSETS }: Loader
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
 
+  // The page content underneath is now always mounted (so crawlers see real HTML on
+  // first paint), which means it's also scrollable/interactive underneath this
+  // full-screen overlay unless explicitly locked while the loader is showing.
+  useEffect(() => {
+    if (!visible) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [visible]);
+
   useEffect(() => {
     const startTime = Date.now();
     const MIN_DURATION = 1800;
