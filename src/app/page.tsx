@@ -14,6 +14,7 @@ import PromoVideo from "@/components/socials/PromoVideo";
 import Features from "@/components/socials/Features";
 import EarningsEstimator from "@/components/socials/EarningsEstimator";
 import Testimonials from "@/components/socials/Testimonials";
+import SocialsFAQ from "@/components/socials/SocialsFAQ";
 import FreeMonthOffer from "@/components/socials/FreeMonthOffer";
 import SocialsCTA from "@/components/socials/SocialsCTA";
 import SocialsFooter from "@/components/socials/SocialsFooter";
@@ -70,6 +71,7 @@ export default function Home() {
                 <Features onBookCall={openModal} />
                 <EarningsEstimator onBookCall={openModal} />
                 <Testimonials />
+                <SocialsFAQ onBookCall={openModal} />
                 <FreeMonthOffer onBookCall={openModal} />
                 <SocialsCTA onBookCall={openModal} />
               </main>

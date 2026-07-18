@@ -22,13 +22,18 @@ const jetbrainsMono = JetBrains_Mono({
 // (and delete agency/layout.tsx) to revert.
 const TITLE = "Socials by DelegateHQ. A research studio for Reels.";
 const DESCRIPTION =
-  "A research-backed studio that scores Reel ideas and scripts the strongest ones. Live on Instagram today, with more platforms on the way.";
+  "A research-backed studio that scores Reel ideas for viral potential and scripts the strongest ones. Live on Instagram today, with more platforms on the way.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
+    "reel ideas",
+    "viral reel ideas",
+    "viral content ideas",
+    "trending reel ideas",
+    "instagram reel idea generator",
     "Instagram Reels",
     "content research",
     "reel idea research",

@@ -11,8 +11,8 @@ import { ensureGsap, MQ } from "./anim/gsapSetup";
 export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) {
   const sectionRef = useRef<HTMLElement>(null);
   const pillRef = useRef<HTMLButtonElement>(null);
-  const line1Ref = useRef<HTMLHeadingElement>(null);
-  const line2Ref = useRef<HTMLHeadingElement>(null);
+  const line1Ref = useRef<HTMLSpanElement>(null);
+  const line2Ref = useRef<HTMLSpanElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const textColRef = useRef<HTMLDivElement>(null);
@@ -88,25 +88,27 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
             </span>
           </button>
 
-          <div className="flex flex-col" style={{ gap: 0 }}>
-            <h1
+          {/* Exactly one H1 on the page (SEO best practice): both visual lines live
+              inside it as block-level spans so the two-tone styling is unchanged. */}
+          <h1 className="flex flex-col" style={{ gap: 0, margin: 0, fontWeight: "inherit" }}>
+            <span
               ref={line1Ref}
               className="text-white"
-              style={{ fontSize: "clamp(40px, 6vw, 68px)", fontWeight: 800, lineHeight: 1.04, letterSpacing: "-0.03em" }}
+              style={{ display: "block", fontSize: "clamp(40px, 6vw, 68px)", fontWeight: 800, lineHeight: 1.04, letterSpacing: "-0.03em" }}
             >
               Know what to film
-            </h1>
-            <h1
+            </span>
+            <span
               ref={line2Ref}
               className="hero-headline-gradient"
-              style={{ fontSize: "clamp(40px, 6vw, 68px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.03em", paddingBottom: "0.06em" }}
+              style={{ display: "block", fontSize: "clamp(40px, 6vw, 68px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.03em", paddingBottom: "0.06em" }}
             >
               before you shoot it.
-            </h1>
-          </div>
+            </span>
+          </h1>
 
           <p ref={subRef} className="text-slate-400" style={{ fontSize: "18px", lineHeight: 1.7, maxWidth: "440px", marginTop: "22px" }}>
-            Every idea gets scored. The strong ones get scripted, refined, and ready to film.
+            Every Reel idea gets scored. The strong ones get scripted, refined, and ready to film.
           </p>
 
           <div ref={ctaRef} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3" style={{ marginTop: "30px" }}>
