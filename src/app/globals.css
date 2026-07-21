@@ -223,3 +223,140 @@ html.lenis { height: auto; }
     background: linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.15) 30%, rgba(99,102,241,0.15) 70%, transparent 100%);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SOCIALS SURFACE — warm editorial design system (system.md)
+   Scoped under `.socials` so the agency pages (which share this file and the
+   utility classes above) are never affected. Tokens are world-named per the
+   design doc; light values are §2 verbatim, dark values are the derived
+   warm-espresso palette. `.dark` on <html> comes from next-themes.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.socials {
+  /* Light (default, design-system §2) */
+  --canvas: #F9F7F2;
+  --surface: #FFFFFF;
+  --sidebar-bg: #1A1A18;
+  --edge: #E7E3D8;
+  --edge-strong: #D9D5C7;
+  --ink-primary: #1A1A18;
+  --ink-secondary: #3A382F;
+  --ink-muted: #8A8778;
+  --accent: #D85A30;
+  --accent-tint: #FAECE7;
+  --accent-text-on-tint: #712B13;
+  --ok-tint: #EAF3DE;
+  --ok-text: #3B6D11;
+  --err: #B23A20;
+  --err-tint: #FBE9E4;
+
+  /* Shape scale */
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --radius-pill: 20px;
+
+  /* Soft, warm-tinted shadow (not pure black) */
+  --shadow-card: 0 1px 2px rgba(26,26,24,0.04), 0 8px 24px rgba(26,26,24,0.06);
+  --shadow-lift: 0 2px 4px rgba(26,26,24,0.05), 0 16px 36px rgba(26,26,24,0.10);
+
+  background: var(--canvas);
+  color: var(--ink-primary);
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-feature-settings: "ss01";
+}
+
+html.dark .socials {
+  /* Derived warm-dark palette */
+  --canvas: #16130E;
+  --surface: #211D16;
+  --sidebar-bg: #0E0C08;
+  --edge: #332D22;
+  --edge-strong: #433B2C;
+  --ink-primary: #F4F1E8;
+  --ink-secondary: #CFC8B7;
+  --ink-muted: #948C79;
+  --accent: #E86B42;
+  --accent-tint: #2C1A11;
+  --accent-text-on-tint: #F3C4AD;
+  --ok-tint: #1E2913;
+  --ok-text: #A6CE79;
+  --err: #F0876B;
+  --err-tint: #2C1712;
+
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-lift: 0 2px 4px rgba(0,0,0,0.35), 0 16px 36px rgba(0,0,0,0.5);
+}
+
+/* Numbers align in tables/estimator/scores (design-system §3, no mono face) */
+.socials .tnum { font-variant-numeric: tabular-nums; }
+
+/* Scrollbar + selection within the Socials surface */
+.socials ::selection { background: var(--accent-tint); color: var(--accent-text-on-tint); }
+
+/* ─── Scoped overrides of the shared utility classes (editorial versions) ─── */
+.socials .btn-primary {
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  box-shadow: none;
+  transition: filter 0.16s ease, transform 0.16s ease;
+}
+.socials .btn-primary::before { display: none; }
+.socials .btn-primary:hover { background: var(--accent); filter: brightness(1.06); transform: translateY(-1px); }
+.socials .btn-primary:active { transform: translateY(0); filter: brightness(0.97); }
+
+.socials .btn-secondary {
+  padding: 11px 22px;
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  background: transparent;
+  border: 1px solid var(--edge-strong);
+  transition: border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+.socials .btn-secondary:hover { color: var(--ink-primary); border-color: var(--ink-muted); background: transparent; transform: translateY(-1px); }
+.socials .btn-secondary:active { transform: translateY(0); }
+
+.socials .card {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--edge);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.socials .card:hover {
+  border-color: var(--edge-strong);
+  box-shadow: var(--shadow-lift);
+}
+.socials .card-lift:hover { transform: translateY(-3px); }
+
+/* Featured card: solid warm surface with a hairline edge, no glow gradient border */
+.socials .card-featured {
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--edge);
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+.socials .card-featured::before { display: none; }
+.socials .card-featured > * { position: relative; z-index: 1; }
+
+/* Section label: quiet editorial eyebrow, accent tick */
+.socials .section-label {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.socials .section-label::before { background: var(--accent); }
+
+.socials .accent-divider {
+  background: linear-gradient(90deg, transparent 0%, var(--edge) 20%, var(--edge) 80%, transparent 100%);
+}

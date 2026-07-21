@@ -1,9 +1,10 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 import { ensureGsap, ScrollTrigger } from "./anim/gsapSetup";
 
 // Product-focused floating nav for the "/" landing page.
@@ -13,6 +14,9 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
   const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // Scroll-position sensor: toggles a class, not React state, and reads GSAP's
   // ScrollTrigger scroll position instead of a raw scroll listener.
@@ -48,7 +52,7 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
     padding: "6px 12px",
     fontSize: "13.5px",
     fontWeight: 500 as const,
-    color: "#64748b",
+    color: "var(--ink-muted)",
     background: "transparent",
     border: "none",
     borderRadius: "8px",
@@ -73,7 +77,6 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
         style={{
           maxWidth: "820px",
           width: "100%",
-          padding: "1px",
           borderRadius: "14px",
           pointerEvents: "auto",
         }}
@@ -83,8 +86,6 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
           className="socials-nav-header"
           style={{
             borderRadius: "13px",
-            backdropFilter: "blur(28px) saturate(160%)",
-            WebkitBackdropFilter: "blur(28px) saturate(160%)",
             height: "52px",
             display: "flex",
             alignItems: "center",
@@ -100,7 +101,7 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
                 width: "26px",
                 height: "26px",
                 borderRadius: "8px",
-                background: "linear-gradient(135deg, #6366f1 0%, #5558e8 100%)",
+                background: "var(--accent)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -111,18 +112,18 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
                 <path d="M2 10.5V3.5l5 3 5-3v7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <span className="font-bold text-white text-sm" style={{ letterSpacing: "-0.02em" }}>
+            <span className="font-bold text-sm" style={{ letterSpacing: "-0.02em", color: "var(--ink-primary)" }}>
               Socials
             </span>
             <span
-              className="hidden sm:inline font-mono"
-              style={{ fontSize: "9.5px", color: "#475569", textTransform: "uppercase", letterSpacing: "0.1em", marginLeft: "-2px" }}
+              className="hidden sm:inline"
+              style={{ fontSize: "9.5px", color: "var(--ink-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginLeft: "-2px" }}
             >
               by DelegateHQ
             </span>
           </Link>
 
-          <div style={{ width: "1px", height: "16px", background: "rgba(255,255,255,0.08)", margin: "0 12px" }} />
+          <div style={{ width: "1px", height: "16px", background: "var(--edge)", margin: "0 12px" }} />
 
           {/* Desktop links */}
           <nav className="hidden md:flex items-center gap-0.5 flex-1">
@@ -131,8 +132,8 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
                 key={l.label}
                 onClick={() => scrollTo(l.id)}
                 style={navLinkStyle}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#f1f5f9"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "#64748b"; e.currentTarget.style.background = "transparent"; }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ink-primary)"; e.currentTarget.style.background = "var(--canvas)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ink-muted)"; e.currentTarget.style.background = "transparent"; }}
               >
                 {l.label}
               </button>
@@ -140,14 +141,42 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
             <Link
               href="/blog"
               style={{ ...navLinkStyle, display: "inline-flex", alignItems: "center" }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "#f1f5f9"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "#64748b"; e.currentTarget.style.background = "transparent"; }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ink-primary)"; e.currentTarget.style.background = "var(--canvas)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ink-muted)"; e.currentTarget.style.background = "transparent"; }}
             >
               Blog
             </Link>
           </nav>
 
           <div className="flex-1 md:hidden" />
+
+          {/* Theme toggle */}
+          <button
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            aria-label="Toggle theme"
+            className="hidden md:flex shrink-0 items-center justify-center"
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "8px",
+              border: "1px solid var(--edge)",
+              background: "transparent",
+              color: "var(--ink-muted)",
+              marginRight: "8px",
+              cursor: "pointer",
+            }}
+          >
+            {mounted && resolvedTheme === "dark" ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
+          </button>
 
           {/* CTA */}
           <div className="hidden md:block shrink-0">
@@ -162,9 +191,9 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
-            <span className="block h-px w-5 transition-all duration-300 origin-center" style={{ background: "rgba(255,255,255,0.7)", transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none" }} />
-            <span className="block h-px w-5 transition-all duration-300" style={{ background: "rgba(255,255,255,0.7)", opacity: menuOpen ? 0 : 1 }} />
-            <span className="block h-px w-5 transition-all duration-300 origin-center" style={{ background: "rgba(255,255,255,0.7)", transform: menuOpen ? "translateY(-5px) rotate(-45deg)" : "none" }} />
+            <span className="block h-px w-5 transition-all duration-300 origin-center" style={{ background: "var(--ink-muted)", transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none" }} />
+            <span className="block h-px w-5 transition-all duration-300" style={{ background: "var(--ink-muted)", opacity: menuOpen ? 0 : 1 }} />
+            <span className="block h-px w-5 transition-all duration-300 origin-center" style={{ background: "var(--ink-muted)", transform: menuOpen ? "translateY(-5px) rotate(-45deg)" : "none" }} />
           </button>
         </header>
       </div>
@@ -179,9 +208,9 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
             maxWidth: "820px",
             pointerEvents: "auto",
             borderRadius: "14px",
-            background: "rgba(7,7,13,0.98)",
-            border: "1px solid rgba(255,255,255,0.08)",
-            backdropFilter: "blur(28px)",
+            background: "var(--surface)",
+            border: "1px solid var(--edge)",
+            boxShadow: "var(--shadow-lift)",
             padding: "10px",
           }}
         >
@@ -190,17 +219,24 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
               key={l.label}
               onClick={() => scrollTo(l.id)}
               className="w-full text-left px-4 py-3 rounded-xl text-base font-medium"
-              style={{ color: "#94a3b8", background: "transparent", border: "none" }}
+              style={{ color: "var(--ink-secondary)", background: "transparent", border: "none" }}
             >
               {l.label}
             </button>
           ))}
-          <Link href="/blog" onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl text-base font-medium" style={{ color: "#94a3b8", textDecoration: "none" }}>
+          <Link href="/blog" onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl text-base font-medium" style={{ color: "var(--ink-secondary)", textDecoration: "none" }}>
             Blog
           </Link>
-          <Link href="/agency" onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-mono" style={{ color: "#64748b", textDecoration: "none" }}>
+          <Link href="/agency" onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm" style={{ color: "var(--ink-muted)", textDecoration: "none" }}>
             Explore the agency
           </Link>
+          <button
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            className="w-full text-left px-4 py-3 rounded-xl text-base font-medium"
+            style={{ color: "var(--ink-secondary)", background: "transparent", border: "none" }}
+          >
+            {mounted && resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          </button>
           <button onClick={() => { setMenuOpen(false); onBookCall(); }} className="btn-primary w-full justify-center" style={{ marginTop: "6px" }}>
             Book a call
           </button>
@@ -209,20 +245,18 @@ export default function SocialsNav({ onBookCall }: { onBookCall: () => void }) {
 
       <style jsx>{`
         .socials-nav-pill {
-          background: rgba(255, 255, 255, 0.07);
-          box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
-          transition: background 0.45s ease, box-shadow 0.45s ease;
+          transition: box-shadow 0.3s ease;
         }
         .socials-nav-pill.socials-nav-scrolled {
-          background: linear-gradient(135deg, rgba(99, 102, 241, 0.28) 0%, rgba(255, 255, 255, 0.04) 50%, rgba(99, 102, 241, 0.1) 100%);
-          box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+          box-shadow: var(--shadow-lift);
         }
         .socials-nav-header {
-          background: rgba(6, 6, 12, 0.62);
-          transition: background 0.3s ease;
+          background: var(--surface);
+          border: 1px solid var(--edge);
+          transition: border-color 0.3s ease;
         }
         .socials-nav-header.socials-nav-scrolled {
-          background: rgba(6, 6, 12, 0.96);
+          border-color: var(--edge-strong);
         }
       `}</style>
     </motion.div>

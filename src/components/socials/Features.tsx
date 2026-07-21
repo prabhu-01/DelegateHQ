@@ -60,15 +60,15 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
         </Reveal>
         <Reveal delay={0.06}>
           <h2
-            className="text-center text-white mb-4"
-            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
+            className="text-center mb-4"
+            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--ink-primary)" }}
           >
             One place to kill the weak ideas
             <br className="hidden sm:block" /> and script the strong ones.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="text-center text-slate-500 max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+          <p className="text-center max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--ink-muted)" }}>
             Every tool a creator-operator needs between a curated idea and a published post.
           </p>
         </Reveal>
@@ -77,16 +77,16 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
         <Reveal
           delay={0.12}
           className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-0 overflow-hidden mb-4"
-          style={{ borderRadius: "16px", border: "1px solid rgba(99,102,241,0.22)", background: "linear-gradient(135deg, rgba(99,102,241,0.09) 0%, rgba(99,102,241,0.02) 100%)" }}
+          style={{ borderRadius: "var(--radius-card)", border: "1px solid var(--edge)", background: "var(--surface)", boxShadow: "var(--shadow-card)" }}
         >
           <div className="flex flex-col justify-center" style={{ padding: "38px 36px" }}>
-            <span className="font-mono" style={{ fontSize: "11px", color: "#818cf8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: "14px" }}>
+            <span style={{ fontSize: "11px", color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: "14px" }}>
               Idea Bucket
             </span>
-            <h3 className="text-white mb-3" style={{ fontSize: "26px", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
+            <h3 className="mb-3" style={{ fontSize: "26px", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--ink-primary)" }}>
               A wall of scored ideas, ranked before you look.
             </h3>
-            <p className="text-slate-400" style={{ fontSize: "15px", lineHeight: 1.7, maxWidth: "420px" }}>
+            <p style={{ fontSize: "15px", lineHeight: 1.7, maxWidth: "420px", color: "var(--ink-secondary)" }}>
               Every fresh idea lands pre-scored with a signal meter and the reasoning behind it. Open a card for the full breakdown, then delete it or generate a script.
             </p>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mt-7">
@@ -96,10 +96,10 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
                 { v: "Owner-scoped", l: "on the server" },
               ].map((m, i) => (
                 <div key={m.v} className="flex items-center gap-6">
-                  {i > 0 && <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.08)" }} />}
+                  {i > 0 && <div className="w-px h-8" style={{ background: "var(--edge)" }} />}
                   <div>
-                    <div className="text-white" style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em" }}>{m.v}</div>
-                    <div className="font-mono" style={{ fontSize: "10px", color: "#475569", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: "3px" }}>{m.l}</div>
+                    <div style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em", color: "var(--ink-primary)" }}>{m.v}</div>
+                    <div style={{ fontSize: "10px", color: "var(--ink-muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: "3px" }}>{m.l}</div>
                   </div>
                 </div>
               ))}
@@ -107,13 +107,13 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
           </div>
 
           {/* Clip peeking from the featured card */}
-          <div className="relative min-h-[220px] overflow-hidden" style={{ borderLeft: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="relative min-h-[220px] overflow-hidden" style={{ borderLeft: "1px solid var(--edge)" }}>
             <video
               src={SOCIALS_VIDEOS[3]}
               autoPlay muted loop playsInline preload="metadata"
               className="absolute inset-0 h-full w-full object-cover"
             />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(13,13,20,0.9) 0%, rgba(13,13,20,0.35) 40%, transparent 100%)" }} />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(26,26,24,0.55) 0%, rgba(26,26,24,0.15) 40%, transparent 100%)" }} />
           </div>
         </Reveal>
 
@@ -123,19 +123,19 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
             <Reveal key={f.key} index={i % 4} staggerStep={0.06} className="card p-6 flex flex-col gap-3.5">
               <div
                 className="flex items-center justify-center"
-                style={{ width: "36px", height: "36px", borderRadius: "10px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", color: "#818cf8" }}
+                style={{ width: "36px", height: "36px", borderRadius: "10px", background: "var(--canvas)", border: "1px solid var(--edge)", color: "var(--ink-secondary)" }}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">{icons[f.key]}</svg>
               </div>
-              <h3 className="text-white" style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em" }}>{f.title}</h3>
-              <p className="text-slate-500" style={{ fontSize: "13px", lineHeight: 1.65 }}>{f.body}</p>
+              <h3 style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em", color: "var(--ink-primary)" }}>{f.title}</h3>
+              <p style={{ fontSize: "13px", lineHeight: 1.65, color: "var(--ink-muted)" }}>{f.body}</p>
             </Reveal>
           ))}
         </div>
 
         {/* Trust strip, folded in from the former standalone section */}
-        <Reveal delay={0.1} className="mt-16 pt-12" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <p className="text-center text-slate-500 mb-8" style={{ fontSize: "14px", lineHeight: 1.7 }}>
+        <Reveal delay={0.1} className="mt-16 pt-12" style={{ borderTop: "1px solid var(--edge)" }}>
+          <p className="text-center mb-8" style={{ fontSize: "14px", lineHeight: 1.7, color: "var(--ink-muted)" }}>
             Built so one creator can move fast without ever stepping on another.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -143,15 +143,15 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
               <div key={t.title} className="flex items-start gap-3">
                 <div
                   className="shrink-0 flex items-center justify-center mt-0.5"
-                  style={{ width: "22px", height: "22px", borderRadius: "7px", background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.22)" }}
+                  style={{ width: "22px", height: "22px", borderRadius: "7px", background: "var(--ok-tint)", border: "1px solid var(--ok-tint)" }}
                 >
                   <svg width="11" height="11" viewBox="0 0 13 13" fill="none">
-                    <path d="M2.5 6.5l2.5 2.5 5.5-5.5" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M2.5 6.5l2.5 2.5 5.5-5.5" stroke="var(--ok-text)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="text-white mb-1" style={{ fontSize: "13.5px", fontWeight: 700, letterSpacing: "-0.01em" }}>{t.title}</h4>
-                  <p className="text-slate-500" style={{ fontSize: "12.5px", lineHeight: 1.6 }}>{t.body}</p>
+                  <h4 className="mb-1" style={{ fontSize: "13.5px", fontWeight: 700, letterSpacing: "-0.01em", color: "var(--ink-primary)" }}>{t.title}</h4>
+                  <p style={{ fontSize: "12.5px", lineHeight: 1.6, color: "var(--ink-muted)" }}>{t.body}</p>
                 </div>
               </div>
             ))}

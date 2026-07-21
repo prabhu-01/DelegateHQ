@@ -53,14 +53,14 @@ export default function Testimonials() {
         </Reveal>
         <Reveal delay={0.06}>
           <h2
-            className="text-center text-white mb-4"
-            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
+            className="text-center mb-4"
+            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--ink-primary)" }}
           >
             Built with creators who ship weekly.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="text-center text-slate-500 max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+          <p className="text-center max-w-lg mx-auto mb-14" style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--ink-muted)" }}>
             A few notes from the creators who have been running their ideas through Socials.
           </p>
         </Reveal>
@@ -77,30 +77,30 @@ export default function Testimonials() {
             >
               {/* Quote mark */}
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style={{ marginBottom: "10px" }}>
-                <path d="M8.5 5C5.5 6 4 8.3 4 11.6V16h4.6v-4.6H6.7c0-2 .9-3.2 2.8-3.7L8.5 5zm8.3 0c-3 1-4.5 3.3-4.5 6.6V16h4.6v-4.6h-1.9c0-2 .9-3.2 2.8-3.7L16.8 5z" fill="#6366f1" fillOpacity="0.6" />
+                <path d="M8.5 5C5.5 6 4 8.3 4 11.6V16h4.6v-4.6H6.7c0-2 .9-3.2 2.8-3.7L8.5 5zm8.3 0c-3 1-4.5 3.3-4.5 6.6V16h4.6v-4.6h-1.9c0-2 .9-3.2 2.8-3.7L16.8 5z" fill="var(--edge-strong)" />
               </svg>
 
-              <p className="text-slate-300" style={{ fontSize: "14.5px", lineHeight: 1.7, marginBottom: "18px" }}>
+              <p style={{ fontSize: "14.5px", lineHeight: 1.7, marginBottom: "18px", color: "var(--ink-secondary)" }}>
                 {t.quote.includes("#") ? (
                   <>
                     {t.quote.replace("#", "")}
-                    <sup style={{ fontSize: "0.7em", color: "#64748b", fontWeight: 600, marginLeft: "1px" }}>#</sup>
+                    <sup style={{ fontSize: "0.7em", color: "var(--ink-muted)", fontWeight: 600, marginLeft: "1px" }}>#</sup>
                   </>
                 ) : (
                   t.quote
                 )}
               </p>
 
-              <div className="flex items-center gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "16px" }}>
+              <div className="flex items-center gap-3" style={{ borderTop: "1px solid var(--edge)", paddingTop: "16px" }}>
                 <div
                   className="shrink-0 flex items-center justify-center"
                   style={{
                     width: "38px",
                     height: "38px",
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, rgba(99,102,241,0.35) 0%, rgba(99,102,241,0.12) 100%)",
-                    border: "1px solid rgba(99,102,241,0.3)",
-                    color: "#c7d2fe",
+                    background: "var(--canvas)",
+                    border: "1px solid var(--edge)",
+                    color: "var(--ink-secondary)",
                     fontSize: "13px",
                     fontWeight: 700,
                     letterSpacing: "0.02em",
@@ -109,8 +109,8 @@ export default function Testimonials() {
                   {t.initials}
                 </div>
                 <div>
-                  <div className="text-white" style={{ fontSize: "13.5px", fontWeight: 600, letterSpacing: "-0.01em" }}>{t.name}</div>
-                  <div className="font-mono" style={{ fontSize: "11px", color: "#94a3b8", marginTop: "1px" }}>
+                  <div style={{ fontSize: "13.5px", fontWeight: 600, letterSpacing: "-0.01em", color: "var(--ink-primary)" }}>{t.name}</div>
+                  <div style={{ fontSize: "11px", color: "var(--ink-muted)", marginTop: "1px" }}>
                     {t.role}
                   </div>
                 </div>
@@ -122,11 +122,11 @@ export default function Testimonials() {
         <Reveal
           as="p"
           delay={0.1}
-          className="text-center font-mono mx-auto"
-          style={{ fontSize: "11px", lineHeight: 1.7, color: "#475569", marginTop: "26px", maxWidth: "560px" }}
+          className="text-center mx-auto"
+          style={{ fontSize: "11px", lineHeight: 1.7, color: "var(--ink-muted)", marginTop: "26px", maxWidth: "560px" }}
         >
-          <span style={{ color: "#64748b" }}>*</span> Individual experiences.{" "}
-          <span style={{ color: "#64748b" }}>#</span> Illustrative results, not guaranteed. Full disclaimer below.
+          <span>*</span> Individual experiences.{" "}
+          <span>#</span> Illustrative results, not guaranteed. Full disclaimer below.
         </Reveal>
       </div>
     </section>

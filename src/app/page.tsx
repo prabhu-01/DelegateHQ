@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 import Loader from "@/components/Loader";
@@ -21,10 +20,6 @@ import SocialsFooter from "@/components/socials/SocialsFooter";
 import SocialsBookCallModal from "@/components/socials/SocialsBookCallModal";
 import { SOCIALS_VIDEOS } from "@/components/socials/videos";
 
-const ThreeBackground = dynamic(() => import("@/components/ThreeBackground"), {
-  ssr: false,
-});
-
 // Only the hero clip + the first few wall clips are worth blocking the loader on; the
 // rest of the wall lazy-loads as the user scrolls to it (preload="metadata" per card).
 const PRELOAD_VIDEOS = SOCIALS_VIDEOS.slice(0, 4);
@@ -34,23 +29,12 @@ const PRELOAD_VIDEOS = SOCIALS_VIDEOS.slice(0, 4);
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [showThree, setShowThree] = useState(false);
   const openModal = () => setModalOpen(true);
 
-  // The particle background is a desktop-only flourish: skip the WebGL canvas entirely
-  // on mobile to keep scroll buttery on weaker GPUs.
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    setShowThree(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setShowThree(e.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
   return (
-    <>
+    <div className="socials" style={{ minHeight: "100vh" }}>
       {/* Preload the hero + first wall clips during the loading screen so nothing pops in */}
-      <Loader onComplete={() => setLoaded(true)} preloadAssets={PRELOAD_VIDEOS} />
+      <Loader onComplete={() => setLoaded(true)} preloadAssets={PRELOAD_VIDEOS} variant="socials" />
 
       {/* Content is always mounted (not conditionally rendered on `loaded`), so the real
           page text is present in the server-rendered HTML from the first response, not
@@ -62,7 +46,6 @@ export default function Home() {
         animate={{ opacity: loaded ? 1 : 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        {showThree && <ThreeBackground />}
         <LenisWrapper>
           <SocialsNav onBookCall={openModal} />
           <main>
@@ -82,6 +65,6 @@ export default function Home() {
 
         <SocialsBookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
       </motion.div>
-    </>
+    </div>
   );
 }

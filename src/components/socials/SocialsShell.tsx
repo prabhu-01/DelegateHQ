@@ -1,29 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import LenisWrapper from "@/components/LenisWrapper";
 import SocialsNav from "./SocialsNav";
 import SocialsFooter from "./SocialsFooter";
 import SocialsBookCallModal from "./SocialsBookCallModal";
 
-const ThreeBackground = dynamic(() => import("@/components/ThreeBackground"), { ssr: false });
-
-// Socials launch: reusable client chrome (nav + footer + book-a-call modal) so server
-// components like the blog can render inside the Socials UI. Holds the modal state.
+// Reusable client chrome (nav + footer + book-a-call modal) so server components like
+// the blog render inside the Socials UI. The `.socials` class scopes the warm editorial
+// design tokens here (see globals.css); nothing outside it is affected.
 export default function SocialsShell({ children }: { children: React.ReactNode }) {
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setModalOpen(true);
 
   return (
-    <>
-      <ThreeBackground />
+    <div className="socials" style={{ minHeight: "100vh" }}>
       <LenisWrapper>
         <SocialsNav onBookCall={openModal} />
         {children}
         <SocialsFooter onBookCall={openModal} />
       </LenisWrapper>
       <SocialsBookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
-    </>
+    </div>
   );
 }

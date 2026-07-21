@@ -18,9 +18,16 @@ interface LoaderProps {
   // Media URLs to warm before the page reveals (e.g. the Socials hero + carousel clips).
   // Preloaded here so nothing pops in when the loader lifts.
   preloadAssets?: string[];
+  // "agency" (default) keeps the current dark DelegateHQ look. "socials" renders the
+  // warm editorial variant so the loader doesn't flash dark before the light page.
+  variant?: "agency" | "socials";
 }
 
-export default function Loader({ onComplete, preloadAssets = NO_ASSETS }: LoaderProps) {
+export default function Loader({
+  onComplete,
+  preloadAssets = NO_ASSETS,
+  variant = "agency",
+}: LoaderProps) {
   const [statusIndex, setStatusIndex] = useState(0);
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -119,15 +126,17 @@ export default function Loader({ onComplete, preloadAssets = NO_ASSETS }: Loader
           exit={{ opacity: 0, scale: 0.97 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-          style={{ background: "#050508" }}
+          style={{ background: variant === "socials" ? "var(--canvas)" : "#050508" }}
         >
-          {/* Ambient glow */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(99,102,241,0.06) 0%, transparent 70%)",
-            }}
-          />
+          {/* Ambient glow (agency only — Socials keeps a flat editorial background) */}
+          {variant === "agency" && (
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(99,102,241,0.06) 0%, transparent 70%)",
+              }}
+            />
+          )}
 
           <div className="relative flex flex-col items-center gap-8 w-full max-w-xs px-6">
             {/* Wordmark */}
@@ -137,12 +146,31 @@ export default function Loader({ onComplete, preloadAssets = NO_ASSETS }: Loader
               transition={{ delay: 0.1, duration: 0.5 }}
               className="flex flex-col items-center gap-2"
             >
-              <span className="text-2xl font-bold tracking-tight text-white" style={{ letterSpacing: "-0.02em" }}>
-                DelegateHQ
-              </span>
-              <span className="font-mono text-xs text-slate-500 tracking-widest uppercase">
-                Everything, handled.
-              </span>
+              {variant === "socials" ? (
+                <>
+                  <span
+                    className="text-2xl font-bold tracking-tight"
+                    style={{ letterSpacing: "-0.02em", color: "var(--ink-primary)" }}
+                  >
+                    Socials
+                  </span>
+                  <span
+                    className="text-xs tracking-widest uppercase"
+                    style={{ color: "var(--ink-muted)" }}
+                  >
+                    by DelegateHQ
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-2xl font-bold tracking-tight text-white" style={{ letterSpacing: "-0.02em" }}>
+                    DelegateHQ
+                  </span>
+                  <span className="font-mono text-xs text-slate-500 tracking-widest uppercase">
+                    Everything, handled.
+                  </span>
+                </>
+              )}
             </motion.div>
 
             {/* Progress bar */}
@@ -152,10 +180,13 @@ export default function Loader({ onComplete, preloadAssets = NO_ASSETS }: Loader
               transition={{ delay: 0.3 }}
               className="w-full"
             >
-              <div className="w-full h-px bg-white/8 rounded-full overflow-hidden">
+              <div
+                className="w-full h-px rounded-full overflow-hidden"
+                style={{ background: variant === "socials" ? "var(--edge)" : "rgba(255,255,255,0.08)" }}
+              >
                 <motion.div
                   className="h-full rounded-full"
-                  style={{ background: "#6366f1" }}
+                  style={{ background: variant === "socials" ? "var(--accent)" : "#6366f1" }}
                   animate={{ width: `${Math.min(progress, 100)}%` }}
                   transition={{ duration: 0.15, ease: "easeOut" }}
                 />
@@ -176,7 +207,8 @@ export default function Loader({ onComplete, preloadAssets = NO_ASSETS }: Loader
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.25 }}
-                  className="font-mono text-xs text-slate-500"
+                  className={variant === "socials" ? "text-xs" : "font-mono text-xs text-slate-500"}
+                  style={variant === "socials" ? { color: "var(--ink-muted)" } : undefined}
                 >
                   {STATUS_MESSAGES[statusIndex]}
                 </motion.span>

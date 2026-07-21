@@ -68,8 +68,8 @@ export default function SocialsFAQ({ onBookCall }: { onBookCall: () => void }) {
         </Reveal>
         <Reveal delay={0.06}>
           <h2
-            className="text-center text-white mb-14"
-            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
+            className="text-center mb-14"
+            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--ink-primary)" }}
           >
             Reel ideas, scored and answered.
           </h2>
@@ -78,23 +78,23 @@ export default function SocialsFAQ({ onBookCall }: { onBookCall: () => void }) {
         <Reveal delay={0.1}>
           <Accordion.Root type="single" collapsible>
             {FAQ_ITEMS.map((item, i) => (
-              <Accordion.Item key={i} value={`item-${i}`} style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+              <Accordion.Item key={i} value={`item-${i}`} style={{ borderBottom: "1px solid var(--edge)" }}>
                 <Accordion.Header>
                   <Accordion.Trigger
                     className="w-full flex items-center justify-between gap-6 py-5 text-left group"
                     style={{ background: "transparent", border: "none", cursor: "pointer" }}
                   >
-                    <span className="text-sm font-medium text-slate-300 transition-colors duration-150 group-hover:text-slate-100" style={{ lineHeight: "1.6" }}>
+                    <span className="text-sm font-medium transition-colors duration-150" style={{ lineHeight: "1.6", color: "var(--ink-secondary)" }}>
                       {item.q}
                     </span>
                     <span
                       className="shrink-0 flex items-center justify-center rounded-lg transition-all duration-200"
-                      style={{ width: "28px", height: "28px", background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.18)" }}
+                      style={{ width: "28px", height: "28px", background: "var(--canvas)", border: "1px solid var(--edge-strong)" }}
                     >
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
                         <path
                           d="M6 2v8M2 6h8"
-                          stroke="#6366f1"
+                          stroke="var(--accent)"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           className="transition-all duration-200 group-data-[state=open]:[transform:rotate(45deg)] group-data-[state=open]:[transform-origin:center]"
@@ -104,7 +104,7 @@ export default function SocialsFAQ({ onBookCall }: { onBookCall: () => void }) {
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Content className="overflow-hidden data-[state=open]:animate-[accordion-down_0.22s_ease] data-[state=closed]:animate-[accordion-up_0.22s_ease]">
-                  <p className="pb-6 text-sm" style={{ color: "#64748b", lineHeight: "1.85" }}>{item.a}</p>
+                  <p className="pb-6 text-sm" style={{ color: "var(--ink-muted)", lineHeight: "1.85" }}>{item.a}</p>
                 </Accordion.Content>
               </Accordion.Item>
             ))}

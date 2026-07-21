@@ -40,15 +40,15 @@ export default function VideoCarousel() {
   }, []);
 
   return (
-    <section ref={wrapRef} className="relative overflow-hidden py-16 lg:py-28" style={{ background: "#050508" }}>
+    <section ref={wrapRef} className="relative overflow-hidden py-16 lg:py-28" style={{ background: "var(--canvas)" }}>
       {/* Edge fades so cards emerge from a soft boundary instead of a hard cut */}
       <div
         className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden lg:block"
-        style={{ width: "8%", background: "linear-gradient(90deg, #050508 0%, transparent 100%)" }}
+        style={{ width: "8%", background: "linear-gradient(90deg, var(--canvas) 0%, transparent 100%)" }}
       />
       <div
         className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden lg:block"
-        style={{ width: "8%", background: "linear-gradient(270deg, #050508 0%, transparent 100%)" }}
+        style={{ width: "8%", background: "linear-gradient(270deg, var(--canvas) 0%, transparent 100%)" }}
       />
 
       <div className="socials-wall-track flex gap-5 lg:gap-6 px-6" style={{ width: "max-content" }}>
@@ -59,10 +59,10 @@ export default function VideoCarousel() {
             style={{
               width: "150px",
               aspectRatio: "9 / 16",
-              borderRadius: "18px",
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "#0d0d14",
-              boxShadow: "0 16px 36px rgba(0,0,0,0.45)",
+              borderRadius: "var(--radius-card)",
+              border: "1px solid var(--edge)",
+              background: "var(--surface)",
+              boxShadow: "var(--shadow-card)",
             }}
           >
             <video
@@ -74,10 +74,6 @@ export default function VideoCarousel() {
               preload="metadata"
               className="absolute inset-0 h-full w-full object-cover"
               style={{ borderRadius: "inherit" }}
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)", borderRadius: "18px" }}
             />
           </div>
         ))}

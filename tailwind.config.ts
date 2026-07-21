@@ -1,6 +1,10 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  // Class-based so the Socials theme toggle (next-themes, .dark on <html>) can drive
+  // `dark:` utilities (e.g. blog prose). No `dark:` classes exist anywhere else in the
+  // codebase yet, so this has no effect outside the Socials surface.
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",

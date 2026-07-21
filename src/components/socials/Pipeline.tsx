@@ -32,7 +32,7 @@ export default function Pipeline() {
 
       mm.add(MQ.reduced, (context) => {
         const badges = gsap.utils.toArray<HTMLElement>(".pipeline-badge", grid);
-        const lit = { borderColor: "rgba(99,102,241,0.75)", backgroundColor: "rgba(99,102,241,0.14)" };
+        const lit = { borderColor: "var(--accent)", backgroundColor: "var(--accent-tint)" };
 
         if (context.matches) {
           gsap.set(fill, { scaleX: 1 });
@@ -41,7 +41,7 @@ export default function Pipeline() {
         }
 
         gsap.set(fill, { scaleX: 0, transformOrigin: "left center" });
-        badges.forEach((b) => gsap.set(b, { borderColor: "rgba(99,102,241,0.18)", backgroundColor: "rgba(99,102,241,0.03)" }));
+        badges.forEach((b) => gsap.set(b, { borderColor: "var(--edge-strong)", backgroundColor: "var(--surface)" }));
 
         const tl = gsap.timeline({
           scrollTrigger: { trigger: grid, start: "top 75%", once: true },
@@ -65,8 +65,8 @@ export default function Pipeline() {
     <section id="how-it-works" className="relative py-28 px-6">
       <div className="w-full max-w-6xl mx-auto accent-divider mb-24" />
       <div className="w-full max-w-6xl mx-auto">
-        <Reveal as="h2" className="text-center text-white mb-16" direction="up">
-          <span style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1, display: "block" }}>
+        <Reveal as="h2" className="text-center mb-16" direction="up">
+          <span style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1, display: "block", color: "var(--ink-primary)" }}>
             Five steps. One finished Reel.
           </span>
         </Reveal>
@@ -75,12 +75,12 @@ export default function Pipeline() {
           {/* Connecting line on desktop: track + scrubbed fill */}
           <div
             className="hidden md:block absolute pointer-events-none"
-            style={{ top: "22px", left: "10%", right: "10%", height: "1px", background: "rgba(255,255,255,0.08)" }}
+            style={{ top: "22px", left: "10%", right: "10%", height: "1px", background: "var(--edge)" }}
           />
           <div
             ref={fillRef}
             className="hidden md:block absolute pointer-events-none"
-            style={{ top: "22px", left: "10%", right: "10%", height: "1px", background: "linear-gradient(90deg, #6366f1, #a5b4fc)" }}
+            style={{ top: "22px", left: "10%", right: "10%", height: "1px", background: "var(--accent)" }}
           />
 
           {STEPS.map((s, i) => (
@@ -91,17 +91,17 @@ export default function Pipeline() {
                   width: "44px",
                   height: "44px",
                   borderRadius: "13px",
-                  background: "rgba(99,102,241,0.06)",
-                  border: "1px solid rgba(99,102,241,0.2)",
+                  background: "var(--surface)",
+                  border: "1px solid var(--edge-strong)",
                   transition: "border-color 0.3s ease, background-color 0.3s ease",
                 }}
               >
-                <span className="font-mono font-bold" style={{ fontSize: "14px", color: "#818cf8" }}>{s.k}</span>
+                <span className="tnum font-bold" style={{ fontSize: "14px", color: "var(--accent)" }}>{s.k}</span>
               </div>
-              <h3 className="text-white mb-2" style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "-0.01em" }}>
+              <h3 className="mb-2" style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "-0.01em", color: "var(--ink-primary)" }}>
                 {s.title}
               </h3>
-              <p className="text-slate-500" style={{ fontSize: "13.5px", lineHeight: 1.65, maxWidth: "220px" }}>
+              <p style={{ fontSize: "13.5px", lineHeight: 1.65, maxWidth: "220px", color: "var(--ink-muted)" }}>
                 {s.body}
               </p>
             </Reveal>

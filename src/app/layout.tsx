@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, Bricolage_Grotesque } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import JsonLd from "@/components/JsonLd";
+import ThemeProvider from "@/components/ThemeProvider";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import "./globals.css";
 
@@ -14,6 +15,13 @@ const inter = Inter({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
+});
+
+// The Socials surface's typeface (design-system §3). Variable weight; agency keeps Inter.
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
   display: "swap",
 });
 
@@ -62,17 +70,30 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F9F7F2" },
+    { media: "(prefers-color-scheme: dark)", color: "#16130E" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable} ${bricolage.variable}`}
+    >
       <body className="bg-bg text-slate-100 antialiased font-sans">
-        {children}
-        <Analytics />
-        <JsonLd />
+        <ThemeProvider>
+          {children}
+          <Analytics />
+          <JsonLd />
+        </ThemeProvider>
       </body>
     </html>
   );

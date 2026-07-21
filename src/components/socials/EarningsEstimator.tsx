@@ -117,9 +117,9 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
     fontSize: "13px",
     fontWeight: 600 as const,
     cursor: "pointer",
-    border: "1px solid " + (active ? "rgba(99,102,241,0.5)" : "rgba(255,255,255,0.08)"),
-    background: active ? "rgba(99,102,241,0.14)" : "rgba(255,255,255,0.02)",
-    color: active ? "#f1f5f9" : "#94a3b8",
+    border: "1px solid " + (active ? "var(--accent)" : "var(--edge)"),
+    background: active ? "var(--accent-tint)" : "var(--surface)",
+    color: active ? "var(--accent-text-on-tint)" : "var(--ink-muted)",
     transition: "all 0.15s ease",
     whiteSpace: "nowrap" as const,
   });
@@ -131,31 +131,31 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
         {/* Lead-in: the lifestyle shift */}
         <Reveal delay={0.06}>
           <h2
-            className="text-center text-white mb-4"
-            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}
+            className="text-center mb-4"
+            style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--ink-primary)" }}
           >
             Estimate what consistent output could support.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="text-center text-slate-500 max-w-lg mx-auto mb-9" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+          <p className="text-center max-w-lg mx-auto mb-9" style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--ink-muted)" }}>
             Every idea is scored against real benchmarks, so what a consistent output schedule could support stops being a guess.
           </p>
         </Reveal>
 
         {/* What changes */}
         <div ref={chipsRef} className="flex flex-wrap items-center justify-center gap-2.5 mb-14">
-          <Reveal as="span" index={0} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "#94a3b8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#6366f1" }} />
+          <Reveal as="span" index={0} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "var(--ink-muted)", background: "var(--surface)", border: "1px solid var(--edge)" }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "var(--ink-muted)" }} />
             Post consistently, not in bursts
           </Reveal>
-          <Reveal as="span" index={1} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "#94a3b8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#6366f1" }} />
-            Save ~<span ref={hoursRef}>0</span> hrs a week
-            <sup style={{ fontSize: "0.75em", color: "#64748b" }}>#</sup>
+          <Reveal as="span" index={1} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "var(--ink-muted)", background: "var(--surface)", border: "1px solid var(--edge)" }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "var(--ink-muted)" }} />
+            Save ~<span ref={hoursRef} className="tnum">0</span> hrs a week
+            <sup style={{ fontSize: "0.75em", color: "var(--ink-muted)" }}>#</sup>
           </Reveal>
-          <Reveal as="span" index={2} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "#94a3b8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#6366f1" }} />
+          <Reveal as="span" index={2} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full" style={{ fontSize: "12.5px", color: "var(--ink-muted)", background: "var(--surface)", border: "1px solid var(--edge)" }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "var(--ink-muted)" }} />
             Backed by real benchmark data
           </Reveal>
         </div>
@@ -165,12 +165,12 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.82fr]">
             {/* Controls */}
             <div style={{ padding: "30px 30px 32px" }}>
-              <p className="font-mono mb-6" style={{ fontSize: "10.5px", color: "#a5b4fc", textTransform: "uppercase", letterSpacing: "0.12em" }}>
+              <p className="mb-6" style={{ fontSize: "10.5px", color: "var(--ink-muted)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
                 Estimate your potential
               </p>
 
               {/* Income path */}
-              <label className="block mb-2.5" style={{ fontSize: "12.5px", color: "#cbd5e1", fontWeight: 500 }}>How you earn</label>
+              <label className="block mb-2.5" style={{ fontSize: "12.5px", color: "var(--ink-secondary)", fontWeight: 500 }}>How you earn</label>
               <div className="flex flex-wrap gap-2 mb-7">
                 {PATHS.map((p) => (
                   <button key={p.key} style={seg(path === p.key)} onClick={() => changePath(p.key)}>
@@ -183,7 +183,7 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
               <div style={{ minHeight: "72px", marginBottom: "10px" }}>
                 {path === "brand" ? (
                   <>
-                    <label className="block mb-2.5" style={{ fontSize: "12.5px", color: "#cbd5e1", fontWeight: 500 }}>Your follower tier</label>
+                    <label className="block mb-2.5" style={{ fontSize: "12.5px", color: "var(--ink-secondary)", fontWeight: 500 }}>Your follower tier</label>
                     <div className="flex flex-wrap gap-2">
                       {TIERS.map((t, i) => (
                         <button key={t.key} style={seg(tierIdx === i)} onClick={() => setTierIdx(i)}>
@@ -193,7 +193,7 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
                     </div>
                   </>
                 ) : (
-                  <p style={{ fontSize: "12.5px", color: "#64748b", lineHeight: 1.6, paddingTop: "4px" }}>
+                  <p style={{ fontSize: "12.5px", color: "var(--ink-muted)", lineHeight: 1.6, paddingTop: "4px" }}>
                     {path === "ugc"
                       ? "UGC rates are set per video and are not tied to your follower count."
                       : "Income here depends entirely on your own offer, price, and audience."}
@@ -202,8 +202,8 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
               </div>
 
               {/* Volume */}
-              <label className="block mb-3" style={{ fontSize: "12.5px", color: "#cbd5e1", fontWeight: 500 }}>
-                {VOLUME[path].label}: <span className="text-white font-semibold">{volume}</span>
+              <label className="block mb-3" style={{ fontSize: "12.5px", color: "var(--ink-secondary)", fontWeight: 500 }}>
+                {VOLUME[path].label}: <span className="tnum font-semibold" style={{ color: "var(--ink-primary)" }}>{volume}</span>
               </label>
               <input
                 type="range"
@@ -212,21 +212,21 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
                 value={volume}
                 onChange={(e) => setVolume(Number(e.target.value))}
                 className="w-full"
-                style={{ accentColor: "#6366f1", cursor: "pointer" }}
+                style={{ accentColor: "var(--accent)", cursor: "pointer" }}
                 aria-label={VOLUME[path].label}
               />
             </div>
 
-            {/* Result */}
+            {/* Result: the estimator's one accent job */}
             <div
               className="flex flex-col justify-center"
               style={{
                 padding: "30px",
-                background: "linear-gradient(160deg, rgba(99,102,241,0.12) 0%, rgba(99,102,241,0.03) 100%)",
-                borderLeft: "1px solid rgba(255,255,255,0.06)",
+                background: "var(--accent-tint)",
+                borderLeft: "1px solid var(--edge)",
               }}
             >
-              <p className="font-mono mb-2" style={{ fontSize: "10.5px", color: "#818cf8", textTransform: "uppercase", letterSpacing: "0.12em" }}>
+              <p className="mb-2" style={{ fontSize: "10.5px", color: "var(--accent-text-on-tint)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
                 Illustrative monthly potential
               </p>
               <div style={{ minHeight: "52px" }}>
@@ -237,21 +237,21 @@ export default function EarningsEstimator({ onBookCall }: { onBookCall: () => vo
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduce ? undefined : { opacity: 0, y: -8 }}
                     transition={{ duration: 0.22 }}
-                    className="text-white"
-                    style={{ fontSize: "clamp(30px, 4.5vw, 42px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}
+                    className="tnum"
+                    style={{ fontSize: "clamp(30px, 4.5vw, 42px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1, color: "var(--accent-text-on-tint)" }}
                   >
                     {figure}
-                    <sup style={{ fontSize: "0.32em", color: "#818cf8", fontWeight: 600, marginLeft: "3px", top: "-1.4em" }}>#</sup>
+                    <sup style={{ fontSize: "0.32em", fontWeight: 600, marginLeft: "3px", top: "-1.4em" }}>#</sup>
                   </motion.div>
                 </AnimatePresence>
               </div>
 
-              <p style={{ fontSize: "12px", color: "#94a3b8", lineHeight: 1.6, marginTop: "10px" }}>
+              <p style={{ fontSize: "12px", color: "var(--accent-text-on-tint)", lineHeight: 1.6, marginTop: "10px", opacity: 0.85 }}>
                 {basis}
               </p>
 
               {/* Inline disclaimer — always visible */}
-              <p style={{ fontSize: "10.5px", color: "#475569", lineHeight: 1.6, marginTop: "16px", paddingTop: "14px", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+              <p style={{ fontSize: "10.5px", color: "var(--accent-text-on-tint)", opacity: 0.7, lineHeight: 1.6, marginTop: "16px", paddingTop: "14px", borderTop: "1px solid var(--edge)" }}>
                 Illustrative estimate based on public creator-economy benchmarks. Not a prediction or
                 guarantee. Socials does not pay creators, and most results vary widely, with many creators
                 earning little or nothing.
