@@ -42,13 +42,13 @@ const FEATURES = [
   { key: "token", title: "Token budget", body: "Your role, status, and a running meter of tokens used against the budget an admin has set for you." },
 ];
 
-// Trust points folded in from the former standalone section, condensed into a strip.
-const TRUST = [
-  { title: "Owner-scoped, always", body: "Filtered by your creator profile on the server, never by anything a request could spoof." },
-  { title: "Nothing is erased", body: "Delete hides an idea from every screen. The row stays in the database, reversible always." },
-  { title: "Gated by default", body: "New sign-ups sit pending until an admin approves them. No self-service into the bucket." },
-  { title: "Every action logged", body: "Approvals, blocks, and edits write an audit entry in the same transaction as the change." },
-];
+// Disabled: trust strip (see commented block below the component).
+// const TRUST = [
+//   { title: "Owner-scoped, always", body: "Filtered by your creator profile on the server, never by anything a request could spoof." },
+//   { title: "Nothing is erased", body: "Delete hides an idea from every screen. The row stays in the database, reversible always." },
+//   { title: "Gated by default", body: "New sign-ups sit pending until an admin approves them. No self-service into the bucket." },
+//   { title: "Every action logged", body: "Approvals, blocks, and edits write an audit entry in the same transaction as the change." },
+// ];
 
 export default function Features({ onBookCall }: { onBookCall: () => void }) {
   return (
@@ -133,7 +133,7 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
           ))}
         </div>
 
-        {/* Trust strip, folded in from the former standalone section */}
+        {/* Disabled: trust strip ("Built so one creator can move fast...").
         <Reveal delay={0.1} className="mt-16 pt-12" style={{ borderTop: "1px solid var(--edge)" }}>
           <p className="text-center mb-8" style={{ fontSize: "14px", lineHeight: 1.7, color: "var(--ink-muted)" }}>
             Built so one creator can move fast without ever stepping on another.
@@ -157,6 +157,7 @@ export default function Features({ onBookCall }: { onBookCall: () => void }) {
             ))}
           </div>
         </Reveal>
+        */}
 
         <Reveal delay={0.1} className="flex justify-center mt-12">
           <button onClick={onBookCall} className="btn-primary">

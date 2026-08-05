@@ -7,12 +7,15 @@ import Loader from "@/components/Loader";
 import LenisWrapper from "@/components/LenisWrapper";
 import SocialsNav from "@/components/socials/SocialsNav";
 import SocialsHero from "@/components/socials/SocialsHero";
+import WhyWeBuiltThis from "@/components/socials/WhyWeBuiltThis";
 import VideoCarousel from "@/components/socials/VideoCarousel";
 import Pipeline from "@/components/socials/Pipeline";
 import PromoVideo from "@/components/socials/PromoVideo";
 import Features from "@/components/socials/Features";
 import EarningsEstimator from "@/components/socials/EarningsEstimator";
-import Testimonials from "@/components/socials/Testimonials";
+// Disabled: "Built with creators who ship weekly." — re-enable by uncommenting
+// this import and the <Testimonials /> usage below.
+// import Testimonials from "@/components/socials/Testimonials";
 import SocialsFAQ from "@/components/socials/SocialsFAQ";
 import FreeMonthOffer from "@/components/socials/FreeMonthOffer";
 import SocialsCTA from "@/components/socials/SocialsCTA";
@@ -50,12 +53,13 @@ export default function Home() {
           <SocialsNav onBookCall={openModal} />
           <main>
             <SocialsHero onBookCall={openModal} />
+            <WhyWeBuiltThis />
             <VideoCarousel />
             <Pipeline />
             <PromoVideo />
             <Features onBookCall={openModal} />
             <EarningsEstimator onBookCall={openModal} />
-            <Testimonials />
+            {/* <Testimonials /> */}
             <SocialsFAQ onBookCall={openModal} />
             <FreeMonthOffer onBookCall={openModal} />
             <SocialsCTA onBookCall={openModal} />

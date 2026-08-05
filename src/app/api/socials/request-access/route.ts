@@ -16,7 +16,7 @@ function escapeHtml(s: string) {
 }
 
 export async function POST(req: NextRequest) {
-  let body: { email?: string; instagram?: string };
+  let body: { email?: string; instagram?: string; hardestPart?: string };
   try {
     body = await req.json();
   } catch {
@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
 
   const email = (body.email || "").trim();
   const instagram = (body.instagram || "").trim();
+  const hardestPart = (body.hardestPart || "").trim();
 
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Please enter a valid email." }, { status: 400 });
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
             <h2 style="margin:0 0 12px">New Socials access request</h2>
             <p style="margin:4px 0"><strong>Email:</strong> ${escapeHtml(email)}</p>
             <p style="margin:4px 0"><strong>Instagram:</strong> ${escapeHtml(instagram) || "(not provided)"}</p>
+            <p style="margin:4px 0"><strong>Hardest part of making Reels:</strong> ${escapeHtml(hardestPart) || "(not provided)"}</p>
           </div>
         `,
       }),

@@ -53,6 +53,7 @@ export default function SocialsBookCallModal({
   const [view, setView] = useState<View>("schedule");
   const [handle, setHandle] = useState("");
   const [email, setEmail] = useState("");
+  const [hardestPart, setHardestPart] = useState("");
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -80,6 +81,7 @@ export default function SocialsBookCallModal({
       setSent(false);
       setHandle("");
       setEmail("");
+      setHardestPart("");
       setError(null);
       setSubmitting(false);
     }, 300);
@@ -89,7 +91,7 @@ export default function SocialsBookCallModal({
   const mailtoFallback = () => {
     const subject = encodeURIComponent("Socials access request");
     const body = encodeURIComponent(
-      `Instagram: ${handle || "(not provided)"}\nEmail: ${email}\n\nI'd like access to Socials.`
+      `Instagram: ${handle || "(not provided)"}\nEmail: ${email}\nHardest part of making Reels: ${hardestPart || "(not provided)"}\n\nI'd like access to Socials.`
     );
     window.location.href = `mailto:${REQUEST_EMAIL}?subject=${subject}&body=${body}`;
   };
@@ -103,7 +105,7 @@ export default function SocialsBookCallModal({
       const res = await fetch("/api/socials/request-access", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, instagram: handle }),
+        body: JSON.stringify({ email, instagram: handle, hardestPart }),
       });
       if (res.ok) {
         setSent(true);
@@ -315,6 +317,21 @@ export default function SocialsBookCallModal({
                         style={{ ...inputStyle, borderColor: error ? "var(--err)" : "var(--edge-strong)" }}
                         onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                         onBlur={(e) => (e.currentTarget.style.borderColor = error ? "var(--err)" : "var(--edge-strong)")}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="hp" style={labelStyle}>
+                        What&apos;s the hardest part of making Reels for you right now?{" "}
+                        <span style={{ color: "var(--ink-muted)", fontWeight: 400 }}>(optional)</span>
+                      </label>
+                      <input
+                        id="hp"
+                        value={hardestPart}
+                        onChange={(e) => setHardestPart(e.target.value)}
+                        placeholder="e.g. coming up with ideas, scripting, editing..."
+                        style={inputStyle}
+                        onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
+                        onBlur={(e) => (e.currentTarget.style.borderColor = "var(--edge-strong)")}
                       />
                     </div>
 

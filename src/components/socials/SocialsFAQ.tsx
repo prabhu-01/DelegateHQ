@@ -40,6 +40,10 @@ const FAQ_ITEMS = [
     q: "How much does Socials cost?",
     a: "Access is invite-gated and pricing is set per workspace. Book a call and, if your idea is a fit, your first month is free.",
   },
+  {
+    q: "Who is this for right now?",
+    a: "We're two creators testing this ourselves, technical content and home/travel, before opening it wider. If your niche is different, we still want to hear from you.",
+  },
 ];
 
 // FAQPage schema, generated from the exact same Q&A shown on the page. Kept in the

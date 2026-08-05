@@ -47,7 +47,7 @@ export default function FreeMonthOffer({ onBookCall }: { onBookCall: () => void 
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-70" style={{ background: "var(--accent)" }} />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: "var(--accent)" }} />
                 </span>
-                Launch offer, limited intake
+                Launch offer, 10 spots this month
               </span>
 
               <h2
@@ -123,8 +123,9 @@ export default function FreeMonthOffer({ onBookCall }: { onBookCall: () => void 
               <p
                 style={{ fontSize: "10.5px", color: "var(--accent-text-on-tint)", opacity: 0.7, lineHeight: 1.6, marginTop: "22px", paddingTop: "16px", borderTop: "1px solid var(--edge)" }}
               >
-                Limited intake. Access is granted at our discretion based on fit, and booking a call
-                does not guarantee selection. Standard pricing applies after the free month.
+                Limited intake, 10 spots this month. Access is granted at our discretion based on fit,
+                and booking a call does not guarantee selection. Standard pricing applies after the
+                free month.
               </p>
             </div>
           </div>

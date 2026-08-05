@@ -97,7 +97,7 @@ export default function SocialsFooter({ onBookCall }: { onBookCall: () => void }
             audience, consistency, and market conditions.
             {" "}
             <span style={{ color: "var(--ink-secondary)", fontWeight: 600 }}>Launch offer.</span> The free first month is a
-            limited-intake promotion granted at our sole discretion based on fit, including the idea or
+            limited-intake promotion, 10 spots this month, granted at our sole discretion based on fit, including the idea or
             product you bring. Booking a call or requesting access does not guarantee selection or access.
             Where granted, it covers one month of full platform access from workspace approval, with no
             credit card required; standard pricing applies afterwards. We may modify or end this offer at

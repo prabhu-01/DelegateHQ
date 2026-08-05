@@ -74,12 +74,12 @@ export default function SocialsHero({ onBookCall }: { onBookCall: () => void }) 
           <button
             ref={pillRef}
             onClick={onBookCall}
-            aria-label="First month free, book a call"
+            aria-label="10 spots open this month, free access, book a call"
             className="socials-offer-pill"
           >
-            <strong className="socials-offer-lead">First month free</strong>
+            <strong className="socials-offer-lead">10 spots open this month</strong>
             <span className="socials-offer-sep" aria-hidden="true" />
-            <span className="socials-offer-sub">Limited intake</span>
+            <span className="socials-offer-sub">Free access</span>
             <svg width="12" height="12" viewBox="0 0 11 11" fill="none" className="socials-offer-arrow" aria-hidden="true">
               <path d="M2 5.5h7M6 2.5L9 5.5 6 8.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
