@@ -37,11 +37,6 @@ code, pre, .font-mono {
 /* Selection */
 ::selection { background: rgba(99, 102, 241, 0.25); color: #f8fafc; }
 
-/* Lenis */
-html.lenis { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto; }
-.lenis.lenis-stopped { overflow: hidden; }
-
 /* ─── Radix Accordion animations ──────────────────────────── */
 @keyframes accordion-down {
   from { height: 0; opacity: 0; }

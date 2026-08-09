@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import LenisWrapper from "@/components/LenisWrapper";
 import SocialsNav from "./SocialsNav";
 import SocialsFooter from "./SocialsFooter";
 import SocialsBookCallModal from "./SocialsBookCallModal";
@@ -15,11 +14,9 @@ export default function SocialsShell({ children }: { children: React.ReactNode }
 
   return (
     <div className="socials" style={{ minHeight: "100vh" }}>
-      <LenisWrapper>
-        <SocialsNav onBookCall={openModal} />
-        {children}
-        <SocialsFooter onBookCall={openModal} />
-      </LenisWrapper>
+      <SocialsNav onBookCall={openModal} />
+      {children}
+      <SocialsFooter onBookCall={openModal} />
       <SocialsBookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );

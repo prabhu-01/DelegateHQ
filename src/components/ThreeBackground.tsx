@@ -133,7 +133,7 @@ export default function ThreeBackground() {
     // ── Animation loop ─────────────────────────────────────────────
     // Purely ambient/decorative, so render at ~30fps (skip every other frame) instead
     // of 60fps. Halves this loop's continuous CPU/GPU cost with no visible difference,
-    // freeing up the main thread for Lenis/ScrollTrigger scroll work.
+    // freeing up the main thread for scroll/ScrollTrigger work.
     let raf = 0;
     let frameCount = 0;
     const clock = new THREE.Clock();

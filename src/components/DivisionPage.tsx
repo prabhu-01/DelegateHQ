@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import * as Accordion from "@radix-ui/react-accordion";
 import dynamic from "next/dynamic";
 import type { DivisionData, ProofSection, ProofFlag } from "@/lib/divisions";
-import LenisWrapper from "@/components/LenisWrapper";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -37,20 +36,18 @@ export default function DivisionPage({ division }: { division: DivisionData }) {
   return (
     <>
       <ThreeBackground />
-      <LenisWrapper>
-        <Navigation />
-        <main>
-          <HeroSection division={division} />
-          <ProblemSection division={division} />
-          <ServicesSection division={division} />
-          <ProcessSection />
-          <ProofSection division={division} />
-          {/* SOCIALS-LAUNCH: DelegateHQ pricing hidden — restore <PricingSection division={division} /> to revert */}
-          <FAQSection division={division} />
-          <CTASection division={division} />
-        </main>
-        <Footer />
-      </LenisWrapper>
+      <Navigation />
+      <main>
+        <HeroSection division={division} />
+        <ProblemSection division={division} />
+        <ServicesSection division={division} />
+        <ProcessSection />
+        <ProofSection division={division} />
+        {/* SOCIALS-LAUNCH: DelegateHQ pricing hidden — restore <PricingSection division={division} /> to revert */}
+        <FAQSection division={division} />
+        <CTASection division={division} />
+      </main>
+      <Footer />
     </>
   );
 }

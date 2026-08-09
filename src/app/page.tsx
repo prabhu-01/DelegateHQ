@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 import Loader from "@/components/Loader";
-import LenisWrapper from "@/components/LenisWrapper";
 import SocialsNav from "@/components/socials/SocialsNav";
 import SocialsHero from "@/components/socials/SocialsHero";
 import WhyWeBuiltThis from "@/components/socials/WhyWeBuiltThis";
@@ -49,23 +48,21 @@ export default function Home() {
         animate={{ opacity: loaded ? 1 : 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <LenisWrapper>
-          <SocialsNav onBookCall={openModal} />
-          <main>
-            <SocialsHero onBookCall={openModal} />
-            <WhyWeBuiltThis />
-            <VideoCarousel />
-            <Pipeline />
-            <PromoVideo />
-            <Features onBookCall={openModal} />
-            <EarningsEstimator onBookCall={openModal} />
-            {/* <Testimonials /> */}
-            <SocialsFAQ onBookCall={openModal} />
-            <FreeMonthOffer onBookCall={openModal} />
-            <SocialsCTA onBookCall={openModal} />
-          </main>
-          <SocialsFooter onBookCall={openModal} />
-        </LenisWrapper>
+        <SocialsNav onBookCall={openModal} />
+        <main>
+          <SocialsHero onBookCall={openModal} />
+          <WhyWeBuiltThis />
+          <VideoCarousel />
+          <Pipeline />
+          <PromoVideo />
+          <Features onBookCall={openModal} />
+          <EarningsEstimator onBookCall={openModal} />
+          {/* <Testimonials /> */}
+          <SocialsFAQ onBookCall={openModal} />
+          <FreeMonthOffer onBookCall={openModal} />
+          <SocialsCTA onBookCall={openModal} />
+        </main>
+        <SocialsFooter onBookCall={openModal} />
 
         <SocialsBookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
       </motion.div>

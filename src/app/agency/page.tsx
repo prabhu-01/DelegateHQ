@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 
 import Loader from "@/components/Loader";
-import LenisWrapper from "@/components/LenisWrapper";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/sections/Hero";
 import Problem from "@/components/sections/Problem";
@@ -42,22 +41,20 @@ export default function AgencyHome() {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <ThreeBackground />
-        <LenisWrapper>
-          <Navigation />
-          <main>
-            <Hero />
-            <Problem />
-            <WhatWeDo />
-            <Divisions />
-            <HowItWorks />
-            {/* SOCIALS-LAUNCH: DelegateHQ pricing hidden — restore <Pricing /> to revert */}
-            {/* <Pricing /> */}
-            <Proof />
-            <FAQ />
-            <CTASection />
-          </main>
-          <Footer />
-        </LenisWrapper>
+        <Navigation />
+        <main>
+          <Hero />
+          <Problem />
+          <WhatWeDo />
+          <Divisions />
+          <HowItWorks />
+          {/* SOCIALS-LAUNCH: DelegateHQ pricing hidden — restore <Pricing /> to revert */}
+          {/* <Pricing /> */}
+          <Proof />
+          <FAQ />
+          <CTASection />
+        </main>
+        <Footer />
       </motion.div>
     </>
   );
