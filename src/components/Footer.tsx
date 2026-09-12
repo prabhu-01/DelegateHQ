@@ -6,8 +6,7 @@ import { DIVISIONS } from "@/lib/divisions";
 
 export default function Footer() {
   const pathname = usePathname();
-  // SOCIALS-LAUNCH: agency home moved to /agency (was "/")
-  const isHome = pathname === "/agency";
+  const isHome = pathname === "/";
 
   const scrollTo = (href: string) => {
     if (isHome) {
@@ -24,8 +23,7 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="md:col-span-4 flex flex-col gap-5">
-            {/* SOCIALS-LAUNCH: logo points to /agency (was "/") */}
-            <Link href="/agency" className="flex items-center gap-2.5">
+            <Link href="/" className="flex items-center gap-2.5">
               <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, #6366f1 0%, #5558e8 100%)" }}>
                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
                   <path d="M1.5 6.5L6.5 1.5L11.5 6.5M1.5 6.5L6.5 11.5L11.5 6.5" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -67,7 +65,6 @@ export default function Footer() {
             <ul className="flex flex-col gap-2.5">
               {[
                 { label: "How It Works", href: "#how-it-works" },
-                // SOCIALS-LAUNCH: pricing hidden — restore { label: "Pricing", href: "#pricing" } to revert
                 { label: "Proof of Work", href: "#proof" },
                 { label: "Book a Call", href: "#cta" },
               ].map((link) => (
@@ -83,17 +80,6 @@ export default function Footer() {
                   </button>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/blog"
-                  className="text-sm transition-colors duration-150"
-                  style={{ color: "#475569" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#f1f5f9")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#475569")}
-                >
-                  Blog
-                </Link>
-              </li>
             </ul>
           </div>
         </div>

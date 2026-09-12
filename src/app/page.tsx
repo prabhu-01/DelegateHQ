@@ -1,71 +1,57 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 
 import Loader from "@/components/Loader";
-import SocialsNav from "@/components/socials/SocialsNav";
-import SocialsHero from "@/components/socials/SocialsHero";
-import WhyWeBuiltThis from "@/components/socials/WhyWeBuiltThis";
-import VideoCarousel from "@/components/socials/VideoCarousel";
-import Pipeline from "@/components/socials/Pipeline";
-import PromoVideo from "@/components/socials/PromoVideo";
-import Features from "@/components/socials/Features";
-import EarningsEstimator from "@/components/socials/EarningsEstimator";
-// Disabled: "Built with creators who ship weekly." — re-enable by uncommenting
-// this import and the <Testimonials /> usage below.
-// import Testimonials from "@/components/socials/Testimonials";
-import SocialsFAQ from "@/components/socials/SocialsFAQ";
-import FreeMonthOffer from "@/components/socials/FreeMonthOffer";
-import SocialsCTA from "@/components/socials/SocialsCTA";
-import SocialsFooter from "@/components/socials/SocialsFooter";
-import SocialsBookCallModal from "@/components/socials/SocialsBookCallModal";
-import { SOCIALS_VIDEOS } from "@/components/socials/videos";
+import Navigation from "@/components/Navigation";
+import Hero from "@/components/sections/Hero";
+import Problem from "@/components/sections/Problem";
+import WhatWeDo from "@/components/sections/WhatWeDo";
+import Divisions from "@/components/sections/Divisions";
+import HowItWorks from "@/components/sections/HowItWorks";
+// import Pricing from "@/components/sections/Pricing";
+import Proof from "@/components/sections/Proof";
+import FAQ from "@/components/sections/FAQ";
+import CTASection from "@/components/sections/CTASection";
+import Footer from "@/components/Footer";
 
-// Only the hero clip + the first few wall clips are worth blocking the loader on; the
-// rest of the wall lazy-loads as the user scrolls to it (preload="metadata" per card).
-const PRELOAD_VIDEOS = SOCIALS_VIDEOS.slice(0, 4);
+const ThreeBackground = dynamic(() => import("@/components/ThreeBackground"), {
+  ssr: false,
+});
 
-// "/" is the marketing landing for the Socials product.
-// The DelegateHQ agency landing lives at /agency (see src/app/agency/page.tsx).
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const openModal = () => setModalOpen(true);
 
   return (
-    <div className="socials" style={{ minHeight: "100vh" }}>
-      {/* Preload the hero + first wall clips during the loading screen so nothing pops in */}
-      <Loader onComplete={() => setLoaded(true)} preloadAssets={PRELOAD_VIDEOS} variant="socials" />
+    <>
+      <Loader onComplete={() => setLoaded(true)} />
 
       {/* Content is always mounted (not conditionally rendered on `loaded`), so the real
-          page text is present in the server-rendered HTML from the first response, not
-          only after client JS runs. Search and AI crawlers that read raw HTML without
-          executing JavaScript see the actual content this way. The loader is a full-screen
-          opaque overlay on top (see Loader.tsx) plus this opacity fade, so sighted users
-          still get the exact same reveal experience as before. */}
+          page text is present in the server-rendered HTML immediately, not only after
+          client JS runs. Crawlers that read raw HTML without executing JavaScript see
+          the actual content this way. The loader is a full-screen opaque overlay on top
+          (see Loader.tsx) plus this opacity fade, so the reveal experience is unchanged. */}
       <motion.div
         animate={{ opacity: loaded ? 1 : 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <SocialsNav onBookCall={openModal} />
+        <ThreeBackground />
+        <Navigation />
         <main>
-          <SocialsHero onBookCall={openModal} />
-          <WhyWeBuiltThis />
-          <VideoCarousel />
-          <Pipeline />
-          <PromoVideo />
-          <Features onBookCall={openModal} />
-          <EarningsEstimator onBookCall={openModal} />
-          {/* <Testimonials /> */}
-          <SocialsFAQ onBookCall={openModal} />
-          <FreeMonthOffer onBookCall={openModal} />
-          <SocialsCTA onBookCall={openModal} />
+          <Hero />
+          <Problem />
+          <WhatWeDo />
+          <Divisions />
+          <HowItWorks />
+          {/* <Pricing /> */}
+          <Proof />
+          <FAQ />
+          <CTASection />
         </main>
-        <SocialsFooter onBookCall={openModal} />
-
-        <SocialsBookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
+        <Footer />
       </motion.div>
-    </div>
+    </>
   );
 }

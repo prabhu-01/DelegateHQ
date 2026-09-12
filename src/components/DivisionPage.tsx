@@ -80,7 +80,7 @@ function HeroSection({ division }: { division: DivisionData }) {
         {/* Back link + eyebrow */}
         <motion.div {...fadeUp(0.05)} className="flex flex-col items-center gap-3">
           <Link
-            href="/agency"
+            href="/"
             className="flex items-center gap-1.5 font-mono text-xs transition-colors duration-150"
             style={{ color: "#475569" }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#94a3b8")}

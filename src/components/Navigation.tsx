@@ -14,8 +14,7 @@ export default function Navigation() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  // SOCIALS-LAUNCH: agency home moved to /agency (was "/") so in-page scroll anchors resolve there
-  const isHome = pathname === "/agency";
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -134,8 +133,7 @@ export default function Navigation() {
               transition: "background 0.3s ease",
             }}
           >
-            {/* Logo — SOCIALS-LAUNCH: points to /agency (was "/") */}
-            <Link href="/agency" className="flex items-center gap-2.5 shrink-0" style={{ textDecoration: "none" }}>
+            <Link href="/" className="flex items-center gap-2.5 shrink-0" style={{ textDecoration: "none" }}>
               <div
                 style={{
                   width: "26px",
@@ -197,8 +195,7 @@ export default function Navigation() {
                 How it works
               </button>
 
-              {/* SOCIALS-LAUNCH: pricing hidden — restore this button to revert
-              <button
+              {/* <button
                 onClick={() => scrollTo("#pricing")}
                 style={navLinkStyle}
                 onMouseEnter={(e) => { e.currentTarget.style.color = "#f1f5f9"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
@@ -207,17 +204,6 @@ export default function Navigation() {
                 Pricing
               </button>
               */}
-
-              {/* Blog */}
-              <Link
-                href="/blog"
-                onClick={() => setMenuOpen(false)}
-                style={{ ...navLinkStyle, textDecoration: "none", display: "inline-flex", alignItems: "center" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#f1f5f9"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "#64748b"; e.currentTarget.style.background = "transparent"; }}
-              >
-                Blog
-              </Link>
             </nav>
 
             {/* Spacer on mobile */}
@@ -503,7 +489,6 @@ export default function Navigation() {
               >
                 {[
                   { label: "How it works", id: "#how-it-works" },
-                  // SOCIALS-LAUNCH: pricing hidden — restore { label: "Pricing", id: "#pricing" } to revert
                 ].map((item) => (
                   <button
                     key={item.label}
@@ -516,16 +501,6 @@ export default function Navigation() {
                     {item.label}
                   </button>
                 ))}
-                <Link
-                  href="/blog"
-                  onClick={() => setMenuOpen(false)}
-                  className="w-full text-left px-4 py-3 rounded-xl text-base font-medium transition-all duration-150"
-                  style={{ color: "#64748b", background: "transparent", textDecoration: "none" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = "#f1f5f9"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = "#64748b"; e.currentTarget.style.background = "transparent"; }}
-                >
-                  Blog
-                </Link>
               </motion.div>
 
               <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />

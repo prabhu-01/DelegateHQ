@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Bricolage_Grotesque } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import JsonLd from "@/components/JsonLd";
 import ThemeProvider from "@/components/ThemeProvider";
@@ -18,46 +18,27 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-// The Socials surface's typeface (design-system §3). Variable weight; agency keeps Inter.
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage",
-  display: "swap",
-});
-
-// SOCIALS-LAUNCH: root metadata now describes Socials (the "/" landing). The original
-// DelegateHQ agency metadata moved to src/app/agency/layout.tsx. Restore this block
-// (and delete agency/layout.tsx) to revert.
-const TITLE = "Socials by DelegateHQ. A research studio for Reels.";
+const TITLE = "DelegateHQ. Everything, handled.";
 const DESCRIPTION =
-  "A research-backed studio that scores Reel ideas for viral potential and scripts the strongest ones. Live on Instagram today, with more platforms on the way.";
+  "AI operations agency deploying vertically specialized agent teams that run the full operations of bootstrapped SaaS businesses. Support, onboarding, documentation, content, and customer success across 11 industry divisions.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
-    "reel ideas",
-    "viral reel ideas",
-    "viral content ideas",
-    "trending reel ideas",
-    "instagram reel idea generator",
-    "Instagram Reels",
-    "content research",
-    "reel idea research",
-    "AI script generation",
-    "content research studio",
-    "creator research tool",
-    "short-form video research",
+    "AI operations",
+    "SaaS operations",
+    "AI agents",
+    "customer support automation",
+    "onboarding automation",
+    "India SaaS",
     "DelegateHQ",
-    "Socials by DelegateHQ",
-    "TikTok",
-    "YouTube Shorts",
   ],
   alternates: { canonical: "/" },
   openGraph: {
     title: TITLE,
-    description: DESCRIPTION,
+    description: "AI agent teams that run your entire ops stack so you can focus on building.",
     type: "website",
     url: SITE_URL,
     siteName: SITE_NAME,
@@ -66,15 +47,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: TITLE,
-    description: DESCRIPTION,
+    description: "AI agent teams that run your entire ops stack so you can focus on building.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F9F7F2" },
-    { media: "(prefers-color-scheme: dark)", color: "#16130E" },
-  ],
+  themeColor: "#050508",
 };
 
 export default function RootLayout({
@@ -86,7 +64,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable} ${bricolage.variable}`}
+      className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="bg-bg text-slate-100 antialiased font-sans">
         <ThemeProvider>

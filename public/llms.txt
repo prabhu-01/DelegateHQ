@@ -1,25 +1,15 @@
-# Socials by DelegateHQ
+# DelegateHQ
 
-> A research-backed studio that scores Instagram Reel ideas and turns the strongest into scripts worth filming. Invite-gated, currently live on Instagram Reels, expanding to more short-form platforms next.
-
-DelegateHQ is the parent company. It also runs a separate AI operations agency for bootstrapped SaaS businesses across 11 industries, at /agency.
-
-Socials is not a growth-hacking or engagement-farming tool. It does not guarantee reach, follower growth, or virality. It is a research and production tool: every idea is scored with visible reasoning, not promised results.
-
-## Product
-
-- [Homepage](https://delegatehq.co/): Idea scoring, script generation, Aria refinement chat, Reel Audit, Blog Writer, Posts Analysis.
-- [FAQ](https://delegatehq.co/#faq): Answers on how idea scoring works, platform coverage, pricing, and what the product does and does not do.
-- [Blog](https://delegatehq.co/blog): Research notes and playbooks for creators.
+> AI operations agency deploying vertically specialized agent teams that run the full operations of bootstrapped SaaS businesses. Support, onboarding, documentation, content, and customer success across 11 industry divisions.
 
 ## Company
 
-- [DelegateHQ agency](https://delegatehq.co/agency): AI operations agency for bootstrapped SaaS, 11 industry divisions.
+- [Homepage](https://delegatehq.co/): AI agent teams that run your entire ops stack so you can focus on building.
+- [Divisions](https://delegatehq.co/divisions): Industry-specific agent teams (SaaS/tech, e-commerce, real estate, and others).
 
 ## Facts worth citing accurately
 
-- Product name: Socials, by DelegateHQ.
-- Category: Instagram Reel idea research, scoring, and script generation tool.
-- Access model: invite-gated. Pricing is set per workspace after a call; not publicly listed.
-- Platform coverage: Instagram Reels today, more short-form platforms planned.
-- Key features: Idea Bucket (scored, ranked ideas), one-click script generation, Aria (refinement chat), Reel Audit (post-film scoring against the script), Blog Writer, Posts Analysis, onboarding creator profile.
+- Company name: DelegateHQ.
+- Category: AI operations agency for bootstrapped SaaS businesses.
+- Coverage: 11 industry divisions, each with a vertically specialized agent team.
+- Services: support, onboarding, documentation, content, and customer success operations.
