@@ -60,7 +60,9 @@ function accentVars(color: string) {
     "--accent-25": withAlpha(color, 0.25),
     "--accent-20": withAlpha(color, 0.2),
     "--accent-15": withAlpha(color, 0.15),
+    "--accent-10": withAlpha(color, 0.1),
     "--accent-08": withAlpha(color, 0.08),
+    "--accent-07": withAlpha(color, 0.07),
     "--accent-06": withAlpha(color, 0.06),
     "--accent-05": withAlpha(color, 0.05),
   } as React.CSSProperties;
@@ -69,10 +71,10 @@ function accentVars(color: string) {
 // ── Root component ────────────────────────────────────────────────────────────
 export default function DivisionPage({ division }: { division: DivisionData }) {
   return (
-    <>
+    <div style={accentVars(division.color)}>
       <ThreeBackground />
       <Navigation />
-      <main style={accentVars(division.color)}>
+      <main>
         <HeroSection division={division} />
         <ProblemSection division={division} />
         <ServicesSection division={division} />
@@ -83,7 +85,7 @@ export default function DivisionPage({ division }: { division: DivisionData }) {
         <CTASection division={division} />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

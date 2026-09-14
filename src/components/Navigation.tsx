@@ -72,7 +72,7 @@ export default function Navigation() {
   const borderGradient = megaOpen
     ? `linear-gradient(135deg, ${activeDivision.color}45 0%, rgba(255,255,255,0.04) 50%, ${activeDivision.color}18 100%)`
     : scrolled
-    ? "linear-gradient(135deg, rgba(99,102,241,0.28) 0%, rgba(255,255,255,0.04) 50%, rgba(99,102,241,0.1) 100%)"
+    ? "linear-gradient(135deg, var(--accent-28, rgba(99,102,241,0.28)) 0%, rgba(255,255,255,0.04) 50%, var(--accent-10, rgba(99,102,241,0.1)) 100%)"
     : "rgba(255,255,255,0.07)";
 
   const navGlow = megaOpen
@@ -139,7 +139,7 @@ export default function Navigation() {
                   width: "26px",
                   height: "26px",
                   borderRadius: "8px",
-                  background: "linear-gradient(135deg, #6366f1 0%, #5558e8 100%)",
+                  background: "linear-gradient(135deg, var(--accent, #6366f1) 0%, var(--accent-dim, #5558e8) 100%)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -476,7 +476,7 @@ export default function Navigation() {
           >
             <div
               className="absolute inset-0 pointer-events-none"
-              style={{ background: "radial-gradient(ellipse 70% 40% at 50% 0%, rgba(99,102,241,0.07) 0%, transparent 70%)" }}
+              style={{ background: "radial-gradient(ellipse 70% 40% at 50% 0%, var(--accent-07, rgba(99,102,241,0.07)) 0%, transparent 70%)" }}
             />
 
             <div className="relative flex flex-col max-w-sm mx-auto px-6 pt-24 pb-16 gap-8">
