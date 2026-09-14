@@ -31,17 +31,52 @@ const inView = (delay = 0) => ({
   transition: { duration: 0.45, delay },
 });
 
+// Derives every CSS custom property a division's accent color needs — solid
+// shade variants for gradients, alpha variants for glows/borders/dividers —
+// so the shared .btn-primary/.card/.section-label rules in globals.css pick
+// up each division's brand color via var(--accent, ...) instead of the
+// hardcoded indigo, without affecting pages that don't set these vars.
+function hexToRgb(hex: string) {
+  const h = hex.replace("#", "");
+  return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
+}
+function withAlpha(hex: string, a: number) {
+  return `${hex}${Math.round(a * 255).toString(16).padStart(2, "0")}`;
+}
+function mixToward(hex: string, target: number, amount: number) {
+  const { r, g, b } = hexToRgb(hex);
+  const m = (c: number) => Math.round(c + (target - c) * amount).toString(16).padStart(2, "0");
+  return `#${m(r)}${m(g)}${m(b)}`;
+}
+function accentVars(color: string) {
+  return {
+    "--accent": color,
+    "--accent-dim": mixToward(color, 0, 0.14),
+    "--accent-bright": mixToward(color, 255, 0.18),
+    "--accent-brighter": mixToward(color, 255, 0.42),
+    "--accent-50": withAlpha(color, 0.5),
+    "--accent-35": withAlpha(color, 0.35),
+    "--accent-28": withAlpha(color, 0.28),
+    "--accent-25": withAlpha(color, 0.25),
+    "--accent-20": withAlpha(color, 0.2),
+    "--accent-15": withAlpha(color, 0.15),
+    "--accent-08": withAlpha(color, 0.08),
+    "--accent-06": withAlpha(color, 0.06),
+    "--accent-05": withAlpha(color, 0.05),
+  } as React.CSSProperties;
+}
+
 // ── Root component ────────────────────────────────────────────────────────────
 export default function DivisionPage({ division }: { division: DivisionData }) {
   return (
     <>
       <ThreeBackground />
       <Navigation />
-      <main>
+      <main style={accentVars(division.color)}>
         <HeroSection division={division} />
         <ProblemSection division={division} />
         <ServicesSection division={division} />
-        <ProcessSection />
+        <ProcessSection division={division} />
         <ProofSection division={division} />
         {/* SOCIALS-LAUNCH: DelegateHQ pricing hidden — restore <PricingSection division={division} /> to revert */}
         <FAQSection division={division} />
@@ -60,7 +95,7 @@ function HeroSection({ division }: { division: DivisionData }) {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center pt-16 px-6 overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-32 px-6 overflow-hidden"
     >
       {/* Ambient radial glow — uses division color */}
       <div
@@ -189,8 +224,8 @@ function HeroSection({ division }: { division: DivisionData }) {
             transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
             className="flex flex-col gap-1 items-center"
           >
-            <div className="w-[1px] h-8 rounded-full" style={{ background: "linear-gradient(to bottom, transparent, rgba(99,102,241,0.5))" }} />
-            <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#6366f1" }} />
+            <div className="w-[1px] h-8 rounded-full" style={{ background: `linear-gradient(to bottom, transparent, ${division.color}80)` }} />
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: division.color }} />
           </motion.div>
         </motion.div>
       </div>
@@ -248,7 +283,7 @@ function ProblemSection({ division }: { division: DivisionData }) {
           {...inView(0.3)}
           className="mt-16 flex flex-col items-center gap-2 text-center"
         >
-          <div className="w-px h-12 mx-auto" style={{ background: "linear-gradient(to bottom, transparent, rgba(99,102,241,0.4))" }} />
+          <div className="w-px h-12 mx-auto" style={{ background: `linear-gradient(to bottom, transparent, ${division.color}66)` }} />
           <p className="text-xl md:text-2xl font-semibold text-white mt-2" style={{ letterSpacing: "-0.02em" }}>
             There is a third option.
           </p>
@@ -286,12 +321,12 @@ function ServicesSection({ division }: { division: DivisionData }) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           {items.slice(0, 3).map((item, i) => (
-            <ServiceCard key={item.title} item={item} delay={i * 0.09} />
+            <ServiceCard key={item.title} item={item} delay={i * 0.09} color={division.color} />
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:max-w-[66.7%] md:mx-auto">
           {items.slice(3).map((item, i) => (
-            <ServiceCard key={item.title} item={item} delay={(i + 3) * 0.09} />
+            <ServiceCard key={item.title} item={item} delay={(i + 3) * 0.09} color={division.color} />
           ))}
         </div>
       </div>
@@ -299,7 +334,7 @@ function ServicesSection({ division }: { division: DivisionData }) {
   );
 }
 
-function ServiceCard({ item, delay }: { item: DivisionData["services"]["items"][0]; delay: number }) {
+function ServiceCard({ item, delay, color }: { item: DivisionData["services"]["items"][0]; delay: number; color: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -310,9 +345,9 @@ function ServiceCard({ item, delay }: { item: DivisionData["services"]["items"][
       className="card card-lift p-6 flex flex-col gap-4 cursor-default"
     >
       <div className="flex items-center justify-between">
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)" }}>
+        <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: `${color}1A`, border: `1px solid ${color}33` }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M2 8h12M8 2v12" stroke="#6366f1" strokeWidth="1.4" strokeLinecap="round"/>
+            <path d="M2 8h12M8 2v12" stroke={color} strokeWidth="1.4" strokeLinecap="round"/>
           </svg>
         </div>
         <span
@@ -359,7 +394,7 @@ const STEPS = [
   },
 ];
 
-function ProcessSection() {
+function ProcessSection({ division }: { division: DivisionData }) {
   return (
     <section id="process" className="relative py-32 px-6">
       <div className="w-full max-w-6xl mx-auto accent-divider mb-28" />
@@ -383,7 +418,7 @@ function ProcessSection() {
         </motion.p>
 
         <div className="relative">
-          <div className="absolute left-[31px] top-5 bottom-5 w-px hidden md:block" style={{ background: "linear-gradient(to bottom, rgba(99,102,241,0.4) 0%, rgba(99,102,241,0.08) 100%)" }} />
+          <div className="absolute left-[31px] top-5 bottom-5 w-px hidden md:block" style={{ background: `linear-gradient(to bottom, ${division.color}66 0%, ${division.color}14 100%)` }} />
           <div className="flex flex-col gap-0">
             {STEPS.map((step, i) => (
               <motion.div
@@ -395,20 +430,20 @@ function ProcessSection() {
                 className="relative flex gap-6 md:gap-10 pb-10 last:pb-0"
               >
                 <div className="flex flex-col items-center shrink-0">
-                  <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(99,102,241,0.06) 100%)", border: "1px solid rgba(99,102,241,0.35)" }}>
-                    <span className="font-mono font-bold text-indigo-400" style={{ fontSize: "15px", letterSpacing: "0.04em" }}>{step.number}</span>
+                  <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0" style={{ background: `linear-gradient(135deg, ${division.color}2E 0%, ${division.color}0F 100%)`, border: `1px solid ${division.color}59` }}>
+                    <span className="font-mono font-bold" style={{ fontSize: "15px", letterSpacing: "0.04em", color: division.color }}>{step.number}</span>
                   </div>
-                  {i < STEPS.length - 1 && <div className="w-px flex-1 mt-0 hidden md:block min-h-[40px]" style={{ background: "rgba(99,102,241,0.12)" }} />}
+                  {i < STEPS.length - 1 && <div className="w-px flex-1 mt-0 hidden md:block min-h-[40px]" style={{ background: `${division.color}1F` }} />}
                 </div>
                 <div className="flex-1 pb-2">
                   <div className="flex flex-wrap items-center gap-3 mb-3 mt-3">
                     <h3 className="text-lg font-semibold text-white" style={{ letterSpacing: "-0.01em" }}>{step.title}</h3>
-                    <span className="font-mono text-xs px-2.5 py-1 rounded-md" style={{ background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.22)", color: "#818cf8" }}>{step.duration}</span>
+                    <span className="font-mono text-xs px-2.5 py-1 rounded-md" style={{ background: `${division.color}1A`, border: `1px solid ${division.color}38`, color: division.color }}>{step.duration}</span>
                   </div>
                   <p className="text-sm text-slate-500 mb-4" style={{ lineHeight: "1.8", maxWidth: "560px" }}>{step.body}</p>
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6l2.5 3L10 3" stroke="#6366f1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M2 6l2.5 3L10 3" stroke={division.color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <span className="font-mono text-xs text-slate-500">{step.deliverable}</span>
                   </div>
@@ -459,10 +494,10 @@ function ProofSection({ division }: { division: DivisionData }) {
             <div className="w-3 h-3 rounded-full" style={{ background: "#ffbd2e" }} />
             <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
             <span className="ml-3 font-mono text-xs text-slate-600">weekly_ops_report.md</span>
-            <span className="ml-auto font-mono text-xs" style={{ color: "rgba(99,102,241,0.5)" }}>● live</span>
+            <span className="ml-auto font-mono text-xs" style={{ color: `${division.color}80` }}>● live</span>
           </div>
           <pre className="p-7 font-mono text-xs overflow-x-auto" style={{ color: "#64748b", lineHeight: "1.9" }}>
-            <span style={{ color: "#6366f1" }}>{`// weekly_ops_report.md — Week ${proof.weekNumber} | ${proof.clientName}\n\n`}</span>
+            <span style={{ color: division.color }}>{`// weekly_ops_report.md — Week ${proof.weekNumber} | ${proof.clientName}\n\n`}</span>
             {proof.sections.map((section: ProofSection) => (
               <span key={section.title}>
                 <span style={{ color: "#94a3b8", fontWeight: 600 }}>{section.title + "\n"}</span>
@@ -720,9 +755,9 @@ function FAQSection({ division }: { division: DivisionData }) {
                     <span className="text-sm font-medium text-slate-300 transition-colors duration-150 group-hover:text-slate-100" style={{ lineHeight: "1.6" }}>
                       {item.q}
                     </span>
-                    <span className="shrink-0 flex items-center justify-center rounded-lg transition-all duration-200" style={{ width: "28px", height: "28px", background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.18)" }}>
+                    <span className="shrink-0 flex items-center justify-center rounded-lg transition-all duration-200" style={{ width: "28px", height: "28px", background: `${division.color}14`, border: `1px solid ${division.color}2E` }}>
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                        <path d="M6 2v8M2 6h8" stroke="#6366f1" strokeWidth="1.5" strokeLinecap="round"
+                        <path d="M6 2v8M2 6h8" stroke={division.color} strokeWidth="1.5" strokeLinecap="round"
                           className="transition-all duration-200 group-data-[state=open]:[transform:rotate(45deg)] group-data-[state=open]:[transform-origin:center]"
                         />
                       </svg>
@@ -747,7 +782,7 @@ function CTASection({ division }: { division: DivisionData }) {
     <section id="cta" className="relative py-32 px-6">
       <div className="w-full max-w-6xl mx-auto accent-divider mb-28" />
       <div className="relative w-full max-w-3xl mx-auto">
-        <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 80% at 50% 50%, rgba(99,102,241,0.07) 0%, transparent 70%)" }} />
+        <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{ background: `radial-gradient(ellipse 70% 80% at 50% 50%, ${division.color}12 0%, transparent 70%)` }} />
         <div className="relative flex flex-col items-center text-center gap-6">
           <motion.div {...inView()}>
             <span className="section-label">Get Started</span>
@@ -796,7 +831,7 @@ function CTASection({ division }: { division: DivisionData }) {
             {["Vertical-specialized", "Live in 7 days", "Cancel anytime"].map((chip) => (
               <div key={chip} className="flex items-center gap-2 font-mono text-xs" style={{ color: "#334155" }}>
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6l2.5 3L10 3" stroke="#6366f1" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 6l2.5 3L10 3" stroke={division.color} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 {chip}
               </div>

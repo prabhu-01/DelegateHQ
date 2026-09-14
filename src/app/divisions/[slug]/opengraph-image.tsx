@@ -1,11 +1,15 @@
 import { ImageResponse } from "next/og";
+import { getDivisionBySlug } from "@/lib/divisions";
 
 export const runtime = "edge";
-export const alt = "DelegateHQ. Everything, handled.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default async function Image() {
+export default async function Image({ params }: { params: { slug: string } }) {
+  const division = getDivisionBySlug(params.slug);
+  const name = division?.name ?? "DelegateHQ";
+  const tagline = division?.tagline ?? "Everything, handled.";
+
   return new ImageResponse(
     (
       <div
@@ -39,10 +43,10 @@ export default async function Image() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: "linear-gradient(135deg, #6366f1 0%, #5558e8 100%)",
+              background: "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)",
             }}
           >
-            <svg width="42" height="42" viewBox="0 0 32 32" fill="none">
+            <svg width="34" height="34" viewBox="0 0 32 32" fill="none">
               <path
                 d="M9 10.5C9 9.11929 10.1193 8 11.5 8H15C21.0751 8 26 11.5817 26 16C26 20.4183 21.0751 24 15 24H11.5C10.1193 24 9 22.8807 9 21.5V10.5Z"
                 fill="white"
@@ -57,15 +61,15 @@ export default async function Image() {
         <div
           style={{
             display: "flex",
-            fontSize: 60,
+            fontSize: 58,
             fontWeight: 800,
             color: "white",
             letterSpacing: "-0.03em",
             textAlign: "center",
-            maxWidth: 900,
+            maxWidth: 920,
           }}
         >
-          Everything, handled.
+          {name} operations, handled.
         </div>
         <div
           style={{
@@ -77,7 +81,7 @@ export default async function Image() {
             maxWidth: 780,
           }}
         >
-          Vertically specialized AI agent teams across 11 industries.
+          {tagline}
         </div>
       </div>
     ),
