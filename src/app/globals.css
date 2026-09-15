@@ -29,10 +29,13 @@ code, pre, .font-mono {
 }
 
 /* Scrollbar */
+html {
+  scrollbar-color: var(--accent-40, rgba(99,102,241,0.4)) #050508;
+}
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #050508; }
-::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.4); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+::-webkit-scrollbar-thumb { background: var(--accent-40, rgba(99,102,241,0.4)); border-radius: 2px; transition: background 0.3s ease; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent, #6366f1); }
 
 /* Selection */
 ::selection { background: rgba(99, 102, 241, 0.25); color: #f8fafc; }
@@ -102,6 +105,22 @@ code, pre, .font-mono {
     inset: 0;
     background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
     pointer-events: none;
+  }
+  /* Diagonal light sweep on hover */
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    transform: skewX(-20deg);
+    transition: left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+  .btn-primary:hover::after {
+    left: 125%;
   }
   .btn-primary:hover {
     background: linear-gradient(135deg, var(--accent-bright, #7173f4) 0%, var(--accent, #6366f1) 100%);

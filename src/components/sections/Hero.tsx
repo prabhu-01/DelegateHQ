@@ -21,7 +21,7 @@ export default function Hero() {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-16 px-6 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-16 pb-20 px-6 overflow-hidden">
       {/* Radial ambient glow */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: "radial-gradient(ellipse 75% 55% at 50% 38%, rgba(99,102,241,0.09) 0%, transparent 68%)",
@@ -109,24 +109,26 @@ export default function Hero() {
             </div>
           ))}
         </motion.div>
-
-        {/* Scroll cue */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
-            className="flex flex-col gap-1 items-center"
-          >
-            <div className="w-[1px] h-8 rounded-full" style={{ background: "linear-gradient(to bottom, transparent, rgba(99,102,241,0.5))" }} />
-            <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#6366f1" }} />
-          </motion.div>
-        </motion.div>
       </div>
+
+      {/* Scroll cue — anchored to the section (full viewport height), not the
+          content block above, so it always sits near the true bottom of the
+          screen instead of drifting up against tall/wrapped content. */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <motion.div
+          animate={{ y: [0, 5, 0] }}
+          transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+          className="flex flex-col gap-1 items-center"
+        >
+          <div className="w-[1px] h-8 rounded-full" style={{ background: "linear-gradient(to bottom, transparent, rgba(99,102,241,0.5))" }} />
+          <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#6366f1" }} />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

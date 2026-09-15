@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { DIVISIONS, DivisionData } from "@/lib/divisions";
 
 export default function Navigation() {
@@ -15,6 +15,20 @@ export default function Navigation() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
+
+  // Continuous scroll-driven compression — the pill tightens toward the top
+  // edge and shrinks a touch as you scroll, instead of snapping at a
+  // threshold. `scrolled` (below) still drives the discrete background/blur
+  // swap, which reads better as a CSS transition than a motion value.
+  const { scrollY } = useScroll();
+  const pillTop = useTransform(scrollY, [0, 140], [16, 8], { clamp: true });
+  const pillTopPx = useTransform(pillTop, (v) => `${v}px`);
+  const headerHeight = useTransform(scrollY, [0, 140], [52, 45], { clamp: true });
+  const headerHeightPx = useTransform(headerHeight, (v) => `${v}px`);
+  const headerPadX = useTransform(scrollY, [0, 140], [20, 16], { clamp: true });
+  const headerPadXPx = useTransform(headerPadX, (v) => `${v}px`);
+  const logoSize = useTransform(scrollY, [0, 140], [26, 22], { clamp: true });
+  const logoSizePx = useTransform(logoSize, (v) => `${v}px`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -102,8 +116,8 @@ export default function Navigation() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-4 left-0 right-0 z-50 flex flex-col items-center gap-1.5 px-4"
-        style={{ pointerEvents: "none" }}
+        className="fixed left-0 right-0 z-50 flex flex-col items-center gap-1.5 px-4"
+        style={{ top: pillTopPx, pointerEvents: "none" }}
       >
         {/* ── Gradient-border pill ── */}
         <div
@@ -118,26 +132,26 @@ export default function Navigation() {
             pointerEvents: "auto",
           }}
         >
-          <header
+          <motion.header
             style={{
               borderRadius: "13px",
               background: scrolled || megaOpen ? "rgba(6,6,12,0.96)" : "rgba(6,6,12,0.62)",
               backdropFilter: "blur(28px) saturate(160%)",
               WebkitBackdropFilter: "blur(28px) saturate(160%)",
-              height: "52px",
+              height: headerHeightPx,
               display: "flex",
               alignItems: "center",
-              paddingLeft: "20px",
+              paddingLeft: headerPadXPx,
               paddingRight: "12px",
               gap: "4px",
               transition: "background 0.3s ease",
             }}
           >
             <Link href="/" className="flex items-center gap-2.5 shrink-0" style={{ textDecoration: "none" }}>
-              <div
+              <motion.div
                 style={{
-                  width: "26px",
-                  height: "26px",
+                  width: logoSizePx,
+                  height: logoSizePx,
                   borderRadius: "8px",
                   background: "linear-gradient(135deg, var(--accent, #6366f1) 0%, var(--accent-dim, #5558e8) 100%)",
                   display: "flex",
@@ -145,11 +159,13 @@ export default function Navigation() {
                   justifyContent: "center",
                   flexShrink: 0,
                 }}
+                whileHover={{ rotate: -8, scale: 1.08 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
               >
                 <svg width="13" height="13" viewBox="0 0 32 32" fill="none">
                   <path d="M9 10.5C9 9.11929 10.1193 8 11.5 8H15C21.0751 8 26 11.5817 26 16C26 20.4183 21.0751 24 15 24H11.5C10.1193 24 9 22.8807 9 21.5V10.5Z" fill="white"/>
                 </svg>
-              </div>
+              </motion.div>
               <span className="font-bold text-white text-sm hidden sm:block" style={{ letterSpacing: "-0.02em" }}>
                 DelegateHQ
               </span>
@@ -226,7 +242,7 @@ export default function Navigation() {
               <span className="block h-px w-5 transition-all duration-300" style={{ background: "rgba(255,255,255,0.7)", opacity: menuOpen ? 0 : 1 }} />
               <span className="block h-px w-5 transition-all duration-300 origin-center" style={{ background: "rgba(255,255,255,0.7)", transform: menuOpen ? "translateY(-5px) rotate(-45deg)" : "none" }} />
             </button>
-          </header>
+          </motion.header>
         </div>
 
         {/* ── Mega menu ── */}
@@ -284,21 +300,36 @@ export default function Navigation() {
                       onClick={() => setMegaOpen(false)}
                       onMouseEnter={() => setActiveDivision(div)}
                       style={{
+                        position: "relative",
                         display: "flex",
                         alignItems: "center",
                         padding: "6px 10px",
                         borderRadius: "7px",
-                        borderLeft: `2px solid ${active ? div.color : "transparent"}`,
-                        background: active ? `${div.color}0e` : "transparent",
                         color: active ? "#e2e8f0" : "#64748b",
                         textDecoration: "none",
                         fontSize: "13px",
                         fontWeight: active ? 600 : 400,
                         letterSpacing: "-0.01em",
-                        transition: "all 0.12s ease",
+                        transition: "color 0.12s ease",
                         marginBottom: "1px",
                       }}
                     >
+                      {active && (
+                        <motion.div
+                          layoutId="mega-active-bg"
+                          className="absolute inset-0 rounded-[7px]"
+                          style={{ background: `${div.color}0e`, zIndex: -1 }}
+                          transition={{ type: "spring", stiffness: 520, damping: 42 }}
+                        />
+                      )}
+                      {active && (
+                        <motion.div
+                          layoutId="mega-active-bar"
+                          className="absolute left-0 top-0 bottom-0"
+                          style={{ width: "2px", borderRadius: "2px", background: div.color }}
+                          transition={{ type: "spring", stiffness: 520, damping: 42 }}
+                        />
+                      )}
                       {div.name}
                     </Link>
                   );

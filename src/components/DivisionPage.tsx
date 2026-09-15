@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import * as Accordion from "@radix-ui/react-accordion";
@@ -55,6 +55,7 @@ function accentVars(color: string) {
     "--accent-bright": mixToward(color, 255, 0.18),
     "--accent-brighter": mixToward(color, 255, 0.42),
     "--accent-50": withAlpha(color, 0.5),
+    "--accent-40": withAlpha(color, 0.4),
     "--accent-35": withAlpha(color, 0.35),
     "--accent-28": withAlpha(color, 0.28),
     "--accent-25": withAlpha(color, 0.25),
@@ -70,6 +71,27 @@ function accentVars(color: string) {
 
 // ── Root component ────────────────────────────────────────────────────────────
 export default function DivisionPage({ division }: { division: DivisionData }) {
+  // The page-level scrollbar is owned by <html>, outside this component's own
+  // subtree, so the --accent custom properties set below on the wrapping div
+  // never reach it via normal CSS inheritance. Mirror them onto the root
+  // element directly, and restore whatever was there before on unmount so
+  // navigating back to a page without a division theme doesn't leave it stuck.
+  useEffect(() => {
+    const vars = accentVars(division.color);
+    const root = document.documentElement;
+    const previous = new Map<string, string>();
+    Object.entries(vars).forEach(([key, value]) => {
+      previous.set(key, root.style.getPropertyValue(key));
+      root.style.setProperty(key, String(value));
+    });
+    return () => {
+      previous.forEach((value, key) => {
+        if (value) root.style.setProperty(key, value);
+        else root.style.removeProperty(key);
+      });
+    };
+  }, [division.color]);
+
   return (
     <div style={accentVars(division.color)}>
       <ThreeBackground />
@@ -97,7 +119,7 @@ function HeroSection({ division }: { division: DivisionData }) {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center pt-32 px-6 overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden"
     >
       {/* Ambient radial glow — uses division color */}
       <div
@@ -213,24 +235,26 @@ function HeroSection({ division }: { division: DivisionData }) {
             </div>
           ))}
         </motion.div>
-
-        {/* Scroll cue */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
-            className="flex flex-col gap-1 items-center"
-          >
-            <div className="w-[1px] h-8 rounded-full" style={{ background: `linear-gradient(to bottom, transparent, ${division.color}80)` }} />
-            <div className="w-1.5 h-1.5 rounded-full" style={{ background: division.color }} />
-          </motion.div>
-        </motion.div>
       </div>
+
+      {/* Scroll cue — anchored to the section (full viewport height), not the
+          content block above, so it always sits near the true bottom of the
+          screen instead of drifting up against tall/wrapped content. */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 5, 0] }}
+          transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+          className="flex flex-col gap-1 items-center"
+        >
+          <div className="w-[1px] h-8 rounded-full" style={{ background: `linear-gradient(to bottom, transparent, ${division.color}80)` }} />
+          <div className="w-1.5 h-1.5 rounded-full" style={{ background: division.color }} />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
